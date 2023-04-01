@@ -4,6 +4,8 @@ A Team Assignment for BUAA-Software_Engineering-2023
 
 2023北航软件工程基础课程大作业
 
+***
+
 **PULL before push**
 
 **推送之前先拉取**
@@ -12,7 +14,11 @@ A Team Assignment for BUAA-Software_Engineering-2023
 
 **意义明确的提交说明**
 
+**Use English in file name.**
 
+**文件名使用英语**
+
+---
 
 ## Participate 参与项目
 
@@ -46,6 +52,7 @@ Learning_and_Living_Platform
 ├─Supporting_documents                 # Some other files
 |  ├─Notes.md                              # Some Notes during communication. ONLY CHINESE
 │  └─Description.md                        # Requirements from teachers & TA. ONLY CHINESE
+├─temp                                 # temp files
 └─README.md
 ```
 
@@ -60,3 +67,7 @@ Learning_and_Living_Platform
 #### Description.md  
 
 下发的作业描述文档，可能在与助教的沟通中逐步更新。
+
+### temp
+
+许多临时的不好归类的文件
