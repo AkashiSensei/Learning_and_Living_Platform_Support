@@ -2,7 +2,7 @@
 
 ## 用例大概设计
 
-![](.\use_case_design_v1.0.1.jpg)
+![](https://raw.githubusercontent.com/AkashiSensei/Learning_and_Living_Platform/main/temp/use_case_design_v1.0.1.jpg)
 
 ## 一个小模板
 
