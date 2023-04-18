@@ -53,6 +53,9 @@ Learning_and_Living_Platform
 |  ├─Notes.md                              # Some Notes during communication. ONLY CHINESE
 │  └─Description.md                        # Requirements from teachers & TA. ONLY CHINESE
 ├─temp                                 # temp files
+├─diagrams                             # vpp project files
+│  └─requirement                           # files of requirement stage
+│     └─sequence_diagram                       #files of sequence diagrams
 └─README.md
 ```
 
@@ -71,3 +74,15 @@ Learning_and_Living_Platform
 ### temp
 
 许多临时的不好归类的文件。目前有规格说明书的模板，以及准备给助教评阅的用例们。
+
+### diagrams
+
+存放VPP图的工程文件，方便之后的验证与修改。
+
+
+
+## Pictures in Markdown MD文件中的图片
+
+请先将图片上传到仓库，然后将仓库中的图片链接插入Markdown文件。
+
+Please upload the images to the Github first, and then insert the image link on Github into the Markdown file.
