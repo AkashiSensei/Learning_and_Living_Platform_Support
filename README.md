@@ -53,7 +53,7 @@ Learning_and_Living_Platform
 |  ├─Notes.md                              # Some Notes during communication. ONLY CHINESE
 │  └─Description.md                        # Requirements from teachers & TA. ONLY CHINESE
 ├─temp                                 # temp files
-├─diagrams                             # vpp project files
+├─diagrams                             # vpp project and png files
 │  └─requirement                           # files of requirement stage
 │     └─sequence_diagram                       #files of sequence diagrams
 └─README.md
@@ -77,7 +77,7 @@ Learning_and_Living_Platform
 
 ### diagrams
 
-存放VPP图的工程文件，方便之后的验证与修改。
+存放VPP图的工程文件以及导出的png文件。
 
 
 
