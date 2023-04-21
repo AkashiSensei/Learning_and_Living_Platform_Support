@@ -122,7 +122,7 @@
 
 #### 3.1.2.1 **用例图**
 
-![UserCaseDiagram](img/UserCaseDiagram.jpg)
+![UserCaseDiagram](.\img\UserCaseDiagram.jpg)
 
 #### 3.1.2.2 参与者
 
@@ -213,7 +213,7 @@
 
 **系统顺序图**:
 
-![GuestRegister](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/GuestRegister.jpg)
+![GuestRegister](.\img\GuestRegister.png)
 
 **系统操作合约**:
 
@@ -263,7 +263,7 @@
 
 **系统顺序图**
 
-![GuestLogin](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/GuestLogin.png)
+![GuestLogin](.\img\GuestLogin.png)
 
 **系统操作合约**
 
@@ -358,7 +358,7 @@
 
 **系统顺序图**
 
-![ChangeOwnInfomation](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/ChangeOwnInfomation.png)
+![ChangeOwnInfomation](.\img\ChangeOwnInformation.png)
 
 **系统操作合约**
 
@@ -416,7 +416,7 @@
 | **扩展事件流** | （可选） 3a、用户可以取消删除账户<br/>	（用户） 1、用户点击取消按钮或弹出框之外的位置，取消账户删除操作。<br/>	（系统） 2、收起弹出提示框，中止删除账户操作。<br/>（异常处理） 4a、用户提交了错误的密码<br/>	（系统） 1、系统检测到用户提交了错误的密码，清除已输入的密码，并在输入框旁提示密码错误，返回基本事件流第3步，要求用户重新输入密码。<br />（异常处理） 4b、删除时出错<br/>	（系统） 1、系统检测到删除用户账户时发生错误，回退已经进行的部分删除操作，回到删除前的状态，提示用户删除失败，并中止删除操作。 |
 | **补充约束**   | 1、“删除账户”按钮应使用诸如红色的表示告警的醒目颜色。        |
 
-![DeleteOwnAccount](..\diagrams\requirement\sequence_diagram\DeleteOwnAccount.png)
+![DeleteOwnAccount](.\img\DeleteOwnAccount.png)
 
 **系统操作合约**
 
@@ -453,7 +453,7 @@
 
 **系统顺序图**
 
-![FindPassword](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/FindPassword.png)
+![FindPassword](.\img\FindPassword.png)
 
 **系统操作合约**
 
@@ -568,7 +568,7 @@
 
 **系统顺序图**
 
-![ViewPostDetails](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/ViewPostDetails.png)
+![ViewPostDetails](.\img\ViewPostDetails.png)
 
 **系统操作合约**
 
@@ -652,7 +652,7 @@
 
 **系统顺序图**
 
-![PublishPost](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/PublishPost.png)
+![PublishPost](.\img\PublishPost.png)
 
 **系统操作合约**
 
@@ -744,7 +744,7 @@
 
 **系统顺序图**
 
-![ViewResourceDetail](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/ViewResourceDetail.png)
+![ViewResourceDetail](.\img\ViewResourceDetail.png)
 
 **系统操作合约**
 
@@ -848,7 +848,7 @@
 
 #### **概念类图**
 
-![ConceptClassDiagram](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/ConceptClassDiagram.png)
+![ConceptClassDiagram](.\img\ConceptClassDiagram.png)
 
 #### 相关实体
 
