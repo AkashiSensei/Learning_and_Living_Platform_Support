@@ -34,56 +34,81 @@
 
 本文档主要包括简介，产品整体描述和需求说明三部分。其中简介部分对本文档进行了大致说明；产品整体描述部分对学习生活平台的功能、用户特征和约束等进行了简要介绍；需求说明部分详细描述了用户的功能需求，以及包括对外接口需求、性能需求等非功能需求。
 
-# 2 产品整体描述
-
-## 2.1 产品描述
-
-这部分应该将产品与其他相关的产品放在一起说明。 如果产品是完全独立的，则应在此处说明。 
-
-这部分的主要作用是，如果文档定义的产品是一个更大系统的组件，那么本小节应该将那个更大系统的要求与软件的功能联系起来，并且应该确定该系统和软件之间的接口。
-
 ## 2.2 产品功能
 
-给出软件将执行主要功能的概要。
+本产品的功能根据使用者的属性不同有所不同，各类使用者的主要功能如下：
+**访客：**
+- 浏览教育资源：访客在系统中查看各种教育资源的列表及其基本信息。
+- 注册用户：访客通过填写注册表格来注册成为该系统的用户。
+- 登录：访客通过输入注册的邮箱和密码来登录，并转换为用户属性。
+- 找回密码：访客可以在登陆界面向系统申请找回密码。
+
+**用户：**
+- 操作个人信息：用户可以查看或修改自己的个人信息
+- 退出登录：用户可以点击“退出登录”来退出登录状态，并将属性切换为访客。
+- 删除用户：用户可以选择注销自己的账户，之后需要重新注册。
+- 浏览教育资源：用户可以浏览教育资源列表、查看教育资源的详细信息和教育资源下载记录。
+- 操作教育资源：用户可以下载教育资源至本地。
+- 上传教育资源：用户可以从本地向平台上传教育资源供其它用户浏览。
+- 删除教育资源：用户可以删除自己的教育资源。
+- 浏览帖子：用户可以浏览帖子并查看详情。
+- 操作帖子：用户可以对帖子进行评论、点赞的操作。
+- 发布帖子：用户可以发布帖子至讨论区。
+- 删除帖子：用户可以删除自己发布的帖子。
+
+**管理员：**
+- 登录：通过对应的账号密码登入系统，并获得权限。
+- 退出登录：管理员可以退出登陆状态并变成访客属性。
+- 管理用户信息：管理员可以添加、删除、查看或修改用户的个人信息。
+- 管理教育资源：管理员可以上传、删除或修改教育资源。
+- 管理帖子：管理员可以浏览帖子并删除评论。
+- 数据分析：管理员可以查看用户活跃度、资源下载量等数据。
 
 ## 2.3 用户特征
 
-给出软件产品预期用户的一般特征，包括教育程度、经验、专业技术情况，给出第三章中为何规定某些需求的原因。
+本产品的预期用户为具有一定教育程度和专业技术背景的人群，包括但不限于在校大学生、老师等。同时，用户应具备基本的电脑和网络使用能力。
 
 ## 2.4 约束
 
-给出将会限制开发人员选择的其他事项的一般描述，包括
+本产品开发的约束如下，包括
 
-- a) 监管政策；
+- a) 监管政策：本产品的存储内容以及讨论内容都将遵守相关的监管政策和法律法规。
 
-- b) 硬件限制（例如，信号时序要求）；
+- b) 硬件限制（例如，信号时序要求）：本产品应能在连接网络的基础上，在各种常见计算机运行。
 
-- c) 与其他应用程序的接口；
+- c) 与其他应用程序的接口：本产品目前与其他应用程序无接口需求。
 
-- d）并行操作；
+- d) 并行操作：用户同时发帖及评论、点赞；用户同时发布、下载、查看资源、管理员和多个用户可以同时登录操作；实时更行下载历史和下载量统计等。
 
-- e) 审核职能；
+- e) 审核职能：本产品应自动检测违规内容并进行屏蔽，同时，管理员也有删除违规帖子内容及资源的权限。
 
-- f）控制功能；
+- f) 控制功能：本产品实现根据用户喜好对用户推荐的功能，以及自动统计下载数据、下载历史等功能。
 
-- g) 高级语言要求；
+- g) 高级语言要求：主要采用HTML,CSS,JavaScript来进行编写。
 
-- h) 信号握手协议（例如，XON-XOFF、ACK-NACK）；
+- h) 信号握手协议（例如，XON-XOFF、ACK-NACK）：TCP/IP。
 
-- i) 可靠性需求；
+- i) 可靠性需求：本产品应具备一定的可靠性和稳定性，不应该在正常情况下出现崩溃现象，应确保用户正常使用。
 
-- j) 应用的关键性；
+- j) 应用的关键性：本产品为非关键应用。
 
-- k) 安全和安保方面的考虑。
+- k) 安全和安保方面的考虑：本产品应保护用户个人隐私，尤其是个人密码。在设计阶段，管理员应该只可以修改密码，但不能查看密码。
 
 
 ## 2.5 假设和依赖
 
-列出影响规定需求的每个因素，这些因素不是软件设计的限制条件，但是它们的变更可能影响需求。
+- 该平台的主要用户群体为在校大学生和老师；
+- 平台需要支持在主流浏览器和主流电脑上运行；
+- 平台需要遵守相关的网络发言规范以及上传文件的规范；
+- 平台需要提供审核功能，例如系统审核发布的帖子及文件是否含有屏蔽词；
+- 平台的服务器和设备上，需要满足一定的硬件要求，例如处理器性能、内存容量、网络带宽等；
+- 
 
 ## 2.6 需求分配
 
-根据软件版本分配需求（某某需求将在未来版本上线）。
+- 1.0版本：实现学习资源板块、学习论坛、积分系统、个人信息模块等；
+- 2.0版本：实现和其它相关系统的数据交互；
+- 3.0版本：根据用户需求做出针对性改进。
 
 # 3 需求说明
 
@@ -97,77 +122,76 @@
 
 #### 3.1.2.1 **用例图**
 
-![use_case_design_v1.0.2](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/use_case_design_v1.0.2.png)
+![UserCaseDiagram](picture/UserCaseDiagram.jpg)
 
 #### 3.1.2.2 参与者
 
-**A1 - 访客**
+ **A1 - 访客**
 
-| **参与者名称**   | 访客                            |
-| ---------------- | ------------------------------- |
-| **参与者ID**     | A1                              |
-| **描述:**        | 未注册或未登陆的用户            |
-| **功能需求**     | **涉及用例**                    |
-| 访客注册         | GuestRegister                   |
-| 访客登录         | GuestLogin                      |
-| 浏览教育资源     | ViewEducationalResourcesList    |
-| 查看教育资源详情 | ViewEducationalResourcesDetails |
+| **参与者名称**   | 访客                 |
+| ---------------- | -------------------- |
+| **参与者ID**     | A1                   |
+| **描述:**        | 未注册或未登陆的用户   |
+| **功能需求**     | **涉及用例**          |
+| 访客注册         | VisitorRegister       |
+| 访客登录         | VisitorLogin          |
+| 访客浏览教育资源 | ViewEducationalResourcesList        |
+| 访客查看教育资源信息 | ViewEducationalResourcesDetails        |
+| 找回密码         | FindPassword    |
 
 **A2 - 用户**
 
-| **参与者名称**   | 用户                            |
-| ---------------- | ------------------------------- |
-| **参与者ID**     | A2                              |
-| **描述**         | 已注册并登录的用户              |
-| **功能需求**     | **涉及用例**                    |
-| 用户登录         | Login                           |
-| 用户找回密码     | FindPassword                    |
-| 修改密码         | ChangePassword                  |
-| 查看个人信息     | ViewOwnInformation              |
-| 修改个人信息     | ChangeOwnInformation            |
-| 注销登录         | LogOut                          |
-| 浏览教育资源     | ViewEducationalResourcesList    |
-| 查看教育资源详情 | ViewEducationalResourcesDetails |
-| 下载教育资源     | DownloadEducationalResources    |
-| 查看下载历史     | ViewDownloadHistory             |
-| 发布教育资源     | PublishEducationalResources     |
-| 删除教育资源     | DeleteEducationalResources      |
-| 浏览帖子         | ViewPostList                    |
-| 发布帖子         | PublishPost                     |
-| 查看帖子         | ViewPostDetails                 |
-| 评论帖子         | CommentPost                     |
-| 点赞帖子         | LikePost                        |
-| 删除帖子         | DeletePost                      |
-| 删除评论         | DeleteComments                  |
-| 注销账号         | DeleteOwnAccount                |
-| 用户获得积分     |                                 |
-| 用户升级         |                                 |
-| 用户设置帖子权限 |                                 |
+| **参与者名称**   | 用户               |
+| ---------------- | ------------------ |
+| **参与者ID**     | A2                 |
+| **描述**         | 已注册并登录的用户 |
+| **功能需求**     | **涉及用例**       |
+| 用户修改密码     |  ChangePassword                     |
+| 用户查看个人信息 | ViewOwnInformation                 |
+| 用户修改个人信息 | ChangeOwnInformation               |
+| 退出登录         |  LogOut                           |
+| 删除用户         | DeleteOwnAccount                  |
+| 用户浏览教育资源 | ViewEducationalResourcesList       |
+| 用户查看教育资源信息 | ViewEducationalResourcesDetails        |
+| 用户下载教育资源 | DownloadEducationalResources       |
+| 用户发布教育资源 | PublishEducationalResources        |
+| 用户删除教育资源 | DeleteEducationalResources         |
+| 用户查看下载记录 | ViewDownloadHistory                |
+| 发布帖子         | PublishPosts                      |
+| 查看帖子         | ViewPostList                      |
+| 查看帖子信息 | ViewPostDetails                       |
+| 评论帖子         | CommentPosts                      |
+| 删除帖子评论         | DeleteComments                 |
+| 点赞帖子         | LikePosts                         |
+| 删除帖子         | DeletePosts                        |
 
 
 
 **A3 - 管理员**
 
-| **参与者名称**   | 管理员                          |
-| ---------------- | ------------------------------- |
-| **参与者ID**     | A3                              |
-| **描述**         | 管理该系统的后台人员            |
-| **功能需求**     | **涉及用例**                    |
-| 管理员登录       | AdministratorLogin              |
-| 浏览教育资源     | ViewEducationalResourcesList    |
-| 查看教育资源详情 | ViewEducationalResourcesDetails |
-| 下载教育资源     | DownloadEducationalResources    |
-| 发布教育资源     | PublishEducationalResources     |
-| 修改教育资源     | ChangeEducationalResources      |
-| 删除教育资源     | DeleteEducationalResources      |
-| 注销登录         | LogOut                          |
-| 浏览帖子         | ViewPostList                    |
-| 查看帖子         | ViewPostDetails                 |
-| 删除帖子         | DeletePost                      |
-| 删除评论         | DeleteComments                  |
-| 修改用户信息     | ChangeUserInformation           |
-| 查看统计数据     | ViewStatistics                  |
-| 查看用户列表     | ViewUserList                    |
+| **参与者名称**   | 管理员                                                       |
+| ---------------- | ------------------------------------------------------------ |
+| **参与者ID**     | A3                                                           |
+| **描述**         | 管理该系统的后台人员                                         |
+| **功能需求**     | **涉及用例**                                                 |
+| 管理员登录         | AdministratorLogin    |
+| 管理员浏览教育资源 | ViewEducationalResourcesList    |
+| 管理员查看教育资源信息 | ViewEducationalResourcesDetails  |
+| 管理员下载教育资源 | DownloadEducationalResources   |
+| 管理员发布教育资源 | PublishEducationalResources  |
+| 管理员删除教育资源 | DeleteEducationalResources   |
+| 管理员修改教育资源 | ChangeEducationalResources   |
+| 查看帖子         | ViewPostList                   |
+| 查看帖子信息 | ViewPostDetails                    |
+| 删除帖子         | DeletePosts                   |
+| 删除评论         |   DeleteComments             |
+| 新增用户        |   AddNewUser                  |
+| 删除用户        |   DeleteUser                  |
+| 修改用户信息        |   ChangeUserInformation   |
+| 查看用户数据     |  ViewUserList                |
+| 查看用户数据     |  ViewUserList                |
+| 查看统计数据         |  ViewStatistics          |
+| 退出登录         |  LogOut                      |
 
 #### 3.1.2.3 相关用例
 
