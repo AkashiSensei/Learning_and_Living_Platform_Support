@@ -121,22 +121,25 @@
 | **描述**         | 已注册并登录的用户              |
 | **功能需求**     | **涉及用例**                    |
 | 用户登录         | Login                           |
-| 用户找回密码     |                                 |
-| 用户查看个人信息 |                                 |
-| 用户修改个人信息 |                                 |
-| 注销登录         |                                 |
-| 删除用户         |                                 |
+| 用户找回密码     | FindPassword                    |
+| 修改密码         | ChangePassword                  |
+| 查看个人信息     | ViewOwnInformation              |
+| 修改个人信息     | ChangeOwnInformation            |
+| 注销登录         | LogOut                          |
 | 浏览教育资源     | ViewEducationalResourcesList    |
 | 查看教育资源详情 | ViewEducationalResourcesDetails |
-| 用户下载教育资源 | DownloadEducationalResources    |
-| 用户查看下载历史 | ViewDownloadHistory             |
-| 用户发布教育资源 | PublishEducationalResources     |
-| 用户删除教育资源 | DeleteEducationalResources      |
-| 发布帖子         |                                 |
-| 查看帖子         |                                 |
-| 评论帖子         |                                 |
-| 点赞帖子         |                                 |
-| 删除帖子         |                                 |
+| 下载教育资源     | DownloadEducationalResources    |
+| 查看下载历史     | ViewDownloadHistory             |
+| 发布教育资源     | PublishEducationalResources     |
+| 删除教育资源     | DeleteEducationalResources      |
+| 浏览帖子         | ViewPostList                    |
+| 发布帖子         | PublishPost                     |
+| 查看帖子         | ViewPostDetails                 |
+| 评论帖子         | CommentPost                     |
+| 点赞帖子         | LikePost                        |
+| 删除帖子         | DeletePost                      |
+| 删除评论         | DeleteComments                  |
+| 注销账号         | DeleteOwnAccount                |
 | 用户获得积分     |                                 |
 | 用户升级         |                                 |
 | 用户设置帖子权限 |                                 |
@@ -145,24 +148,26 @@
 
 **A3 - 管理员**
 
-| **参与者名称**   | 管理员                                                       |
-| ---------------- | ------------------------------------------------------------ |
-| **参与者ID**     | A3                                                           |
-| **描述**         | 管理该系统的后台人员                                         |
-| **功能需求**     | **涉及用例**                                                 |
-| 添加用户信息     | [请填充](https://www.educoder.net/tasks/5fgiytb7/904821/o43x8pfashle?coursesId=5fgiytb7#UCprocessSale) |
-| 修改用户信息     | [请填充](https://www.educoder.net/tasks/5fgiytb7/904821/o43x8pfashle?coursesId=5fgiytb7#UCopenCashDesk) |
-| 删除用户信息     | [请填充](https://www.educoder.net/tasks/5fgiytb7/904821/o43x8pfashle?coursesId=5fgiytb7#UCcloseCashDesk) |
-| 添加教育资源     |                                                              |
-| 修改教育资源信息 |                                                              |
-| 删除教育资源信息 |                                                              |
-| 修改帖子信息     |                                                              |
-| 删除帖子         |                                                              |
-| 删除评论         |                                                              |
-| 查看用户数据     |                                                              |
-| 分析用户数据     |                                                              |
-| 查看资源数据     |                                                              |
-| 分析资源数据     |                                                              |
+| **参与者名称**   | 管理员                          |
+| ---------------- | ------------------------------- |
+| **参与者ID**     | A3                              |
+| **描述**         | 管理该系统的后台人员            |
+| **功能需求**     | **涉及用例**                    |
+| 管理员登录       | AdministratorLogin              |
+| 浏览教育资源     | ViewEducationalResourcesList    |
+| 查看教育资源详情 | ViewEducationalResourcesDetails |
+| 下载教育资源     | DownloadEducationalResources    |
+| 发布教育资源     | PublishEducationalResources     |
+| 修改教育资源     | ChangeEducationalResources      |
+| 删除教育资源     | DeleteEducationalResources      |
+| 注销登录         | LogOut                          |
+| 浏览帖子         | ViewPostList                    |
+| 查看帖子         | ViewPostDetails                 |
+| 删除帖子         | DeletePost                      |
+| 删除评论         | DeleteComments                  |
+| 修改用户信息     | ChangeUserInformation           |
+| 查看统计数据     | ViewStatistics                  |
+| 查看用户列表     | ViewUserList                    |
 
 #### 3.1.2.3 相关用例
 
