@@ -122,7 +122,7 @@
 
 #### 3.1.2.1 **用例图**
 
-![UserCaseDiagram](picture/UserCaseDiagram.jpg)
+![UserCaseDiagram](img/UserCaseDiagram.jpg)
 
 #### 3.1.2.2 参与者
 
