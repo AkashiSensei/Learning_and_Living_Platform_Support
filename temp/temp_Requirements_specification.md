@@ -103,43 +103,47 @@
 
 **用例图**
 
-![UseCaseDiagram](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/UseCaseDiagram.jpg)
+![use_case_design_v1.0.2](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/use_case_design_v1.0.2.png)
 
  **A1 - 访客**
 
-| **参与者名称**   | 访客                 |
-| ---------------- | -------------------- |
-| **参与者ID**     | A1                   |
-| **描述:**        | 未注册或未登陆的用户 |
-| **功能需求**     | **涉及用例**         |
-| 访客注册         | Registe              |
-| 访客浏览教育资源 | viewResources        |
+| **参与者名称**   | 访客                            |
+| ---------------- | ------------------------------- |
+| **参与者ID**     | A1                              |
+| **描述:**        | 未注册或未登陆的用户            |
+| **功能需求**     | **涉及用例**                    |
+| 访客注册         | GuestRegister                   |
+| 访客登录         | GuestLogin                      |
+| 浏览教育资源     | ViewEducationalResourcesList    |
+| 查看教育资源详情 | ViewEducationalResourcesDetails |
 
 **A2 - 用户**
 
-| **参与者名称**   | 用户               |
-| ---------------- | ------------------ |
-| **参与者ID**     | A2                 |
-| **描述**         | 已注册并登录的用户 |
-| **功能需求**     | **涉及用例**       |
-| 用户登录         | Login              |
-| 用户找回密码     |                    |
-| 用户查看个人信息 |                    |
-| 用户修改个人信息 |                    |
-| 注销登录         |                    |
-| 删除用户         |                    |
-| 用户浏览教育资源 |                    |
-| 用户下载教育资源 |                    |
-| 用户发布教育资源 |                    |
-| 用户删除教育资源 |                    |
-| 发布帖子         |                    |
-| 查看帖子         |                    |
-| 评论帖子         |                    |
-| 点赞帖子         |                    |
-| 删除帖子         |                    |
-| 用户获得积分     |                    |
-| 用户升级         |                    |
-| 用户设置帖子权限 |                    |
+| **参与者名称**   | 用户                            |
+| ---------------- | ------------------------------- |
+| **参与者ID**     | A2                              |
+| **描述**         | 已注册并登录的用户              |
+| **功能需求**     | **涉及用例**                    |
+| 用户登录         | Login                           |
+| 用户找回密码     |                                 |
+| 用户查看个人信息 |                                 |
+| 用户修改个人信息 |                                 |
+| 注销登录         |                                 |
+| 删除用户         |                                 |
+| 浏览教育资源     | ViewEducationalResourcesList    |
+| 查看教育资源详情 | ViewEducationalResourcesDetails |
+| 用户下载教育资源 | DownloadEducationalResources    |
+| 用户查看下载历史 | ViewDownloadHistory             |
+| 用户发布教育资源 | PublishEducationalResources     |
+| 用户删除教育资源 | DeleteEducationalResources      |
+| 发布帖子         |                                 |
+| 查看帖子         |                                 |
+| 评论帖子         |                                 |
+| 点赞帖子         |                                 |
+| 删除帖子         |                                 |
+| 用户获得积分     |                                 |
+| 用户升级         |                                 |
+| 用户设置帖子权限 |                                 |
 
 
 
