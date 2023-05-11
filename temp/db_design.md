@@ -17,18 +17,18 @@
 
 ## user表
 
-| 字段名   | 类型        | 约束       | 备注         |
-| -------- | ----------- | ---------- | ------------ |
-| id       | int         | 主键，自增 |              |
-| name     | varchar(20) |            | 最长20字符   |
-| password | varchar(20) |            | 密码最长20位 |
-| Email    | varchar(40) |            | 邮箱         |
-| gender   | enum        |            | 性别         |
-| birthday | date        |            | 生日         |
-| 其他信息 |             |            |              |
-| salt     | varchar(20) |            | 加密盐值     |
-| score    | int         |            | 积分         |
-|          |             |            |              |
+| 字段名        | 类型        | 约束       | 备注         |
+| ------------- | ----------- | ---------- | ------------ |
+| id            | int         | 主键，自增 |              |
+| name          | varchar(20) |            | 最长20字符   |
+| password      | varchar(20) |            | 密码最长20位 |
+| Email         | varchar(40) |            | 邮箱         |
+| gender        | enum        |            | 性别         |
+| birthday      | date        |            | 生日         |
+| 其他信息      |             |            |              |
+| salt          | varchar(20) |            | 加密盐值     |
+| exp           | int         |            | 经验         |
+| register_time | date        |            | 注册时间     |
 
 ## admin表
 
@@ -56,6 +56,7 @@
 | image_id,image_id,... | int     | 外键image.id | 拥有的图片们         |
 | like_count  | int         |             | 点赞数             |
 | authority | int | | 帖子权限 |
+| browse_count | int | | 浏览数 |
 
 ## like
 
@@ -102,6 +103,7 @@
 | -------------- | -------- | ------------ | ------------------ |
 | id             | int      | 主键，自增   |                    |
 | user_id        | int      | 外键user.id  | 发布者id           |
+| subject        | enum     |              | 资源学科           |
 | category       | enum     |              | 资源类型           |
 | published_time | datetime |              | 发布时间，精确到秒 |
 | size           | int      |              | 大小               |
@@ -113,13 +115,13 @@
 
 ## login_log
 
-| 字段名      | 类型     | 约束        | 备注               |
-| ----------- | -------- | ----------- | ------------------ |
-| id          | int      | 主键，自增  |                    |
-| user_id     | int      | 外键user.id | 登陆者id           |
-| type        | enum     |             | 登陆或登出         |
-| login_time  | datetime |             | 登陆时间，精确到秒 |
-| logout_time | datetime |             | 登出时间，精确到秒 |
+| 字段名          | 类型 | 约束        | 备注               |
+| --------------- | ---- | ----------- | ------------------ |
+| user_id         | int  | 外键user.id | 登陆者id           |
+| login_count     | int  |             | 登陆天数           |
+| last_login_time | date |             | 登陆时间，精确到天 |
+
+
 
 ## download_record
 
@@ -130,3 +132,6 @@
 | resource_id   | int      | 外键resource.id | 资源id             |
 | download_time | datetime |                 | 下载时间，精确到秒 |
 
+总人数，在线人数，帖子量、发布量，帖子浏览量、热度（综合浏览点赞评论），（某类）资源下载量、发布量，
+
+一段时间内的上述
