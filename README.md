@@ -54,8 +54,11 @@ Learning_and_Living_Platform
 │  └─Description.md                        # Requirements from teachers & TA. ONLY CHINESE
 ├─temp                                 # temp files
 ├─diagrams                             # vpp project and png files
-│  └─requirement                           # files of requirement stage
-│     └─sequence_diagram                       #files of sequence diagrams
+│  ├─requirement                           # files of requirement stage
+│  │  └─sequence_diagram                       #files of sequence diagrams
+│  ├─design
+│  │  ├─outline                        # diagrams for outline design
+│  │  └─detail                         # diagrams for detail design
 └─README.md
 ```
 
@@ -86,3 +89,26 @@ Learning_and_Living_Platform
 请先将图片上传到仓库，然后将仓库中的图片链接插入Markdown文件。
 
 Please upload the images to the Github first, and then insert the image link on Github into the Markdown file.
+
+
+
+## [IEEE](https://en.wikipedia.org/wiki/IEEE) software life cycle
+
+### Wiki
+
+- SQA – [Software quality assurance](https://en.wikipedia.org/wiki/Software_quality_assurance) • [IEEE 730](https://en.wikipedia.org/wiki/Software_quality_assurance)
+- SCM – [Software configuration management](https://en.wikipedia.org/wiki/Software_configuration_management) • [IEEE 828](https://en.wikipedia.org/wiki/Software_configuration_management)
+- STD – [Software test documentation](https://en.wikipedia.org/wiki/Software_test_documentation) • [IEEE 29119](https://en.wikipedia.org/wiki/Software_test_documentation)
+- SRS – [Software requirements specification](https://en.wikipedia.org/wiki/Software_requirements_specification) • [IEEE 29148](https://en.wikipedia.org/wiki/Software_requirements_specification)
+- V&V – [Software verification and validation](https://en.wikipedia.org/wiki/Software_verification_and_validation) • [IEEE 1012](https://en.wikipedia.org/wiki/Software_verification_and_validation)
+- SDD – [Software design description](https://en.wikipedia.org/wiki/Software_design_description) • [IEEE 1016](https://en.wikipedia.org/wiki/Software_design_description)
+- SPM – [Software project management](https://en.wikipedia.org/wiki/Software_project_management) • [IEEE 16326](https://en.wikipedia.org/wiki/Software_project_management)
+- SUD – [Software user documentation](https://en.wikipedia.org/wiki/Software_user_documentation) • [IEEE 24748](https://en.wikipedia.org/wiki/Software_user_documentation)
+- SRA – [Software reviews and audit](https://en.wikipedia.org/wiki/Software_reviews_and_audit) • [IEEE 1028](https://en.wikipedia.org/wiki/Software_reviews_and_audit)
+
+
+
+### We Need
+
+《软件开发计划书》、《需求规格说明书》、《软件设计说明书》、《软件实现说明书》、 《测试报告》、《部署文档》、《用户使用说明书》、《项目总结表》
+
