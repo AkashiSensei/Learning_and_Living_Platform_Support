@@ -62,18 +62,18 @@
 
 ## Like
 
-| 字段名 | 类型 | 约束        | 备注     |
-| ------ | ---- | ----------- | -------- |
-| id     | int  | 主键，自增  |          |
-| postId | int  | 外键Post.id | 所属帖子 |
-| userId | int  | 外键User.id | 所属用户 |
+| 字段名 | 类型 | 约束                  | 备注     |
+| ------ | ---- | --------------------- | -------- |
+| id     | int  | 主键，自增            |          |
+| postId | int  | 外键Post.id，级联删除 | 所属帖子 |
+| userId | int  | 外键User.id           | 所属用户 |
 
 ## Comment
 
 | 字段名      | 类型         | 约束                            | 备注                   |
 | ----------- | ------------ | ------------------------------- | ---------------------- |
 | id          | int          | 主键，自增                      |                        |
-| postId      | int          | 外键，Post.id                   | 所属帖子id             |
+| postId      | int          | 外键，Post.id，级联删除         | 所属帖子id             |
 | userId      | int          | 外键User.id，ON DELETE SET NULL | 发布者id               |
 | publishTime | Datetime     |                                 | 评论时间               |
 | content     | varchar(255) |                                 | 评论内容,最多255字     |
@@ -85,8 +85,8 @@
 | 字段名      | 类型         | 约束                           | 备注                |
 | ----------- | ------------ | ------------------------------ | ------------------- |
 | id          | int          | 主键，自增                     |                     |
-| postId      | int          | 外键，Post.id                  | 所属帖子id          |
-| commentId   | int          | 外键，Comment.id               | 所属评论id          |
+| postId      | int          | 外键，Post.id，级联删除        | 所属帖子id          |
+| commentId   | int          | 外键，Comment.id，级联删除     | 所属评论id          |
 | userId      | int          | 外键User.id ON DELETE SET NULL | 回复者id            |
 | publishTime | datetime     |                                | 回复时间，精确到秒  |
 | content     | varchar(255) |                                | 回复内容，最多255字 |
@@ -117,11 +117,11 @@
 
 ## Log
 
-| 字段名        | 类型 | 约束                           | 备注               |
-| ------------- | ---- | ------------------------------ | ------------------ |
-| userId        | int  | 外键User.id ON DELETE SET NULL | 登陆者id           |
-| loginCount    | int  |                                | 登陆天数           |
-| lastLoginTime | Date |                                | 登陆时间，精确到天 |
+| 字段名    | 类型     | 约束                           | 备注               |
+| --------- | -------- | ------------------------------ | ------------------ |
+| id        | int      | 主键，自增                     |                    |
+| userId    | int      | 外键User.id ON DELETE SET NULL | 登陆者id           |
+| loginTime | Datetime |                                | 登陆时间，精确到秒 |
 
 
 
