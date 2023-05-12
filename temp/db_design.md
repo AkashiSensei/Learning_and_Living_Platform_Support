@@ -49,7 +49,7 @@
 | ----------------- | ----------- | ----------- | ------------------ |
 | id                | int         | 主键，自增  |                    |
 | title             | varchar(30) |             | 帖子标题，最多30字 |
-| user_id           | int         | 外键user.id | 发布者id           |
+| user_id           | int         | 外键user.id ON DELETE SET NULL | 发布者id           |
 | content           | text        |             | 帖子内容           |
 | floor_count       | int         |             | 楼层数             |
 | post_time         | datetime    |             | 发布时间           |
@@ -68,26 +68,26 @@
 
 ## comment
 
-| 字段名       | 类型         | 约束           | 备注                   |
-| ------------ | ------------ | -------------- | ---------------------- |
-| id           | int          | 主键，自增     |                        |
-| post_id      | int          | 外键，post.id  | 所属帖子id             |
-| user_id      | int          | 外键user.id    | 发布者id               |
-| comment_time | datetime     |                | 评论时间               |
-| content      | varchar(255) |                | 评论内容,最多255字     |
-| image_id     | int          | 外键，image.id | 评论图片，限定至多一张 |
-| floor        | int          |                | 第几楼                 |
+| 字段名       | 类型         | 约束                            | 备注                   |
+| ------------ | ------------ | ------------------------------- | ---------------------- |
+| id           | int          | 主键，自增                      |                        |
+| post_id      | int          | 外键，post.id                   | 所属帖子id             |
+| user_id      | int          | 外键user.id，ON DELETE SET NULL | 发布者id               |
+| comment_time | datetime     |                                 | 评论时间               |
+| content      | varchar(255) |                                 | 评论内容,最多255字     |
+| image_id     | int          | 外键，image.id                  | 评论图片，限定至多一张 |
+| floor        | int          |                                 | 第几楼                 |
 
 ## reply
 
-| 字段名     | 类型         | 约束             | 备注                |
-| ---------- | ------------ | ---------------- | ------------------- |
-| id         | int          | 主键，自增       |                     |
-| post_id    | int          | 外键，post.id    | 所属帖子id          |
-| comment_id | int          | 外键，comment.id | 所属评论id          |
-| user_id    | int          | 外键user.id      | 回复者id            |
-| reply_time | datetime     |                  | 回复时间，精确到秒  |
-| content    | varchar(255) |                  | 回复内容，最多255字 |
+| 字段名     | 类型         | 约束                           | 备注                |
+| ---------- | ------------ | ------------------------------ | ------------------- |
+| id         | int          | 主键，自增                     |                     |
+| post_id    | int          | 外键，post.id                  | 所属帖子id          |
+| comment_id | int          | 外键，comment.id               | 所属评论id          |
+| user_id    | int          | 外键user.id ON DELETE SET NULL | 回复者id            |
+| reply_time | datetime     |                                | 回复时间，精确到秒  |
+| content    | varchar(255) |                                | 回复内容，最多255字 |
 
 ## image
 
@@ -99,38 +99,38 @@
 
 ## resource
 
-| 字段名         | 类型     | 约束         | 备注               |
-| -------------- | -------- | ------------ | ------------------ |
-| id             | int      | 主键，自增   |                    |
-| user_id        | int      | 外键user.id  | 发布者id           |
-| subject        | enum     |              | 资源学科           |
-| category       | enum     |              | 资源类型           |
-| published_time | datetime |              | 发布时间，精确到秒 |
-| size           | int      |              | 大小               |
-| content        | text     |              | 资源简介           |
-| path           | char     |              | 资源路径           |
-| image_id       | int      | 外键image.id | 资源封面           |
-| download_count | int      |              | 下载量             |
-| authority      | int      |              | 权限               |
+| 字段名         | 类型     | 约束                           | 备注               |
+| -------------- | -------- | ------------------------------ | ------------------ |
+| id             | int      | 主键，自增                     |                    |
+| user_id        | int      | 外键user.id ON DELETE SET NULL | 发布者id           |
+| subject        | enum     |                                | 资源学科           |
+| category       | enum     |                                | 资源类型           |
+| published_time | datetime |                                | 发布时间，精确到秒 |
+| size           | int      |                                | 大小               |
+| content        | text     |                                | 资源简介           |
+| path           | char     |                                | 资源路径           |
+| image_id       | int      | 外键image.id                   | 资源封面           |
+| download_count | int      |                                | 下载量             |
+| authority      | int      |                                | 权限               |
 
 ## login_log
 
-| 字段名          | 类型 | 约束        | 备注               |
-| --------------- | ---- | ----------- | ------------------ |
-| user_id         | int  | 外键user.id | 登陆者id           |
-| login_count     | int  |             | 登陆天数           |
-| last_login_time | date |             | 登陆时间，精确到天 |
+| 字段名          | 类型 | 约束                           | 备注               |
+| --------------- | ---- | ------------------------------ | ------------------ |
+| user_id         | int  | 外键user.id ON DELETE SET NULL | 登陆者id           |
+| login_count     | int  |                                | 登陆天数           |
+| last_login_time | date |                                | 登陆时间，精确到天 |
 
 
 
 ## download_record
 
-| 字段名        | 类型     | 约束            | 备注               |
-| ------------- | -------- | --------------- | ------------------ |
-| id            | int      | 主键，自增      |                    |
-| user_id       | int      | 外键user.id     | 下载者id           |
-| resource_id   | int      | 外键resource.id | 资源id             |
-| download_time | datetime |                 | 下载时间，精确到秒 |
+| 字段名        | 类型     | 约束                           | 备注               |
+| ------------- | -------- | ------------------------------ | ------------------ |
+| id            | int      | 主键，自增                     |                    |
+| user_id       | int      | 外键user.id ON DELETE SET NULL | 下载者id           |
+| resource_id   | int      | 外键resource.id                | 资源id             |
+| download_time | datetime |                                | 下载时间，精确到秒 |
 
 总人数，在线人数，帖子量、发布量，帖子浏览量、热度（综合浏览点赞评论），（某类）资源下载量、发布量，
 
