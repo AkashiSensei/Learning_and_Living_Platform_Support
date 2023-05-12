@@ -48,7 +48,7 @@
 |modifyInformation |修改用户个人信息 |
 |findPassword | 找回密码|
 
-## EXPService
+## ExpService
 
 | 函数名             | 描述                 |
 | ------------------ | -------------------- |
