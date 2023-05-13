@@ -68,7 +68,7 @@ public RestBean<> updatePost(@RequestBody UploadPostRequest uploadPostRequest, H
 
 | 方法签名                                                     | 描述 |
 | ------------------------------------------------------------ | ---- |
-| RestBean<> listPost(ListPostRequest listPostRequest, HttpServletRequest request) |      |
+| RestBean<> listPost(@RequestBody ListPostRequest listPostRequest, HttpServletRequest request) |      |
 | openPost                                                     |      |
 | uploadPost                                                   |      |
 | deletePost                                                   |      |
