@@ -40,39 +40,42 @@ public class RestBean<T> {
 }
 ```
 
-
-
-## UserController
-
-### 成员变量
-
-UserService
-
-### 成员方法
+在使用了拦截器后，一个Controller方法应该像这样，注意这仅仅是一个示例。
 
 ```java
-  /**
-     * [PUT]用户登录接口，用来判断登录用户是否在数据库中，如果在的话更新在线时间并签到 
-     * @param username 用户登录邮箱/用户id
-     * @param password 用户输入的密码
-     * @return 0 if 用户名及密码均匹配；
-     *         -1 if 用户名不存在；
-     *         -2 if 用户名存在但密码错误
-     *         -5 if 数据库连接失败
-     */
-    int userLogin(String username, String password){}
+@RequestMapping(value = "/post/upload", method = RequestMethod.POST)
+// request 是拦截器处理过的request，拦截器将 token 处理成当前用户的 id 并保存在 curUserId 字段
+public RestBean<> updatePost(@RequestBody UploadPostRequest uploadPostRequest, HttpServletRequest request) {
+    String curUserId = (String) request.getAttribute("curUserId");
+    int ret = postService.uploadPost(uploadPostRequest, curUserId);
+    
+    // 相应的 service 仅仅返回事务逻辑的返回结果，包装成 RestBean 的任务交给 Controller
+    if(ret == 0) {
+        return RestBean.success(201);
+    }else if(ret == -E_PERM) {
+        return RestBean.failure(403, "No permission to upload posts");
+    }else {
+        return PrestBean.failure(500);
+    }
+}
 ```
 
 
 
+## UserController
+
 ## PostController
 
-### 成员变量
-
-### 成员方法
+| 方法签名                                                     | 描述 |
+| ------------------------------------------------------------ | ---- |
+| List<Post> listPost(ListPostRequest listPostRequest, int currentUserId) |      |
+| openPost                                                     |      |
+| uploadPost                                                   |      |
+| deletePost                                                   |      |
+| likePost                                                     |      |
+| commentPost                                                  |      |
+| replyComment                                                 |      |
+| deleteComment                                                |      |
+| deleteReply                                                  |      |
 
 ## ResourceController
-
-### 成员变量
-
-### 成员方法

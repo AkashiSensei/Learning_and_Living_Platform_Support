@@ -14,8 +14,8 @@
 
 | 方法签名 | 描述 |
 | -------- | ---- |
-| login()  |      |
-| register |      |
+|          |      |
+|          |      |
 |          |      |
 |          |      |
 |          |      |
@@ -24,3 +24,16 @@
 |          |      |
 |          |      |
 
+## PostService
+
+| 方法签名                                                     | 描述 |
+| ------------------------------------------------------------ | ---- |
+| List<PostSummary> listPost(ListPostRequest listPostReq, int curUserId) |      |
+| Post openPost(int postId, int curUserId)                     |      |
+| int uploadPost(, int curUserId)                              |      |
+| int deletePost(, int curUserId)                              |      |
+| int likePost(, int curUserId)                                |      |
+| int commentPost(, int curUserId)                             |      |
+| int replyComment(, int curUserId)                            |      |
+| int deleteComment(, int curUserId)                           |      |
+| int deleteReply(, int curUserId)                             |      |
