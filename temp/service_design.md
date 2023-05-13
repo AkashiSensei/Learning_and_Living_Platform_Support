@@ -1,11 +1,11 @@
 # Service设计
 
 | Service名            | 描述       |
-| --------------- | ---------- | 
-| ResourceService          | 资源部分   | 
+| --------------- | ---------- |
+| ResourceService          | 资源部分   |
 | PostService         | 帖子部分 |
 | UserService          | 用户信息部分  |
-| EXPService | 经验处理部分 |
+| ExpService | 经验处理部分 |
 | AnalyzerService | 数据处理部分 |
 
 ## ResourceService
@@ -37,10 +37,9 @@
 ## UserService
 | 函数名            | 描述       | 用到的表 |
 | --------------- | ---------- | ------------ |
-|userLogin | 用户登录| User, Log | 
+|userLogin | 用户登录| User, Log |
 | userRegister|用户注册 | User, Log |
-|userDeleteConfirm |用户删除账户（确认信息是否正确） | User |
-|userDeleteReconfirm | 用户二次确认要删除自己| User, Image, Download_record(这里没有其它几个表是因为涉及到用户名的都变成“该用户已注销”即可) |
+|userDeleteConfirm |用户删除账户 | User, Image, Download_record |
 |adminDeleteUser |管理员删除用户 |  User, Image, Download_record |
 |adminLogin |管理员登录 |Admin, Log|
 |logout |退出登录 | |
