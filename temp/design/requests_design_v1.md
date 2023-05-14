@@ -55,15 +55,14 @@ Possible requests from the frontend:
 
 ## Post:
 
-| RequestName   | Method | Header | Body                                       | ExpectMessage |
-| ------------- | ------ | ------ | ------------------------------------------ | ------------- |
-| listPosts     | GET    |        | None                                       | List<Post>    |
-| addPost       | POST   |        | title,content,postTime,authority,imageId   | None          |
-| deletePost    | DELETE |        | None                                       | None          |
-| updatePost    | PUT    |        | title,content,updateTime,authority,imageId | Post          |
-| getPostDetail | GET    |        | None                                       | Post          |
-| likePost      | POST   |        | (not sure)                                 | None          |
-| commentPost   | POST   |        | commentTime,content,imageId,(floor?)       | Comment       |
-| replyComment  | POST   |        | (commentId?),replyTime,content             | Reply         |
-| deletComment  | DELETE |        | None                                       | None          |
-| deleteReply   | DELETE |        | None                                       | None          |
+| RequestName   | Method | Header | Body                                     | ExpectMessage |
+| ------------- | ------ | ------ | ---------------------------------------- | ------------- |
+| listPosts     | GET    |        | None                                     | List<Post>    |
+| addPost       | POST   |        | title,content,postTime,authority,imageId | None          |
+| deletePost    | DELETE |        | None                                     | None          |
+| getPostDetail | GET    |        | None                                     | Post          |
+| likePost      | POST   |        | (not sure)                               | None          |
+| commentPost   | POST   |        | commentTime,content,imageId,(floor?)     | Comment       |
+| replyComment  | POST   |        | (commentId?),replyTime,content           | Reply         |
+| deletComment  | DELETE |        | None                                     | None          |
+| deleteReply   | DELETE |        | None                                     | None          |
