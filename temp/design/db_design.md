@@ -20,7 +20,7 @@
 | -------------- | ----------- | ------------ | ------------ |
 | id             | int         | 主键，自增   |              |
 | name           | varchar(20) |              | 最长20字符   |
-| password       | varchar(20) |              | 密码最长20位 |
+| password       | varchar(255) |              | 加盐加密密码 |
 | email          | varchar(40) |              | 邮箱         |
 | gender         | enum        |              | 性别         |
 | birthday       | Date        |              | 生日         |
@@ -29,20 +29,16 @@
 | exp            | int         |              | 经验         |
 | registerTime   | Date        |              | 注册时间     |
 | profilePhotoUrl | varchar(255)         |  | 头像         |
+| LogInNum | int | | 登陆天数 |
 
 ## Admin表
 
 | 字段名         | 类型        | 约束         | 备注         |
 | -------------- | ----------- | ------------ | ------------ |
 | id             | int         | 主键，自增   |              |
-| name           | varchar(20) |              | 最长20字符   |
-| password       | varchar(20) |              | 密码最长20位 |
+| password       | varchar(255) |              | 加盐加密密码 |
 | email          | varchar(40) |              | 邮箱         |
-| gender         | enum        |              | 性别         |
-| birthday       | Date        |              | 生日         |
-| 其他信息       |             |              |              |
 | salt           | varchar(20) |              | 加密盐值     |
-| profilePhotoUrl | varchar(255)         |  | 头像         |
 
 ## Post表
 
@@ -62,11 +58,12 @@
 
 ## Like
 
-| 字段名 | 类型 | 约束                  | 备注     |
-| ------ | ---- | --------------------- | -------- |
-| id     | int  | 主键，自增            |          |
-| postId | int  | 外键Post.id，级联删除 | 所属帖子 |
-| userId | int  | 外键User.id           | 所属用户 |
+| 字段名   | 类型     | 约束                  | 备注     |
+| -------- | -------- | --------------------- | -------- |
+| id       | int      | 主键，自增            |          |
+| postId   | int      | 外键Post.id，级联删除 | 所属帖子 |
+| userId   | int      | 外键User.id           | 所属用户 |
+| likeTime | Datetime |                       | 点赞时间 |
 
 ## Comment
 
@@ -103,9 +100,10 @@
 | size          | int      |                                | 大小               |
 | content       | text     |                                | 资源简介           |
 | path          | char     |                                | 资源路径           |
-| imageUrl       | carchar(255)      |                    | 资源封面           |
+| imageUrl       | varchar(255)    |                    | 资源封面           |
 | downloadCount | int      |                                | 下载量             |
 | authority     | int      |                                | 权限               |
+| downloadUrl | varchar(255) | | 下载链接 |
 
 ## Log
 
