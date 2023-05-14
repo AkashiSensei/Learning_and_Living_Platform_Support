@@ -22,22 +22,7 @@ public class RestBean<T> {
         this.message = message;
     }
 
-    public static <T> RestBean<T> success() {
-        return new RestBean<>(200, true, null);
-    }
 
-    public static <T> RestBean<T> success(T data) {
-        return new RestBean<>(200, true, data);
-    }
-
-    public static <T> RestBean<T> failure(int status) {
-        return new RestBean<>(status, false, null);
-    }
-
-    public static <T> RestBean<T> failure(int status, T data) {
-        return new RestBean<>(status, false, data);
-    }
-}
 ```
 
 在使用了拦截器后，一个Controller方法应该像这样，注意这仅仅是一个示例。
