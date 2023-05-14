@@ -18,7 +18,7 @@ V2：
 
 **抛出异常依然根据其主体设定处理方式？**
 
-![](E:\SoftwarePrograms\Learning_and_Living_Platform\temp\design\20230514131536.png)
+![](img\20230514131536.png)
 
 ***还有之前说的是Post和Resource是都要检查curuserId的？***
 
