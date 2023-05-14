@@ -84,10 +84,11 @@
 
 ## LogMapper
 
-| 接口函数名              | 解释                         |
-| ----------------------- | ---------------------------- |
-| int createLog(Log log); | 创建日志                     |
-| List\<Log> readLog();   | 查询日志（具体查询参数待定） |
+| 接口函数名                       | 解释                         |
+| -------------------------------- | ---------------------------- |
+| int createLog(Log log);          | 创建日志                     |
+| List\<Log> readLog();            | 查询日志（具体查询参数待定） |
+| int deleteLog(Datetime datetime) | 清空日志                     |
 
 ## DownloadRecordMapper
 
@@ -95,3 +96,4 @@
 | -------------------------------------------------------- | -------------------------------- |
 | int createDownloadRecord(DownloadRecord downloadRecord); | 创建下载记录                     |
 | List\<DownloadRecord> readDownloadRecord();              | 查询下载记录（具体查询参数待定） |
+| int deleteDownloadRecord();                              | 清空下载记录                     |
