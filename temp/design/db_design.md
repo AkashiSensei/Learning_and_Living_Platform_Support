@@ -10,7 +10,6 @@
 | Like           | 点赞       | id   | postId     |
 | Comment        | 评论       | id   | postId     |
 | Reply          | 评论的回复 | id   | commentId  |
-| Image          | 图片       | id   | postId     |
 | Resource       | 教育资源   | id   | userId     |
 | Log            | 登录日志   | id   | userId     |
 | DownloadRecord | 下载记录   | id   | resourceId |
@@ -29,7 +28,7 @@
 | salt           | varchar(20) |              | 加密盐值     |
 | exp            | int         |              | 经验         |
 | registerTime   | Date        |              | 注册时间     |
-| profilePhotoId | int         | 外键Image.id | 头像         |
+| profilePhotoUrl | varchar(255)         |  | 头像         |
 
 ## Admin表
 
@@ -43,7 +42,7 @@
 | birthday       | Date        |              | 生日         |
 | 其他信息       |             |              |              |
 | salt           | varchar(20) |              | 加密盐值     |
-| profilePhotoId | int         | 外键Image.id | 头像         |
+| profilePhotoUrl | varchar(255)         |  | 头像         |
 
 ## Post表
 
@@ -55,7 +54,8 @@
 | content           | text        |             | 帖子内容           |
 | floorCount      | int         |             | 楼层数             |
 | postTime         | Datetime    |             | 发布时间           |
-| imageId,imageId,... | int     | 外键Image.id | 拥有的图片们         |
+| thumbnail1,thumbnail2,... | varchar(2048)     |  | 拥有的缩略图们         |
+| imageUrl,imageUrl,... | varchar(2048)     |  | 拥有的图片们         |
 | likeCount  | int         |             | 点赞数             |
 | authority | int | | 帖子权限 |
 | browseCount | int | | 浏览数 |
@@ -77,7 +77,7 @@
 | userId      | int          | 外键User.id，ON DELETE SET NULL | 发布者id               |
 | publishTime | Datetime     |                                 | 评论时间               |
 | content     | varchar(255) |                                 | 评论内容,最多255字     |
-| imageId     | int          | 外键，Image.id                  | 评论图片，限定至多一张 |
+| imageUrl     | varchar(255)          |                | 评论图片，限定至多一张 |
 | floor       | int          |                                 | 第几楼                 |
 
 ## Reply
@@ -91,14 +91,6 @@
 | publishTime | datetime     |                                | 回复时间，精确到秒  |
 | content     | varchar(255) |                                | 回复内容，最多255字 |
 
-## Image
-
-| 字段名        | 类型 | 约束       | 备注       |
-| ------------- | ---- | ---------- | ---------- |
-| id            | int  | 主键，自增 |            |
-| thumbnailPath | char |            | 略缩图路径 |
-| originPath    | char |            | 原图路径   |
-
 ## Resource
 
 | 字段名        | 类型     | 约束                           | 备注               |
@@ -111,7 +103,7 @@
 | size          | int      |                                | 大小               |
 | content       | text     |                                | 资源简介           |
 | path          | char     |                                | 资源路径           |
-| imageId       | int      | 外键Image.id                   | 资源封面           |
+| imageUrl       | carchar(255)      |                    | 资源封面           |
 | downloadCount | int      |                                | 下载量             |
 | authority     | int      |                                | 权限               |
 
