@@ -91,9 +91,7 @@ public RestBean<> updatePost(@RequestBody UploadPostRequest uploadPostRequest, H
 | getDownloadHistory(@RequestBody GetDownloadHistoryRequest getDownloadHistoryRequest, HttpServletRequest request) |获取下载历史,调用getDownloadHistory |
 | deleteDownloadHistory(@RequestBody DeleteDownloadHistoryRequest deleteDownloadHistoryRequest,HttpServletRequest request) |清空某资源的下载历史,调用deleteDownloadHistory |
 
-## Temp
-
-(不知道要不要加一个StatisticController呢? 反正我先一起写在下面吧!)
+## StatisticController
 
 | 方法签名                                                     | 描述                             |
 | ------------------------------------------------------------ | -------------------------------- |
