@@ -2,17 +2,17 @@
 
 # 数据库设计：
 
-| 表名           | 描述       | 主键 | 索引       |
-| -------------- | ---------- | ---- | ---------- |
-| User           | 用户信息   | id   |            |
-| Admin          | 管理员信息 | id   |            |
-| Post           | 帖子       | id   | userId     |
-| Like           | 点赞       | id   | postId     |
-| Comment        | 评论       | id   | postId     |
-| Reply          | 评论的回复 | id   | commentId  |
-| Resource       | 教育资源   | id   | userId     |
-| Log            | 登录日志   | id   | userId     |
-| DownloadRecord | 下载记录   | id   | resourceId |
+| 表名            | 描述       | 主键 | 索引       |
+| --------------- | ---------- | ---- | ---------- |
+| User            | 用户信息   | id   |            |
+| Admin           | 管理员信息 | id   |            |
+| Post            | 帖子       | id   | userId     |
+| Like            | 点赞       | id   | postId     |
+| Comment         | 评论       | id   | postId     |
+| Reply           | 评论的回复 | id   | commentId  |
+| Resource        | 教育资源   | id   | userId     |
+| Log             | 登录日志   | id   | userId     |
+| DownloadHistory | 下载记录   | id   | resourceId |
 
 ## User表
 
@@ -116,7 +116,7 @@
 
 
 
-## DownloadRecord
+## DownloadHistory
 
 | 字段名       | 类型     | 约束                           | 备注               |
 | ------------ | -------- | ------------------------------ | ------------------ |
