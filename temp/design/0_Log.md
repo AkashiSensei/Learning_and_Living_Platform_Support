@@ -12,6 +12,31 @@
 
 TODO:
 
-- [ ] Service和Mapper中添加新的方法来满足Controller中Stastics模块的请求
-
+- [x] Service和Mapper中添加新的方法来满足Controller中Stastics模块的请求
 - [ ] 完成（或者全部删除）Controller和Service之间的调用关系的说明(可以在画图的时候顺手完成)
+
+---
+
+### MAKIMA 15/5 18:00
+
+已经对提到的Service进行了更新，但是StatisticController有些实现我仍不清楚，例如：
+
+- 如何获取所有在线人数信息？
+- 获取总体信息是把所有其他StatisticService调用一遍吗？
+- 具体的一些操作例如“  根据热度对帖子排序并获取”，在Mapper进行排序和整合还是Service里？热度指的是一段时间（TimeRange）内的访问量吗？
+- Mapper的设计改动不大，但是有些返回值需要更新同实体类设计一致。
+
+以上。
+
+——生姜烧肉
+
+---
+
+### MAKIMA 15/5 23:00
+
+已经根据controller设计以及实体类设计完善了相关service和mapper，这下应该是所有请求都有完整的调用流程了。当然，其中肯定存在小问题，需要进一步迭代。
+
+——生姜烧肉
+
+---
+
