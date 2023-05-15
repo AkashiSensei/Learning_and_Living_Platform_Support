@@ -1,14 +1,10 @@
-来自于2023年5月14日的设计思路
+# Service Design
 
-让Controller作为协调器，例如，处理"创建订单"请求的Controller方法可能需要调用OrderService的方法来创建订单，然后调用InventoryService的方法来更新库存，最后调用PaymentService的方法来处理支付。
-
-在这种设计中，Service类成员方法就像是对于Mapper方法的包装，例如UserService.addUser()，而不是类似于UserService.register()。
+设计模板如下，具体设计思路应更新在《设计文档》中，有些参数设计仍需商榷：
 
 | 方法签名 | 描述 |
 | -------- | ---- |
 |          |      |
-
-# New New Service Design
 
 ## UserService
 
@@ -103,9 +99,13 @@
 
 ## StatisticsService
 
-| 方法签名                                                     | 描述             |
-| ------------------------------------------------------------ | ---------------- |
-| public List<StatisticsSummary> getStatisticsSummary() throws StatisticsException; | 按类获取统计数据 |
+| 方法签名                                                     | 描述                             |
+| ------------------------------------------------------------ | -------------------------------- |
+| public List<StatisticsSummary> getOverallInfo(HttpServletRequest request) throws StatisticsException; | 获取总体信息                     |
+| public int getNumOfCurrentOnline(HttpServletRequest request) throws StatisticsException; | 获取当前在线                     |
+| public List<PostSummary> getPostListOrderedByPopularity(TimeRange timeRange, HttpServletRequest request) throws StatisticsException; | 根据热度对帖子排序并获取         |
+| public List<ResourceSummary> getResourceListByDownload(TimeRange timeRange, HttpServletRequest request) throws StatisticsException; | 根据下载量对资源排序并获取       |
+| public List<UserSummary> getUserListByCntOfResourceUpload(TimeRange timeRange, HttpServletRequest request) throws StatisticsException; | 根据上传资源数量对用户排序并获取 |
 
 ## ExperienceService
 
