@@ -38,6 +38,7 @@ Possible requests from the frontend:
 | getAccountInfo     | GET    |        | None                       | User          |
 | getAccountInfoList | GET    |        | None                       | List<User>    |
 | updateAccountInfo  | PUT    |        | name,email,gender,birthday | User          |
+| getPassword        | POST   |        | email                      | None          |
 | updatePassword     | PUT    |        | password                   | None          |
 | deleteAccount      | DELETE |        | None                       | None          |
 
@@ -55,14 +56,14 @@ Possible requests from the frontend:
 
 ## Post:
 
-| RequestName   | Method | Header | Body                                     | ExpectMessage |
-| ------------- | ------ | ------ | ---------------------------------------- | ------------- |
-| listPosts     | GET    |        | None                                     | List<Post>    |
-| addPost       | POST   |        | title,content,postTime,authority,imageId | None          |
-| deletePost    | DELETE |        | None                                     | None          |
-| getPostDetail | GET    |        | None                                     | Post          |
-| likePost      | POST   |        | (not sure)                               | None          |
-| commentPost   | POST   |        | commentTime,content,imageId,(floor?)     | Comment       |
-| replyComment  | POST   |        | (commentId?),replyTime,content           | Reply         |
-| deletComment  | DELETE |        | None                                     | None          |
-| deleteReply   | DELETE |        | None                                     | None          |
+| RequestName   | Method | Header | Body                                 | ExpectMessage |
+| ------------- | ------ | ------ | ------------------------------------ | ------------- |
+| listPosts     | GET    |        | None                                 | List<Post>    |
+| addPost       | POST   |        | title,content,postTime,authority     | None          |
+| deletePost    | DELETE |        | None                                 | None          |
+| getPostDetail | GET    |        | None                                 | Post          |
+| likePost      | POST   |        | (not sure)                           | None          |
+| commentPost   | POST   |        | commentTime,content,imageId,(floor?) | Comment       |
+| replyComment  | POST   |        | (commentId?),replyTime,content       | Reply         |
+| deletComment  | DELETE |        | None                                 | None          |
+| deleteReply   | DELETE |        | None                                 | None          |

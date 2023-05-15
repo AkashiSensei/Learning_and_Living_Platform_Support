@@ -18,7 +18,8 @@
 | public String authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token   |
 | public int getUserIdFromToken(String token) throws UserException; | 验证提供的token是否有效，并返回相应的UserId |
 | public boolean addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                                |
-| public User getUser(GetAccountInfoRequest getAccountInfoRequest) throws UserException; | 获取用户信息                                |
+| public User getUser(String userId) throws UserException;     | 获取用户信息                                |
+| public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                              |
 | public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                                |
 | public List<User> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                                |
 | public boolean updateUser(UpdateAccountInfoRequest updateAccountInfoRequest) throws UserException; | 更新用户信息                                |
@@ -40,7 +41,7 @@
 | public List<Post> getPostList(ListPostRequest listPostRequest) throws PostException; | 按页获取帖子列表     |
 | public boolean addPost(AddPostRequest addPostRequest) throws PostException; | 添加新帖子           |
 | public boolean deletePost(DeletePostRequest deletePostRequest) throws PostException; | 删除帖子             |
-| public Post getPost(GetPostDetailRequest getPostDetailRequest) throws PostException; | 获取帖子详细信息     |
+| public Post getPost(string postId) throws PostException;     | 获取帖子详细信息     |
 | public List<PostSummary> getPostSummary() throws PostException; | 获取帖子总体统计数据 |
 
 ## LikeService
@@ -88,7 +89,7 @@
 | public boolean addResource(UploadResourceRequest uploadResourceRequest) throws ResourceException; | 添加新资源           |
 | public boolean deleteResource(DeleteResourceRequest deleteResourceRequest) throws ResourceException; | 删除资源             |
 | public boolean getResourceUrl(DownloadResourceRequest downloadResourceRequest) throws ResourceException;<br />这个咋实现啊？ | 下载资源             |
-| public Resource getResourceDetailed(GetResourceDetailRequest getResourceDetailRequest) throws ResourceException; | 获取资源详情         |
+| public Resource getResourceDetailed(String resourceId) throws ResourceException; | 获取资源详情         |
 | public List<ResourceSummary> getResourceSummary() throws ResourceException; | 获取资源总体统计数据 |
 | public List<ResourceSummary> getResourceSummaryByCategory() throws ResourceException; | 获取资源按类统计数据 |
 
@@ -97,7 +98,7 @@
 | 方法签名                                                     | 描述                     |
 | ------------------------------------------------------------ | ------------------------ |
 | public List<DownloadHistory> getDownloadHistory(GetDownloadHistoryRequest getDownloadHistoryRequest) throws DownloadHistoryException; | 按页获取下载历史         |
-| public boolean deleteDownloadHistory() throws DownloadHistoryException; | 清空下载历史             |
+| public boolean deleteDownloadHistory(String resourceId) throws DownloadHistoryException; | 清空某资源下载历史       |
 | public List<DownloadHistorySummary> getDownloadHistorySummary() throws DownloadHistoryException; | 获取下载历史相关统计数据 |
 
 ## StatisticsService
