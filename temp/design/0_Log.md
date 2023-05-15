@@ -12,6 +12,6 @@
 
 TODO:
 
-- [ ] Service中可能需要添加新的方法来满足Stastics模块的请求
+- [ ] Service和Mapper中添加新的方法来满足Controller中Stastics模块的请求
 
-- [ ] 完成Controller和Service之间的调用关系(可以在画图的时候顺手完成)
+- [ ] 完成（或者全部删除）Controller和Service之间的调用关系的说明(可以在画图的时候顺手完成)
