@@ -97,7 +97,7 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | public boolean deleteDownloadHistory(String resourceId) throws DownloadHistoryException; | 清空某资源下载历史       |
 | public List<DownloadHistoryEntry> getDownloadHistoryEntry() throws DownloadHistoryException; | 获取下载历史相关统计数据 |
 
-## StatisticsService
+## StatisticService
 
 | 方法签名                                                     | 描述                             |
 | ------------------------------------------------------------ | -------------------------------- |
