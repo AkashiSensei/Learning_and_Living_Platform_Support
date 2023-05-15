@@ -13,10 +13,11 @@
 TODO:
 
 - [ ] Service和Mapper中添加新的方法来满足Controller中Stastics模块的请求
-
 - [ ] 完成（或者全部删除）Controller和Service之间的调用关系的说明(可以在画图的时候顺手完成)
 
-## Log_FROM_MAKIMA_5-15-17:30
+---
+
+### MAKIMA 15/5 17:30
 
 已经对提到的Service进行了更新，但是StatisticController有些实现我仍不清楚，例如：
 
@@ -48,3 +49,12 @@ TODO:
 
 ——生姜烧肉
 
+---
+
+### MAKIMA 15/5 23:00
+
+已经根据controller设计以及实体类设计完善了相关service和mapper，这下应该是所有请求都有完整的调用流程了。当然，其中肯定存在小问题，需要进一步迭代。
+
+——生姜烧肉
+
+---
