@@ -15,31 +15,36 @@
 
 ## UserMapper
 
-| 接口函数名                             | 解释                       |
-| -------------------------------------- | -------------------------- |
-| int createUser(User user);             | 创建用户                   |
-| int deleteUser(int userId)             | 删除用户（用户使用）       |
-| int deleteUser(List\<int> userIdList); | 批量删除用户（管理员使用） |
-| int updateUser(User user);             | 修改用户信息               |
-| User readUser(int userId);             | 查询用户（单条）           |
-| List\<User> readAllUser();             | 查询所有用户（管理员使用） |
+| 接口函数名                                      | 解释                       |
+| ----------------------------------------------- | -------------------------- |
+| int createUser(UserDetail user);                | 创建用户                   |
+| int deleteUser(int userId)                      | 删除用户（用户使用）       |
+| int deleteUser(List\<int> userIdList);          | 批量删除用户（管理员使用） |
+| int updateUser(UserDetail user);                | 修改用户信息               |
+| int updatePassword(int userId, String password) | 修改用户密码               |
+| UserDetail readUser(int userId);                | 查询用户（单条）           |
+| String readPassword(int userId);                | 查询用户密码               |
+| int identifyUser(int userId, String password);  | 验证用户及密码             |
+| List\<UserSummary> readAllUser();               | 查询所有用户（管理员使用） |
 
 ## AdminMapper
 
-| 接口函数名                    | 解释             |
-| ----------------------------- | ---------------- |
-| int createAdmin(Admin admin); | 创建管理员       |
-| int updateAdmin(Admin admin); | 修改管理员信息   |
-| Admin readAdmin(int adminId); | 查询用户（单条） |
+| 接口函数名                                       | 解释               |
+| ------------------------------------------------ | ------------------ |
+| int createAdmin(Admin admin);                    | 创建管理员         |
+| int updateAdmin(Admin admin);                    | 修改管理员信息     |
+| Admin readAdmin(int adminId);                    | 查询管理员（单条） |
+| int identifyAdmin(int adminId, String password); | 验证管理员及密码   |
 
 ## PostMapper
 
-| 接口函数名                  | 解释                                     |
-| --------------------------- | ---------------------------------------- |
-| int createPost(Post post);  | 创建帖子                                 |
-| int deletePost(int postId)  | 删除帖子                                 |
-| Post readPost(int postId);  | 查询帖子（单条）                         |
-| List\<Post> readPostList(); | 查询帖子列表（返回信息可以较少——需讨论） |
+| 接口函数名                                    | 解释                 |
+| --------------------------------------------- | -------------------- |
+| int createPost(PostDetail post);              | 创建帖子             |
+| int deletePost(int postId)                    | 删除帖子             |
+| PostDetail readPost(int postId);              | 查询帖子（单条）     |
+| List\<PostSummary> readPostList(int PageNum); | 查询帖子列表（按页） |
+| List\<PostSummary> readAllPost();             | 查询所有帖子         |
 
 ## LikeMapper
 
@@ -48,52 +53,56 @@
 | int createLike(Like like);  | 创建（即增加，在此为符合数据库CURD命名）点赞记录      |
 | int deleteLike(int likeId); | 删除（即取消，同上，like仅有uid-pid两个属性）点赞记录 |
 | int readLike(int postId);   | 查询点赞数量                                          |
+| List\<Like> getAllLike()；  | 查询点赞总体统计数据                                  |
 
 ## CommentMapper
 
-| 接口函数名                                  | 解释                                       |
-| ------------------------------------------- | ------------------------------------------ |
-| int createComment(Comment comment);         | 创建评论                                   |
-| int deleteComment(int commentId);           | 删除评论（注意数据库设计中的级联删除问题） |
-| List\<Comment> readPostComment(int postId); | 查询帖子评论                               |
+| 接口函数名                                       | 解释                                       |
+| ------------------------------------------------ | ------------------------------------------ |
+| int createComment(CommentEntry comment);         | 创建评论                                   |
+| int deleteComment(int commentId);                | 删除评论（注意数据库设计中的级联删除问题） |
+| int deletePostComment(int postId);               | 删除帖子所有评论                           |
+| List\<CommentEntry> readPostComment(int postId); | 查询帖子评论                               |
+| List\<CommentEntry> readAllComment();            | 查询评论总体统计数据                       |
 
 ## ReplyMapper
 
-| 接口函数名                                     | 解释                                       |
-| ---------------------------------------------- | ------------------------------------------ |
-| int createReply(Reply reply);                  | 创建回复                                   |
-| int deleteReply(int replyId);                  | 删除回复（注意数据库设计中的级联删除问题） |
-| List\<Reply> readPostCommendReply(int postId); | 查询评论回复                               |
-
-## ImageMapper
-
-| 接口函数名                                      | 解释                                       |
-| ----------------------------------------------- | ------------------------------------------ |
-| int createImage(Image image);                   | 创建图片                                   |
-| int deleteImage(int imageId);                   | 删除图片（注意数据库设计中的级联删除问题） |
-| List\<Image> readImage(List\<int> imageIdList); | 查询多张图片                               |
+| 接口函数名                                         | 解释                                       |
+| -------------------------------------------------- | ------------------------------------------ |
+| int createReply(ReplyEntry reply);                 | 创建回复                                   |
+| int deleteReply(int replyId);                      | 删除回复（注意数据库设计中的级联删除问题） |
+| int deletePostReply(int postId);                   | 删除帖子所有回复                           |
+| int deleteCommentReply(int commentId);             | 删除某条评论回复                           |
+| List\<ReplyEntry> readPostReply(int postId);       | 查询帖子评论前几条回复                     |
+| List\<ReplyEntry> readCommendReply(int commentId); | 查询某条评论全部回复                       |
+| List\<ReplyEntry> readAllReply();                  | 查询回复总体统计数据                       |
 
 ## ResourceMapper
 
-| 接口函数名                             | 解释                                       |
-| -------------------------------------- | ------------------------------------------ |
-| int createResource(Resource resource); | 创建资源                                   |
-| int deleteResource(int resourceId);    | 删除资源（注意数据库设计中的级联删除问题） |
-| Resource readResource(int resourceId); | 查询资源（单条）                           |
-| List\<Resource> readResourceList();    | 查询资源列表（返回信息可以较少——需讨论）   |
+| 接口函数名                                                   | 解释                                       |
+| ------------------------------------------------------------ | ------------------------------------------ |
+| int createResource(ResourceDetail resource);                 | 创建资源                                   |
+| int deleteResource(int resourceId);                          | 删除资源（注意数据库设计中的级联删除问题） |
+| ResourceDetail readResource(int resourceId);                 | 查询资源详情                               |
+| List\<ResourceSummary> readResourceListRecommended(Date date, int pageNum, ...); | 查询推荐资源列表                           |
+| List\<ResourceSummary> readResourceListByCategory(int category, int pageNum); | 查询分类资源列表                           |
+| String readResourceDownload(int resourceId);                 | 查询资源下载URL                            |
+| List\<ResourceSummary> readAllResource();                    | 查询资源总体统计数据                       |
+| List\<ResourceSummary> readAllResourceByCategory(int category); | 查询资源总体统计数据                       |
 
 ## LogMapper
 
-| 接口函数名                       | 解释                         |
-| -------------------------------- | ---------------------------- |
-| int createLog(Log log);          | 创建日志                     |
-| List\<Log> readLog();            | 查询日志（具体查询参数待定） |
-| int deleteLog(Datetime datetime) | 清空日志                     |
+| 接口函数名                       | 解释     |
+| -------------------------------- | -------- |
+| int createLog(Log log);          | 创建日志 |
+| List\<Log> readLog(Date date);   | 查询日志 |
+| int deleteLog(Datetime datetime) | 清空日志 |
 
-## DownloadRecordMapper
+## DownloadHistoryMapper
 
-| 接口函数名                                               | 解释                             |
-| -------------------------------------------------------- | -------------------------------- |
-| int createDownloadRecord(DownloadRecord downloadRecord); | 创建下载记录                     |
-| List\<DownloadRecord> readDownloadRecord();              | 查询下载记录（具体查询参数待定） |
-| int deleteDownloadRecord();                              | 清空下载记录                     |
+| 接口函数名                                                   | 解释                     |
+| ------------------------------------------------------------ | ------------------------ |
+| int createDownloadHistory(DownloadHistoryEntry downloadHistory); | 创建下载记录             |
+| List\<DownloadHistoryEntry> readDownloadHistoryByPage(int pageNum); | 查询下载记录             |
+| int deleteDownloadHistory(int resourceId);                   | 清空下载记录             |
+| List\<DownloadHistoryEntry> readAllDownloadHistory();        | 查询下载历史总体统计数据 |

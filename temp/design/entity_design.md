@@ -286,7 +286,7 @@
 | MultipartFile | image         | 封面图片                     |
 | boolean       | canDelete     | 当前用户是否能够删除这个资源 |
 
-### DownloadRecord
+### DownloadHistoryEntry
 
 | 类型   | 变量名 | 说明     |
 | ------ | ------ | -------- |

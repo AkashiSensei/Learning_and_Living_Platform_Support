@@ -1,6 +1,6 @@
 # Service Design
 
-设计模板如下，具体设计思路应更新在《设计文档》中，有些参数设计仍需商榷：
+Service接口设计模板如下，具体设计思路应更新在《设计文档》中，有些参数设计仍需商榷：
 
 | 方法签名 | 描述 |
 | -------- | ---- |
@@ -48,7 +48,7 @@
 | public boolean  deleteLike(String userId, String postId) throws LikeException; | 用户取消点赞时，删除点赞关系                                 |
 | public boolean  getLikeNum(int postId) throws LikeException; | 获取对应帖子点赞数目                                         |
 | public boolean getLiked(int curUserId, int postId) throws LikeException; | 获取相应用户对相应帖子的是否点赞，用于帖子显示，扣除积分，点赞/取消时的检查 |
-| public List<LikeSummary> getLikeSummary() throws LikeException; | 获取点赞总体统计数据                                         |
+| public List<Like> getLikeSummary() throws LikeException;     | 获取点赞总体统计数据                                         |
 
 ## CommentService
 
@@ -84,7 +84,7 @@
 | public List<Resource> getResourceByCategory(ListResourceByCategoryRequest listResourceByCategoryRequest) throws ResourceException; | 按类搜索资源         |
 | public boolean addResource(UploadResourceRequest uploadResourceRequest) throws ResourceException; | 添加新资源           |
 | public boolean deleteResource(DeleteResourceRequest deleteResourceRequest) throws ResourceException; | 删除资源             |
-| public boolean getResourceUrl(DownloadResourceRequest downloadResourceRequest) throws ResourceException;<br />这个咋实现啊？ | 下载资源             |
+| public boolean getResourceUrl(DownloadResourceRequest downloadResourceRequest) throws ResourceException; | 下载资源             |
 | public Resource getResourceDetailed(String resourceId) throws ResourceException; | 获取资源详情         |
 | public List<ResourceSummary> getResourceSummary() throws ResourceException; | 获取资源总体统计数据 |
 | public List<ResourceSummary> getResourceSummaryByCategory() throws ResourceException; | 获取资源按类统计数据 |
@@ -93,15 +93,15 @@
 
 | 方法签名                                                     | 描述                     |
 | ------------------------------------------------------------ | ------------------------ |
-| public List<DownloadHistory> getDownloadHistory(GetDownloadHistoryRequest getDownloadHistoryRequest) throws DownloadHistoryException; | 按页获取下载历史         |
+| public List<DownloadHistoryEntry> getDownloadHistoryEntryByPage(GetDownloadRecordRequest getDownloadHistoryRequest) throws DownloadHistoryException; | 按页获取下载历史         |
 | public boolean deleteDownloadHistory(String resourceId) throws DownloadHistoryException; | 清空某资源下载历史       |
-| public List<DownloadHistorySummary> getDownloadHistorySummary() throws DownloadHistoryException; | 获取下载历史相关统计数据 |
+| public List<DownloadHistoryEntry> getDownloadHistoryEntry() throws DownloadHistoryException; | 获取下载历史相关统计数据 |
 
 ## StatisticsService
 
 | 方法签名                                                     | 描述                             |
 | ------------------------------------------------------------ | -------------------------------- |
-| public List<StatisticsSummary> getOverallInfo(HttpServletRequest request) throws StatisticsException; | 获取总体信息                     |
+| public OverallFigure getOverallInfo(HttpServletRequest request) throws StatisticsException; | 获取总体信息                     |
 | public int getNumOfCurrentOnline(HttpServletRequest request) throws StatisticsException; | 获取当前在线                     |
 | public List<PostSummary> getPostListOrderedByPopularity(TimeRange timeRange, HttpServletRequest request) throws StatisticsException; | 根据热度对帖子排序并获取         |
 | public List<ResourceSummary> getResourceListByDownload(TimeRange timeRange, HttpServletRequest request) throws StatisticsException; | 根据下载量对资源排序并获取       |
