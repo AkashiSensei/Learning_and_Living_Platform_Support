@@ -1,67 +1,116 @@
-# Service设计
+来自于2023年5月14日的设计思路
 
-| Service名            | 描述       |
-| --------------- | ---------- |
-| ResourceService          | 资源部分   |
-| PostService         | 帖子部分 |
-| UserService          | 用户信息部分  |
-| ExpService | 经验处理部分 |
-| AnalyzerService | 数据处理部分 |
+让Controller作为协调器，例如，处理"创建订单"请求的Controller方法可能需要调用OrderService的方法来创建订单，然后调用InventoryService的方法来更新库存，最后调用PaymentService的方法来处理支付。
 
-## ResourceService
+在这种设计中，Service类成员方法就像是对于Mapper方法的包装，例如UserService.addUser()，而不是类似于UserService.register()。
 
-| 函数名            | 描述       | 用到的表 |
-| --------------- | ---------- | ------------ |
-| listResource | 列出资源列表 | Resource |
-| commandResource| 推荐资源 | Download_record, Resource, Image(这里存疑？看看推荐模块要不要显示图片) |
-|uploadResource| 上传资源| User, Image, Resource |
-|downloadResource | 下载某一资源 | User, Resource, Download_record |
-| showDetailResource |展示某个资源详情页面 | Resource, Image |
-| deleteResource| 删除上传的资源 | User, Image, Resource |
-| showDownloadHistory | 展示个人的下载记录 | Download_record, Resource |
-| updateResource | 管理员更新资源 | Resource, Image(maybe) |
+| 方法签名 | 描述 |
+| -------- | ---- |
+|          |      |
 
-
-## PostService
-| 函数名            | 描述       | 用到的表 |
-| --------------- | ---------- | ------------ |
-|listPost | 列出帖子列表| Post, Like, Image |
-|showDetailPost |展示某个帖子详情 | Post, Like, Image, Comment, Reply, User |
-|uploadPost |发布帖子 | Post, User, Image |
-|deletePost |删除发布的帖子 | Post, User, Image, Like, Comment, Reply |
-|likePost |点赞帖子 | Post, User, Like |
-|commentPost |评论帖子 | Post, Comment, User, Image |
-|recommentPost |评论回复 | Reply, User |
-|deleteComment| 删除评论| Post, User, Image(maybe), Comment, Reply |
+# New New Service Design
 
 ## UserService
-| 函数名            | 描述       | 用到的表 |
-| --------------- | ---------- | ------------ |
-|userLogin | 用户登录| User, Log |
-| userRegister|用户注册 | User, Log |
-|userDeleteConfirm |用户删除账户 | User, Image, Download_record |
-|adminDeleteUser |管理员删除用户 |  User, Image, Download_record |
-|adminLogin |管理员登录 |Admin, Log|
-|logout |退出登录 | |
-|viewInformation |查看用户个人信息 | User |
-|modifyInformation |修改用户个人信息 | User, Image(maybe) |
-|findPassword | 找回密码| User |
 
-## ExpService
+| 方法签名                                                     | 描述                                        |
+| ------------------------------------------------------------ | ------------------------------------------- |
+| public String authenticateUser(VerifyUserLoginRequest verifyUserLoginRequest) throws UserException; | 验证用户输入的用户名和密码，并生成token     |
+| public String authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token   |
+| public int getUserIdFromToken(String token) throws UserException; | 验证提供的token是否有效，并返回相应的UserId |
+| public boolean addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                                |
+| public User getUser(String userId) throws UserException;     | 获取用户信息                                |
+| public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                              |
+| public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                                |
+| public List<User> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                                |
+| public boolean updateUser(UpdateAccountInfoRequest updateAccountInfoRequest) throws UserException; | 更新用户信息                                |
+| public boolean deleteUser(DeleteAccountRequest deleteAccountRequest) throws UserException; | 删除用户                                    |
+| public List<UserSummary> getUserSummary() throws UserException; | 获取用户总体统计数据                        |
 
-| 函数名             | 描述                 | 用到的表 |
-| ------------------ | -------------------- | ------------ |
-| increaseExperience | 增加经验             | User |
-| decreaseExperience | 减少经验             | User |
-| getLevel           | 根据经验获得对应权限 | User |
+## LogService
 
-## AnalyzerService
+| 方法签名                                                     | 描述                     |
+| ------------------------------------------------------------ | ------------------------ |
+| public void addLog(int curUserId) throws LogException;       | 添加一条新的登陆记录     |
+| public void deleteLog(Date date) throws LogException;        | 删除某个日期之前所有记录 |
+| public List<LogSummary> getLogSummary() throws LogException; | 获取登录总体统计数据     |
 
-| 函数名                             | 描述                                       | 用到的表 |
-| ---------------------------------- | ------------------------------------------ | ------------ |
-| totalNumberOfEnrollees             | 统计总注册人数                             | User |
-| sumNumberOfActivityByTime          | 按时间统计活跃人数                         | Log |
-| totalNumberOfResourceByArguments   | 按参数（时间、类别、学科）统计总资源数     | Resource |
-| totalDownloadOfResourceByArguments | 按参数（时间、类别、学科）统计总资源下载数 | Download_record |
-| totalNumberOfPostByArguments       | 按参数（时间、点赞、浏览量）统计总帖子数   | Post |
-| getWordCloud                       | 获取词云                                   | Download_record |
+## PostService
+
+| 方法签名                                                     | 描述                 |
+| ------------------------------------------------------------ | -------------------- |
+| public List<Post> getPostList(ListPostRequest listPostRequest) throws PostException; | 按页获取帖子列表     |
+| public boolean addPost(AddPostRequest addPostRequest) throws PostException; | 添加新帖子           |
+| public boolean deletePost(DeletePostRequest deletePostRequest) throws PostException; | 删除帖子             |
+| public Post getPost(string postId) throws PostException;     | 获取帖子详细信息     |
+| public List<PostSummary> getPostSummary() throws PostException; | 获取帖子总体统计数据 |
+
+## LikeService
+
+| 方法签名                                                     | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| public boolean  addLike(String userId, String postId) throws LikeException; | 用户点赞时，添加新的点赞关系                                 |
+| public boolean  deleteLike(String userId, String postId) throws LikeException; | 用户取消点赞时，删除点赞关系                                 |
+| public boolean  getLikeNum(int postId) throws LikeException; | 获取对应帖子点赞数目                                         |
+| public boolean getLiked(int curUserId, int postId) throws LikeException; | 获取相应用户对相应帖子的是否点赞，用于帖子显示，扣除积分，点赞/取消时的检查 |
+| public List<LikeSummary> getLikeSummary() throws LikeException; | 获取点赞总体统计数据                                         |
+
+## CommentService
+
+删除帖子时使用级联删除的方式删除评论。
+
+| 方法签名                                                     | 描述                                   |
+| ------------------------------------------------------------ | -------------------------------------- |
+| public boolean addComment(CommentPostRequest commentPostRequest) throws CommentException; | 添加新的评论                           |
+| public boolean deleteComment(DeletCommentRequest deletCommentRequest, int curUserId) throws CommentException; | 删除某条评论，注意检查评论是否属于用户 |
+| public List<Comment> getCommentList(int postId) throws CommentException; | 获取对应帖子在相对位置的几条评论       |
+| public boolean deleteCommentAll(int postId) throws CommentException; | 删除对应帖子的全部评论，用于评论删除   |
+| public List<CommentSummary> getCommentSummary() throws CommentException; | 获取评论总体统计数据                   |
+
+## ReplyService
+
+删除帖子或评论时使用级联删除删除相应回复。
+
+| 方法签名                                                     | 描述                                               |
+| ------------------------------------------------------------ | -------------------------------------------------- |
+| public boolean addReply(ReplyCommentRequest replyCommentRequest) throws ReplyException; | 添加新的回复                                       |
+| public boolean deleteReply(DeletCommentRequest deletCommentRequest) throws ReplyException; | 删除相应的回复                                     |
+| public List<Reply> getReplyList(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的前几条回复                   |
+| public List<Reply> getReplyAll(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的全部回复                     |
+| public boolean deleteReplyAll(int postId) throws ReplyException; | 删除对应帖子对应评论的全部回复，用于帖子删除       |
+| public boolean deleteReplyAll(int postId, int commentId) throws ReplyException; | @重载 删除对应帖子对应评论的全部回复，用于评论删除 |
+| public List<ReplySummary> getReplySummary() throws ReplyException; | 获取回复总体统计数据                               |
+
+## RecourseService
+
+| 方法签名                                                     | 描述                 |
+| ------------------------------------------------------------ | -------------------- |
+| public List<Resource> getResourceRecommended(ListRecommendResoueceRequest listRecommendResoueceRequest) throws ResourceException; | 获取推荐资源列表     |
+| public List<Resource> getResourceByCategory(ListResourceByCategoryRequest listResourceByCategoryRequest) throws ResourceException; | 按类搜索资源         |
+| public boolean addResource(UploadResourceRequest uploadResourceRequest) throws ResourceException; | 添加新资源           |
+| public boolean deleteResource(DeleteResourceRequest deleteResourceRequest) throws ResourceException; | 删除资源             |
+| public boolean getResourceUrl(DownloadResourceRequest downloadResourceRequest) throws ResourceException;<br />这个咋实现啊？ | 下载资源             |
+| public Resource getResourceDetailed(String resourceId) throws ResourceException; | 获取资源详情         |
+| public List<ResourceSummary> getResourceSummary() throws ResourceException; | 获取资源总体统计数据 |
+| public List<ResourceSummary> getResourceSummaryByCategory() throws ResourceException; | 获取资源按类统计数据 |
+
+## DownloadHistoryService
+
+| 方法签名                                                     | 描述                     |
+| ------------------------------------------------------------ | ------------------------ |
+| public List<DownloadHistory> getDownloadHistory(GetDownloadHistoryRequest getDownloadHistoryRequest) throws DownloadHistoryException; | 按页获取下载历史         |
+| public boolean deleteDownloadHistory(String resourceId) throws DownloadHistoryException; | 清空某资源下载历史       |
+| public List<DownloadHistorySummary> getDownloadHistorySummary() throws DownloadHistoryException; | 获取下载历史相关统计数据 |
+
+## StatisticsService
+
+| 方法签名                                                     | 描述             |
+| ------------------------------------------------------------ | ---------------- |
+| public List<StatisticsSummary> getStatisticsSummary() throws StatisticsException; | 按类获取统计数据 |
+
+## ExperienceService
+
+| 方法签名                                                     | 描述                               |
+| ------------------------------------------------------------ | ---------------------------------- |
+| public boolean updateExperience(int curUserId, int changeNumber) throws ExperienceException; | 为相应用户增加/扣除积分            |
+| public int getExperience2Level(int curUserId) throws ExperienceException; | 获取相应用户的等级                 |
+| public boolean getExperienceForPost(int curUserId, int postId) throws ExperienceException; | 检查相应用户是否有权查看某帖子内容 |

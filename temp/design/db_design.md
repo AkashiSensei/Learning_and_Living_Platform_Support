@@ -94,6 +94,7 @@
 | ------------- | -------- | ------------------------------ | ------------------ |
 | id            | int      | 主键，自增                     |                    |
 | userId        | int      | 外键User.id ON DELETE SET NULL | 发布者id           |
+| title | varchar(30) |  | 资源标题 |
 | subject       | enum     |                                | 资源学科           |
 | category      | enum     |                                | 资源类型           |
 | publishedTime | Datetime |                                | 发布时间，精确到秒 |
