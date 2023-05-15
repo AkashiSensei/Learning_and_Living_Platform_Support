@@ -1,4 +1,4 @@
-### 15/5 16:00
+## 15/5 16:00
 
 - request_design: 根据controller和entity的设计完善了request
 - 在request,controller部分增加了获取评论和回复列表的部分,并增加了对应的request
@@ -30,13 +30,4 @@ TODO:
 
 ——生姜烧肉
 
----
-
-### MAKIMA 15/5 23:00
-
-已经根据controller设计以及实体类设计完善了相关service和mapper，这下应该是所有请求都有完整的调用流程了。当然，其中肯定存在小问题，需要进一步迭代。
-
-——生姜烧肉
-
----
-
+- [ ] 完成（或者全部删除）Controller和Service之间的调用关系的说明(可以在画图的时候顺手完成)
