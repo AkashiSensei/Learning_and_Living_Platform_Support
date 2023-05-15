@@ -8,24 +8,25 @@
 
 ### VerifyUserLoginRequest 
 
-| 类型   | 变量名   | 说明           |
-| ------ | -------- | -------------- |
-| string | account  | 用户的id或邮箱 |
-| string | password | 用户的密码     |
+| 类型   | 变量名   | 说明       |
+| ------ | -------- | ---------- |
+| String | id       | 用户的id   |
+| String | email    | 用户的邮箱 |
+| String | password | 用户的密码 |
 
 ### VerifyAdminLoginRequest 
 
 | 类型   | 变量名   | 说明           |
 | ------ | -------- | -------------- |
-| string | account  | 用户的id或邮箱 |
-| string | password | 用户的密码     |
+| String | account  | 用户的id或邮箱 |
+| String | password | 用户的密码     |
 
 ### VerifyUserRegisterRequest
 
 | 类型   | 变量名   | 说明       |
 | ------ | -------- | ---------- |
-| string | account  | 用户的邮箱 |
-| string | password | 用户的密码 |
+| String | email    | 用户的邮箱 |
+| String | password | 用户的密码 |
 
 ### GetAccountInfoListRequest
 
@@ -36,33 +37,33 @@
 
 ### UpdateAccountInfoRequest
 
-| 类型   | 变量名          | 说明 |
-| ------ | --------------- | ---- |
-| string | id              | id   |
-| string | name            | 昵称 |
-| string | email           | 邮箱 |
-| string | gender          | 性别 |
-| Date   | birthday        | 生日 |
-| string | profilePhotoUrl | 头像 |
+| 类型          | 变量名       | 说明 |
+| ------------- | ------------ | ---- |
+| String        | id           | id   |
+| String        | name         | 昵称 |
+| String        | email        | 邮箱 |
+| String        | gender       | 性别 |
+| Date          | birthday     | 生日 |
+| MultipartFile | profilePhoto | 头像 |
 
 ### GetPasswordRequest 
 
 | 类型   | 变量名 | 说明 |
 | ------ | ------ | ---- |
-| string | email  | 邮箱 |
+| String | email  | 邮箱 |
 
 ### UpdatePasswordRequest 
 
 | 类型   | 变量名      | 说明   |
 | ------ | ----------- | ------ |
-| string | oldPassword | 旧密码 |
-| string | newPassword | 新密码 |
+| String | oldPassword | 旧密码 |
+| String | newPassword | 新密码 |
 
 ### DeleteAccountRequest 
 
 | 类型   | 变量名 | 说明     |
 | ------ | ------ | -------- |
-| string | id     | 用户的id |
+| String | id     | 用户的id |
 
 ## Post
 
@@ -77,8 +78,8 @@
 
 | 类型                | 变量名    | 说明     |
 | ------------------- | --------- | -------- |
-| string              | title     | 帖子标题 |
-| string              | content   | 帖子正文 |
+| String              | title     | 帖子标题 |
+| String              | content   | 帖子正文 |
 | Date                | postTime  | 发帖时间 |
 | int                 | authority | 帖子权限 |
 | List<MultipartFile> | images    | 帖子图片 |
@@ -87,13 +88,13 @@
 
 | 类型   | 变量名 | 说明   |
 | ------ | ------ | ------ |
-| string | id     | 帖子id |
+| String | id     | 帖子id |
 
-### LikePostRequest
+### ListReplyRequest
 
 | 类型   | 变量名 | 说明   |
 | ------ | ------ | ------ |
-| string | id     | 帖子id |
+| String | id     | 评论id |
 
 ### CommentPostRequest 
 
@@ -146,12 +147,13 @@
 
 | 类型          | 变量名        | 说明     |
 | ------------- | ------------- | -------- |
+| String        | title         | 资源标题 |
 | String        | subject       | 资源学科 |
 | String        | category      | 资源类型 |
 | Date          | publishedTime | 发布时间 |
 | String        | content       | 资源简介 |
 | MultipartFile | image         | 封面图片 |
-| MultipartFile | File          | 资源文件 |
+| MultipartFile | file          | 资源文件 |
 
 ### DownloadResourceRequest
 
@@ -178,70 +180,116 @@
 | ------ | ------ | ------ |
 | String | id     | 资源id |
 
+## Statistics
+
+### TimeRange
+
+| 类型 | 变量名    | 说明     |
+| ---- | --------- | -------- |
+| Date | beginDate | 起始时间 |
+| Date | endDate   | 结束时间 |
+
 # Others
+
+### OverallFigure
+
+| 类型 | 变量名        | 说明     |
+| ---- | ------------- | -------- |
+| Int  | numOfUser     | 用户总数 |
+| Int  | numOfPost     | 帖子总数 |
+| Int  | numOfResource | 资源总数 |
 
 ### UserSummary
 
+(还需要讨论一下)
+
+| 类型   | 变量名 | 说明 |
+| ------ | ------ | ---- |
+| String | id     | id   |
+| String | name   | 昵称 |
+
 ### UserDetail
+
+| 类型   | 变量名          | 说明     |
+| ------ | --------------- | -------- |
+| String | id              | id       |
+| String | name            | 昵称     |
+| String | email           | 邮箱     |
+| String | gender          | 性别     |
+| Date   | birthday        | 生日     |
+| Date   | registerTime    | 注册时间 |
+| String | profilePhotoUrl | 头像     |
+| Int    | LogInNum        | 登陆天数 |
 
 ### PostSummary
 
 | 类型    | 变量名         | 说明                         |
 | ------- | -------------- | ---------------------------- |
-| int     | postId         |                              |
-| String  | title          |                              |
-| String  | summaryContent |                              |
+| int     | postId         | id                           |
+| String  | title          | 标题                         |
+| String  | summaryContent | 帖子部分内容                 |
 | boolean | canDelete      | 当前用户是否能够删除这个帖子 |
 
 ### PostDetail
 
-| 类型               | 变量名      | 说明 |
-| ------------------ | ----------- | ---- |
-| int                | postId      |      |
-| String             | title       |      |
-| String             | fullContent |      |
-| int                | likeCnt     |      |
-| int                | browseCnt   |      |
-| String             | userName    |      |
-| String             | uploadTime  |      |
-| List<CommentEntry> | comments    |      |
-| boolean            | canDelete   |      |
+| 类型               | 变量名      | 说明                         |
+| ------------------ | ----------- | ---------------------------- |
+| int                | postId      | id                           |
+| String             | title       | 标题                         |
+| String             | fullContent | 内容                         |
+| int                | likeCnt     | 点赞数                       |
+| int                | browseCnt   | 浏览量                       |
+| String             | userName    | 发帖人昵称                   |
+| String             | uploadTime  | 发帖时间                     |
+| List<CommentEntry> | comments    | 评论                         |
+| boolean            | canDelete   | 当前用户是否能够删除这个帖子 |
 
 ### CommentEntry
 
-| 类型             | 变量名     | 说明 |
-| ---------------- | ---------- | ---- |
-| int              | commentId  |      |
-| String           | userName   |      |
-| String           | content    |      |
-| String           | uploadTime |      |
-| boolean          | canDelete  |      |
-| List<ReplyEntry> | replies    |      |
+| 类型             | 变量名     | 说明                     |
+| ---------------- | ---------- | ------------------------ |
+| int              | commentId  | id                       |
+| String           | userName   | 评论人昵称               |
+| String           | content    | 内容                     |
+| String           | uploadTime | 评论时间                 |
+| boolean          | canDelete  | 当前用户是否能够删除评论 |
+| List<ReplyEntry> | replies    | 回复                     |
 
 ### ReplyEntry
 
-| 类型    | 变量名    | 说明 |
-| ------- | --------- | ---- |
-| int     | commentId |      |
-| String  | userName  |      |
-| String  | content   |      |
-| boolean | canDelete |      |
+| 类型    | 变量名    | 说明                     |
+| ------- | --------- | ------------------------ |
+| int     | replyId   | id                       |
+| String  | userName  | 回复人昵称               |
+| String  | content   | 内容                     |
+| boolean | canDelete | 当前用户是否能够删除回复 |
 
 ### ResourceSummary
 
-| 类型 | 变量名 | 说明 |
-| ---- | ------ | ---- |
-|      |        |      |
+(需要讨论)
+
+| 类型    | 变量名    | 说明                         |
+| ------- | --------- | ---------------------------- |
+| String  | id        | 资源id                       |
+| boolean | canDelete | 当前用户是否能够删除这个资源 |
 
 ### ResourceDetail
 
-| 类型 | 变量名 | 说明 |
-| ---- | ------ | ---- |
-|      |        |      |
+| 类型          | 变量名        | 说明                         |
+| ------------- | ------------- | ---------------------------- |
+| String        | id            | 资源id                       |
+| String        | title         | 资源标题                     |
+| String        | subject       | 资源学科                     |
+| String        | category      | 资源类型                     |
+| Date          | publishedTime | 发布时间                     |
+| String        | content       | 资源简介                     |
+| MultipartFile | image         | 封面图片                     |
+| boolean       | canDelete     | 当前用户是否能够删除这个资源 |
 
 ### DownloadRecord
 
-| 类型 | 变量名 | 说明 |
-| ---- | ------ | ---- |
-|      |        |      |
+| 类型   | 变量名 | 说明     |
+| ------ | ------ | -------- |
+| String | id     | 资源id   |
+| String | title  | 资源标题 |
 

@@ -22,7 +22,6 @@ public class RestBean<T> {
         this.message = message;
     }
 
-
 ```
 
 在使用了拦截器后，一个Controller方法应该像这样，注意这仅仅是一个示例。
@@ -66,12 +65,15 @@ public RestBean<> updatePost(@RequestBody UploadPostRequest uploadPostRequest, H
 
 | 方法签名                                                     | 描述 |
 | ------------------------------------------------------------ | ---- |
-| RestBean<> listPost(@RequestBody ListPostRequest listPostRequest, HttpServletRequest request) | 获取帖子列表，调用listPosts   |
+| listPost(@RequestBody ListPostRequest listPostRequest, HttpServletRequest request) | 获取帖子列表，调用listPosts   |
 | openPost(HttpServletRequest request)                                                     | 获取帖子详细信息，调用getPostDetail     |
 | uploadPost(@RequestBody AddPostRequest addPostRequest, HttpServletRequest request)                                                   |  发布帖子，调用addPost, changeExp, listPosts(这里表示发布完要重新刷新)   |
 | deletePost(@RequestBody DeletePostRequest deletePostRequest, HttpServletRequest request)                                                   | 删除帖子，调用deletePost,listPosts, changeExp    |
-| likePost(@RequestBody LikePostRequest likePostRequest, HttpServletRequest request)                                                     | 点赞帖子，调用likePost, changeExp, getPostDetail     |
+| likePost(HttpServletRequest request)                                                     | 点赞帖子，调用likePost, changeExp, getPostDetail     |
+| undoLikePost(HttpServletRequest request) | 取消点赞帖子 |
 | commentPost(@RequestBody CommentPostRequest commentPostRequest, HttpServletRequest request)                                                  | 评论帖子，调用commentPost, changeExp, getPostDetail     |
+| listComment(HttpServletRequest request) | 获取评论列表 |
+| listReply(@RequestBody ListReplyRequest listReplyRequest, HttpServletRequest request) | 获取评论的回复列表 |
 | replyComment(@RequestBody ReplyCommentRequest replyCommentRequest, HttpServletRequest request)                                                 | 回复评论，调用replyComment, getPostDetail     |
 | deleteComment(@RequestBody DeletCommentRequest deletCommentRequest, HttpServletRequest request)                                                | 删除评论，调用deletComment, getPostDetail, changeExp     |
 | deleteReply(@RequestBody DeleteReplyRequest deleteReplyRequest, HttpServletRequest request)                                                  | 删除评论回复，调用deleteReply, getPostDetail     |
@@ -89,3 +91,15 @@ public RestBean<> updatePost(@RequestBody UploadPostRequest uploadPostRequest, H
 | getDownloadHistory(@RequestBody GetDownloadHistoryRequest getDownloadHistoryRequest, HttpServletRequest request) |获取下载历史,调用getDownloadHistory |
 | deleteDownloadHistory(@RequestBody DeleteDownloadHistoryRequest deleteDownloadHistoryRequest,HttpServletRequest request) |清空某资源的下载历史,调用deleteDownloadHistory |
 
+## Temp
+
+(不知道要不要加一个StatisticController呢? 反正我先一起写在下面吧!)
+
+| 方法签名                                                     | 描述                             |
+| ------------------------------------------------------------ | -------------------------------- |
+| getNumOfCurrentOnline(HttpServletRequest request)            | 获取当前在线人数                 |
+| getOverallInfo(HttpServletRequest request)                   | 获取总体信息                     |
+| listPostOrderedByView(@RequestBody TimeRange timeRange, HttpServletRequest request) | 根据浏览量对帖子排序并获取       |
+| listPostOrderedByPopularity(@RequestBody TimeRange timeRange, HttpServletRequest request) | 根据热度对帖子排序并获取         |
+| listResourceByDownload(@RequestBody TimeRange timeRange, HttpServletRequest request) | 根据下载量对资源排序并获取       |
+| listUserByCntOfResourceUpload(@RequestBody TimeRange timeRange, HttpServletRequest request) | 根据上传资源数量对用户排序并获取 |
