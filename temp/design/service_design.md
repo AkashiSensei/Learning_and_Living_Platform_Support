@@ -10,14 +10,14 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 
 | 方法签名                                                     | 描述                                        |
 | ------------------------------------------------------------ | ------------------------------------------- |
-| public String authenticateUser(VerifyUserLoginRequest verifyUserLoginRequest) throws UserException; | 验证用户输入的用户名和密码，并生成token     |
+| public UserDisplay authenticateUser(VerifyUserLoginRequest verifyUserLoginRequest) throws UserException; | 验证用户输入的用户名和密码，并生成token     |
 | public String authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token   |
 | public int getUserIdFromToken(String token) throws UserException; | 验证提供的token是否有效，并返回相应的UserId |
-| public boolean addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                                |
-| public User getUser(String userId) throws UserException;     | 获取用户信息                                |
+| public UserDisplay addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                                |
+| public UserDetail getUser(String userId) throws UserException; | 获取用户信息                                |
 | public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                              |
 | public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                                |
-| public List<User> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                                |
+| public List<UserSummary> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                                |
 | public boolean updateUser(UpdateAccountInfoRequest updateAccountInfoRequest) throws UserException; | 更新用户信息                                |
 | public boolean deleteUser(DeleteAccountRequest deleteAccountRequest) throws UserException; | 删除用户                                    |
 | public List<UserSummary> getUserSummary() throws UserException; | 获取用户总体统计数据                        |
@@ -26,18 +26,18 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 
 | 方法签名                                                     | 描述                     |
 | ------------------------------------------------------------ | ------------------------ |
-| public void addLog(int curUserId) throws LogException;       | 添加一条新的登陆记录     |
-| public void deleteLog(Date date) throws LogException;        | 删除某个日期之前所有记录 |
+| public boolean addLog(int curUserId) throws LogException;    | 添加一条新的登陆记录     |
+| public boolean deleteLog(Date date) throws LogException;     | 删除某个日期之前所有记录 |
 | public List<LogSummary> getLogSummary() throws LogException; | 获取登录总体统计数据     |
 
 ## PostService
 
 | 方法签名                                                     | 描述                 |
 | ------------------------------------------------------------ | -------------------- |
-| public List<Post> getPostList(ListPostRequest listPostRequest) throws PostException; | 按页获取帖子列表     |
+| public List<PostSummary> getPostList(ListPostRequest listPostRequest) throws PostException; | 按页获取帖子列表     |
 | public boolean addPost(AddPostRequest addPostRequest) throws PostException; | 添加新帖子           |
 | public boolean deletePost(DeletePostRequest deletePostRequest) throws PostException; | 删除帖子             |
-| public Post getPost(string postId) throws PostException;     | 获取帖子详细信息     |
+| public PostDetail getPost(string postId) throws PostException; | 获取帖子详细信息     |
 | public List<PostSummary> getPostSummary() throws PostException; | 获取帖子总体统计数据 |
 
 ## LikeService
@@ -46,9 +46,9 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | public boolean  addLike(String userId, String postId) throws LikeException; | 用户点赞时，添加新的点赞关系                                 |
 | public boolean  deleteLike(String userId, String postId) throws LikeException; | 用户取消点赞时，删除点赞关系                                 |
-| public boolean  getLikeNum(int postId) throws LikeException; | 获取对应帖子点赞数目                                         |
+| public int getLikeNum(int postId) throws LikeException;      | 获取对应帖子点赞数目                                         |
 | public boolean getLiked(int curUserId, int postId) throws LikeException; | 获取相应用户对相应帖子的是否点赞，用于帖子显示，扣除积分，点赞/取消时的检查 |
-| public List<Like> getLikeSummary() throws LikeException;     | 获取点赞总体统计数据                                         |
+| public List<LikeEntry> getLikeSummary() throws LikeException; | 获取点赞总体统计数据                                         |
 
 ## CommentService
 
@@ -58,9 +58,9 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | ------------------------------------------------------------ | -------------------------------------- |
 | public boolean addComment(CommentPostRequest commentPostRequest) throws CommentException; | 添加新的评论                           |
 | public boolean deleteComment(DeletCommentRequest deletCommentRequest, int curUserId) throws CommentException; | 删除某条评论，注意检查评论是否属于用户 |
-| public List<Comment> getCommentList(int postId) throws CommentException; | 获取对应帖子在相对位置的几条评论       |
+| public List<CommentEntry> getCommentList(int postId) throws CommentException; | 获取对应帖子在相对位置的几条评论       |
 | public boolean deleteCommentAll(int postId) throws CommentException; | 删除对应帖子的全部评论，用于评论删除   |
-| public List<CommentSummary> getCommentSummary() throws CommentException; | 获取评论总体统计数据                   |
+| public List<CommentEntry> getCommentSummary() throws CommentException; | 获取评论总体统计数据                   |
 
 ## ReplyService
 
@@ -70,22 +70,22 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | ------------------------------------------------------------ | -------------------------------------------------- |
 | public boolean addReply(ReplyCommentRequest replyCommentRequest) throws ReplyException; | 添加新的回复                                       |
 | public boolean deleteReply(DeletCommentRequest deletCommentRequest) throws ReplyException; | 删除相应的回复                                     |
-| public List<Reply> getReplyList(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的前几条回复                   |
-| public List<Reply> getReplyAll(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的全部回复                     |
+| public List<ReplyEntry> getReplyList(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的前几条回复                   |
+| public List<ReplyEntry> getReplyAll(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的全部回复                     |
 | public boolean deleteReplyAll(int postId) throws ReplyException; | 删除对应帖子对应评论的全部回复，用于帖子删除       |
 | public boolean deleteReplyAll(int postId, int commentId) throws ReplyException; | @重载 删除对应帖子对应评论的全部回复，用于评论删除 |
-| public List<ReplySummary> getReplySummary() throws ReplyException; | 获取回复总体统计数据                               |
+| public List<ReplyEntry> getReplySummary() throws ReplyException; | 获取回复总体统计数据                               |
 
 ## RecourseService
 
 | 方法签名                                                     | 描述                 |
 | ------------------------------------------------------------ | -------------------- |
-| public List<Resource> getResourceRecommended(ListRecommendResoueceRequest listRecommendResoueceRequest) throws ResourceException; | 获取推荐资源列表     |
-| public List<Resource> getResourceByCategory(ListResourceByCategoryRequest listResourceByCategoryRequest) throws ResourceException; | 按类搜索资源         |
+| public List<ResourceSummary> getResourceRecommended(ListRecommendResoueceRequest listRecommendResoueceRequest) throws ResourceException; | 获取推荐资源列表     |
+| public List<ResourceSummary> getResourceByCategory(ListResourceByCategoryRequest listResourceByCategoryRequest) throws ResourceException; | 按类搜索资源         |
 | public boolean addResource(UploadResourceRequest uploadResourceRequest) throws ResourceException; | 添加新资源           |
 | public boolean deleteResource(DeleteResourceRequest deleteResourceRequest) throws ResourceException; | 删除资源             |
-| public boolean getResourceUrl(DownloadResourceRequest downloadResourceRequest) throws ResourceException; | 下载资源             |
-| public Resource getResourceDetailed(String resourceId) throws ResourceException; | 获取资源详情         |
+| public String getResourceUrl(DownloadResourceRequest downloadResourceRequest) throws ResourceException; | 下载资源             |
+| public ResourceDetail getResourceDetailed(String resourceId) throws ResourceException; | 获取资源详情         |
 | public List<ResourceSummary> getResourceSummary() throws ResourceException; | 获取资源总体统计数据 |
 | public List<ResourceSummary> getResourceSummaryByCategory() throws ResourceException; | 获取资源按类统计数据 |
 

@@ -15,17 +15,17 @@
 
 ## UserMapper
 
-| 接口函数名                                      | 解释                       |
-| ----------------------------------------------- | -------------------------- |
-| int createUser(UserDetail user);                | 创建用户                   |
-| int deleteUser(int userId)                      | 删除用户（用户使用）       |
-| int deleteUser(List\<int> userIdList);          | 批量删除用户（管理员使用） |
-| int updateUser(UserDetail user);                | 修改用户信息               |
-| int updatePassword(int userId, String password) | 修改用户密码               |
-| UserDetail readUser(int userId);                | 查询用户（单条）           |
-| String readPassword(int userId);                | 查询用户密码               |
-| int identifyUser(int userId, String password);  | 验证用户及密码             |
-| List\<UserSummary> readAllUser();               | 查询所有用户（管理员使用） |
+| 接口函数名                                             | 解释                       |
+| ------------------------------------------------------ | -------------------------- |
+| UserDisplay createUser(UserDetail user);               | 创建用户                   |
+| int deleteUser(int userId)                             | 删除用户（用户使用）       |
+| int deleteUser(List\<int> userIdList);                 | 批量删除用户（管理员使用） |
+| int updateUser(UserDetail user);                       | 修改用户信息               |
+| int updatePassword(int userId, String password)        | 修改用户密码               |
+| UserDetail readUser(int userId);                       | 查询用户（单条）           |
+| String readPassword(int userId);                       | 查询用户密码               |
+| UserDisplay identifyUser(int userId, String password); | 验证用户及密码             |
+| List\<UserSummary> readAllUser();                      | 查询所有用户（管理员使用） |
 
 ## AdminMapper
 
@@ -48,12 +48,12 @@
 
 ## LikeMapper
 
-| 接口函数名                  | 解释                                                  |
-| --------------------------- | ----------------------------------------------------- |
-| int createLike(Like like);  | 创建（即增加，在此为符合数据库CURD命名）点赞记录      |
-| int deleteLike(int likeId); | 删除（即取消，同上，like仅有uid-pid两个属性）点赞记录 |
-| int readLike(int postId);   | 查询点赞数量                                          |
-| List\<Like> getAllLike()；  | 查询点赞总体统计数据                                  |
+| 接口函数名                      | 解释                                                  |
+| ------------------------------- | ----------------------------------------------------- |
+| int createLike(Like like);      | 创建（即增加，在此为符合数据库CURD命名）点赞记录      |
+| int deleteLike(int likeId);     | 删除（即取消，同上，like仅有uid-pid两个属性）点赞记录 |
+| int readLike(int postId);       | 查询点赞数量                                          |
+| List\<LikeEntry> getAllLike()； | 查询点赞总体统计数据                                  |
 
 ## CommentMapper
 
@@ -92,11 +92,11 @@
 
 ## LogMapper
 
-| 接口函数名                       | 解释     |
-| -------------------------------- | -------- |
-| int createLog(Log log);          | 创建日志 |
-| List\<Log> readLog(Date date);   | 查询日志 |
-| int deleteLog(Datetime datetime) | 清空日志 |
+| 接口函数名                          | 解释     |
+| ----------------------------------- | -------- |
+| int createLog(Log log);             | 创建日志 |
+| List\<LogEntry> readLog(Date date); | 查询日志 |
+| int deleteLog(Datetime datetime)    | 清空日志 |
 
 ## DownloadHistoryMapper
 

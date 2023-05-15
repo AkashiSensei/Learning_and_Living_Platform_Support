@@ -208,6 +208,15 @@
 | String | id     | id   |
 | String | name   | 昵称 |
 
+### UserDisplay
+
+| 类型   | 变量名          | 说明        |
+| ------ | --------------- | ----------- |
+| String | id              | id          |
+| String | name            | 昵称        |
+| String | profilePhotoUrl | 头像        |
+| String | token           | 生成的token |
+
 ### UserDetail
 
 | 类型   | 变量名          | 说明     |
@@ -293,3 +302,19 @@
 | String | id     | 资源id   |
 | String | title  | 资源标题 |
 
+### LikeEntry
+
+| 类型     | 变量名   | 说明     |
+| -------- | -------- | -------- |
+| String   | id       | 点赞id   |
+| String   | postId   | 帖子id   |
+| String   | userId   | 用户id   |
+| Datetime | likeTime | 点赞时间 |
+
+### LogEntry
+
+| 类型     | 变量名    | 说明     |
+| -------- | --------- | -------- |
+| String   | id        | 日志id   |
+| String   | userId    | 用户id   |
+| Datetime | loginTime | 登陆时间 |
