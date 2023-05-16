@@ -132,7 +132,7 @@
 
 | 类型   | 变量名    | 说明             |
 | ------ | --------- | ---------------- |
-| String | Category  | 分类             |
+| String | category  | 分类             |
 | int    | cntInPage | 页面容纳信息条数 |
 | int    | pageNum   | 当前页           |
 
@@ -145,15 +145,15 @@
 
 ### UploadResourceRequest
 
-| 类型          | 变量名        | 说明     |
-| ------------- | ------------- | -------- |
-| String        | title         | 资源标题 |
-| String        | subject       | 资源学科 |
-| String        | category      | 资源类型 |
-| Date          | publishedTime | 发布时间 |
-| String        | content       | 资源简介 |
-| MultipartFile | image         | 封面图片 |
-| MultipartFile | file          | 资源文件 |
+| 类型          | 变量名      | 说明     |
+| ------------- | ----------- | -------- |
+| String        | title       | 资源标题 |
+| String        | subject     | 资源学科 |
+| String        | category    | 资源类型 |
+| Date          | publishTime | 发布时间 |
+| String        | content     | 资源简介 |
+| MultipartFile | image       | 封面图片 |
+| MultipartFile | file        | 资源文件 |
 
 ### DownloadResourceRequest
 
