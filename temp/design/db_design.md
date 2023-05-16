@@ -24,7 +24,6 @@
 | birthday       | Date        |              | 生日         |
 | 其他信息       |             |              |              |
 | salt           | varchar(20) |              | 加密盐值     |
-| exp            | int         |              | 经验         |
 | registerTime   | Date        |              | 注册时间     |
 | profilePhotoUrl | varchar(255)         |  | 头像         |
 | LogInNum | int | | 登陆天数 |
@@ -130,4 +129,11 @@ MAKIMA：热度的定义和实现？
 ——生姜烧肉
 
 ---
+
+## Experience
+
+| 字段名 | 类型 | 约束                            | 备注   |
+| ------ | ---- | ------------------------------- | ------ |
+| id     | int  | 外键User.id，ON DELETE SET NULL | 用户id |
+| exp    | int  |                                 | 经验   |
 

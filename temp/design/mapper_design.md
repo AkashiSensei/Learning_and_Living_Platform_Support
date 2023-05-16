@@ -106,3 +106,10 @@
 | List\<DownloadHistoryEntry> readDownloadHistoryByPage(int pageNum); | 查询下载记录             |
 | int deleteDownloadHistory(int resourceId);                   | 清空下载记录             |
 | List\<DownloadHistoryEntry> readAllDownloadHistory();        | 查询下载历史总体统计数据 |
+
+## ExperienceMapper
+
+| 接口函数名                                                | 解释         |
+| --------------------------------------------------------- | ------------ |
+| Boolean updateExperience(int curUserId, int changeNumber) | 更改用户经验 |
+| Boolean getExperience(int curUserId)                      | 获取用户经验 |
