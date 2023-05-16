@@ -55,10 +55,10 @@ public RestBean<> uploadPost(@RequestBody UploadPostRequest uploadPostRequest, H
 | RestBean\<UserSummary> verifyUserRegister(@RequestBody VerifyUserRegisterRequest verifyUserRegisterRequest, HttpServletRequest request) | 检查用户注册信息，调用verifyUserRegisterService |
 | RestBean\<UserDetail> getAccountInfo(HttpServletRequest request) | 获取账号信息，调用getAccountInfoService, getExp |
 | RestBean\<List\<UserSummary>> getAccountInfoList(@RequestBody GetAccountInfoListRequest getAccountInfoListRequest, HttpServletRequest request) | 获取账号列表，调用getAccountInfoList |
-| RestBean\<>  updateAccountInfo(@RequestBody UpdateAccountInfoRequest updateAccountInfoRequest, HttpServletRequest request) | 更新账号信息，调用updateAccountInfo |
-| RestBean\<> getPassword(@RequestBody GetPasswordRequest getPasswordRequest, HttpServletRequest request) | 忘记密码，调用getPassword |
-| RestBean\<> updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest, HttpServletRequest request) | 更新密码，调用updatePassword |
-| RestBean\<> deleteAccount(@RequestBody DeleteAccountRequest deleteAccountRequest, HttpServletRequest request) | 删除账号，调用deleteAccount, deleteLog |
+| RestBean\<String>  updateAccountInfo(@RequestBody UpdateAccountInfoRequest updateAccountInfoRequest, HttpServletRequest request) | 更新账号信息，调用updateAccountInfo |
+| RestBean\<String> getPassword(@RequestBody GetPasswordRequest getPasswordRequest, HttpServletRequest request) | 忘记密码，调用getPassword |
+| RestBean\<String> updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest, HttpServletRequest request) | 更新密码，调用updatePassword |
+| RestBean\<String> deleteAccount(@RequestBody DeleteAccountRequest deleteAccountRequest, HttpServletRequest request) | 删除账号，调用deleteAccount, deleteLog |
 
 
 ## PostController
@@ -67,16 +67,16 @@ public RestBean<> uploadPost(@RequestBody UploadPostRequest uploadPostRequest, H
 | ------------------------------------------------------------ | ---- |
 | RestBean\<List\<PostSummary>> listPost(@RequestBody ListPostRequest listPostRequest, HttpServletRequest request) | 获取帖子列表，调用listPosts   |
 | RestBean\<PostDetail> openPost(HttpServletRequest request)                          | 获取帖子详细信息，调用getPostDetail     |
-| RestBean\<> uploadPost(@RequestBody AddPostRequest addPostRequest, HttpServletRequest request)                                 |  发布帖子，调用addPost, changeExp, listPosts(这里表示发布完要重新刷新)   |
-| RestBean\<> deletePost(@RequestBody DeletePostRequest deletePostRequest, HttpServletRequest request)                                       | 删除帖子，调用deletePost,listPosts, changeExp    |
-| RestBean\<> likePost(HttpServletRequest request)                                         | 点赞帖子，调用likePost, changeExp, getPostDetail     |
-| RestBean\<> undoLikePost(HttpServletRequest request) | 取消点赞帖子 |
-| RestBean\<> commentPost(@RequestBody CommentPostRequest commentPostRequest, HttpServletRequest request)                                      | 评论帖子，调用commentPost, changeExp, getPostDetail     |
+| RestBean\<String> uploadPost(@RequestBody AddPostRequest addPostRequest, HttpServletRequest request)                           |  发布帖子，调用addPost, changeExp, listPosts(这里表示发布完要重新刷新)   |
+| RestBean\<String> deletePost(@RequestBody DeletePostRequest deletePostRequest, HttpServletRequest request)                                 | 删除帖子，调用deletePost,listPosts, changeExp    |
+| RestBean\<String> likePost(HttpServletRequest request)                                   | 点赞帖子，调用likePost, changeExp, getPostDetail     |
+| RestBean\<String> undoLikePost(HttpServletRequest request) | 取消点赞帖子 |
+| RestBean\<String> commentPost(@RequestBody CommentPostRequest commentPostRequest, HttpServletRequest request)                                | 评论帖子，调用commentPost, changeExp, getPostDetail     |
 | RestBean\<List\<CommentEntry>> listComment(HttpServletRequest request) | 获取评论列表 |
 | RestBean\<List\<ReplyEntry>> listReply(@RequestBody ListReplyRequest listReplyRequest, HttpServletRequest request) | 获取评论的回复列表 |
-| RestBean\<> replyComment(@RequestBody ReplyCommentRequest replyCommentRequest, HttpServletRequest request)                                     | 回复评论，调用replyComment, getPostDetail     |
-| RestBean\<> deleteComment(@RequestBody DeletCommentRequest deletCommentRequest, HttpServletRequest request)                                    | 删除评论，调用deletComment, getPostDetail, changeExp     |
-| RestBean\<> deleteReply(@RequestBody DeleteReplyRequest deleteReplyRequest, HttpServletRequest request)                                      | 删除评论回复，调用deleteReply, getPostDetail     |
+| RestBean\<String> replyComment(@RequestBody ReplyCommentRequest replyCommentRequest, HttpServletRequest request)                               | 回复评论，调用replyComment, getPostDetail     |
+| RestBean\<String> deleteComment(@RequestBody DeletCommentRequest deletCommentRequest, HttpServletRequest request)                              | 删除评论，调用deletComment, getPostDetail, changeExp     |
+| RestBean\<String> deleteReply(@RequestBody DeleteReplyRequest deleteReplyRequest, HttpServletRequest request)                                | 删除评论回复，调用deleteReply, getPostDetail     |
 
 ## ResourceController
 
@@ -84,12 +84,12 @@ public RestBean<> uploadPost(@RequestBody UploadPostRequest uploadPostRequest, H
 | ------------------------------------------------------------ | ---- |
 | RestBean\<List\<ResourceSummary>> listResourceByCategory(@RequestBody ListResourceByCategoryRequest listResourceByCategoryRequest, HttpServletRequest request) |分类获取资源列表，调用listResourceByCategory |
 | RestBean\<List\<ResourceSummary>> listRecommendResource(@RequestBody ListRecommendResoueceRequest listRecommendResoueceRequest, HttpServletRequest request) |获取推荐资源列表，调用listRecommendResouece |
-| RestBean\<> uploadResource(@RequestBody UploadResourceRequest uploadResourceRequest, HttpServletRequest request) |上传资源，调用uploadResource, changeExp |
-| RestBean\<> downloadResource(@RequestBody DownloadResourceRequest downloadResourceRequest, HttpServletRequest request) |下载资源，调用downloadResource, changeExp |
+| RestBean\<String> uploadResource(@RequestBody UploadResourceRequest uploadResourceRequest, HttpServletRequest request) |上传资源，调用uploadResource, changeExp |
+| RestBean\<String> downloadResource(@RequestBody DownloadResourceRequest downloadResourceRequest, HttpServletRequest request) |下载资源，调用downloadResource, changeExp |
 | RestBean\<ResourceEntry> getResourceDetail(HttpServletRequest request) |获取资源详情页，调用getResourceDetail |
-| RestBean\<> deleteResource(@RequestBody DeleteResourceRequest deleteResourceRequest, HttpServletRequest request) |删除资源，调用deleteResource,changeExp,listResourceByCategory |
+| RestBean\<String> deleteResource(@RequestBody DeleteResourceRequest deleteResourceRequest, HttpServletRequest request) |删除资源，调用deleteResource,changeExp,listResourceByCategory |
 | RestBean\<List\<DownloadHistoryEntry>> getDownloadHistory(@RequestBody GetDownloadHistoryRequest getDownloadHistoryRequest, HttpServletRequest request) |获取下载历史,调用getDownloadHistory |
-| RestBean\<>deleteDownloadHistory(@RequestBody DeleteDownloadHistoryRequest deleteDownloadHistoryRequest,HttpServletRequest request) |清空某资源的下载历史,调用deleteDownloadHistory |
+| RestBean\<String> deleteDownloadHistory(@RequestBody DeleteDownloadHistoryRequest deleteDownloadHistoryRequest,HttpServletRequest request) |清空某资源的下载历史,调用deleteDownloadHistory |
 
 ## StatisticController
 
