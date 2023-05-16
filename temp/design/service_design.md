@@ -15,7 +15,7 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | public int getUserIdFromToken(String token) throws UserException; | 从 token 中提取用户ID                     |
 | public String generateToken(String userId) throws UserException; | 生成token                                 |
 | public boolean validateToken(String token) throws UserException; | 验证token                                 |
-| public UserDisplay addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                              |
+| public String addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                              |
 | public UserDetail getUser(String userId) throws UserException; | 获取用户信息                              |
 | public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                            |
 | public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                              |
