@@ -1,4 +1,4 @@
-# 软件规格说明书
+# 软件设计说明书
 
 ## 1、引言
 
@@ -128,7 +128,69 @@
 
 ### 3.3 用例设计
 
-给出主要用例的说明和用例系统顺序图。
+#### （1）“访客注册”用例实现的设计方案
+
+​		“访客注册”功能的实现主要是通过后端服务器进行注册，将用户数据注入数据库，并完成用户信息的返回，从而完成用户注册的整个过程。具体实现过程见下图 所描述的用例实现顺序图。
+
+![USD_Register](.\img\USD_Register.jpg)
+
+​		首先，用户通过浏览器HTTP请求向后端发送POST请求，越过拦截器调用“UserController”对象的“verifyUserRegister(verifyUserRegisterRequest, request)”方法向“UserController”传输含有注册用户信息的“verifyUserRegisterRequest”类实例，“UserController”继续调用“UserService”对象的“addUser(verifyUserRegisterRequest)”方法传递包装的“verifyUserRegisterRequest”类实例，最后“UserService”调用“UserMapper”对象解析相关“request”得到基本属性，它的“readUserByEmail(email)”方法先查询该邮箱是否被注册过，若已经注册则返回“UserDetail”类实例并告知前端该邮箱已经被注册过；若未注册则调用其“createUser(user)”方法在数据库的“User”表中新建条目，最后将注册信息通过“Restbean”返回前端。一旦注册成功，系统自动登录并将界面重定向到主界面。
+
+#### （2）“用户登录”用例实现的设计方案
+
+​		“用户登录”功能的实现主要是通过“spring boot”后端框架提供的服务，查询数据库中是否有用户输入的账号和密码信息，从而来判定该用户的身份是否合法。具体实现过程见下图 所描述的用例实现顺序图。
+
+![USD_Login](.\img\USD_Login.jpg)
+
+​		首先，用户通过浏览器HTTP请求向后端发送，并越过拦截器调用“UserController”对象的“VerifyUserLogin(verifyUserLoginRequest, request)”方法向“UserController”传输含有输入登录的账户和密码的包装实体类实例“verifyUserLoginRequest”，随后该“UserController”向“UserService”类对象发消息“authenticateUser(verifyUserLoginRequest)”，将请求下发到具体的“Service”类中。接收到消息后，“UserService”对象处理具体请求，将请求内容获取得到两个属性“userId/email”和“password”，并向“Mapper”类“UserMapper”对象发消息“identifyUser(userId/email, password)”以验证用户提交的账号和密码是否合法。“UserMapper”对象通过对相关数据库“User”表的映射操纵数据库，来判断用户身份的合法性，并将验证的返回值返回给“UserService”对象，若抛出异常或发现账号不存在或密码错误，则直接返回登录页面并显示相关错误提示；若密码匹配，则“UserService”继续调用“ExperienceService”实例的方法“updateExperience(curUserId, changeNumber)”给用户增加经验，该功能最后靠“ExperienceMapper”实例的“updateExperience(curUserId, changeNumber)”方法更新数据库。若该过程成功完成，则返回成功的“Restbean”；若不成功，返回失败的“Restbean”。一旦登录成功，系统将界面重定向到主界面。
+
+#### （3）“修改个人信息”用例实现的设计方案
+
+​		“修改个人信息”功能的实现主要是通过后端服务器进行数据库的更新，将更新的用户数据覆盖原有数据条目，并完成用户信息的返回，从而完成用户修改个人信息的整个过程。具体实现过程见下图 所描述的用例实现顺序图。
+
+![USD_ChangeOwnInformation](.\img\USD_ChangeOwnInformation.png)
+
+​		首先，用户通过前端输入框和按钮通过浏览器将HTTP请求向后端发送，后端服务器的“AuthenticationInterceptor”拦截器将请求阻拦并验证token信息，若验证不通过，则直接返回，并将错误告知前端浏览器；若验证通过，则将请求放过，调用“UserController”对象的“updateAccountInfo(updateAccountInfoRequest, request)”方法向“UserController”传输含有用户信息的包装实体类实例“updateAccountInfoRequest”，随后“UserController”通过调用“UserService”的“updateUser(updateAccountInfoRequest)”方法向下分发请求给“UserService”对象，将请求解析为具体的实体类“User”实例，最后“UserService”调用“UserMapper”的“updateUser(user)”方法将“User”实例“user”更新至数据库内。最后返回更新是否成功的“Restbean”给前端并显示更新是否成功的数据。
+
+#### （4）“删除个人账户”用例实现的设计方案
+
+​		“删除个人账户”功能的实现主要是通过用户将确认删除个人账户的请求传递给后端，后端完成用户信息的删除并完成是否成功信息的返回，从而完成用户删除个人账户的整个过程。具体实现过程见下图 所描述的用例实现顺序图。
+
+![USD_DeleteOwnAccount](.\img\USD_DeleteOwnAccount.png)
+
+​		首先，拦截器“AuthenticationInterceptor”对象拦截前端发送的相关请求，验证token，若token验证不通过，则直接返回失败信息；若验证通过，则调用“UserController”对象的“deleteAccount(deleteAccountRequest, request)”方法将包含用户账户id和相关信息的实体类对象“deleteAccountRequest”传递给“UserController”，“UserController”进一步调用“UserService”的方法“deleteUser(deleteAccountRequest)”将请求下发到“UserService”，“UserService”解析“deleteAccountRequest”得到“userId”等相关数据，并调用“UserMapper”的方法“deleteUser(userId)”将“userId”对应的用户条目删除。删除成功后，“UserService”继续调用“LogMapper”的“deleteLog(userId)”方法将“userId”对应的日志清空。最后将注销账户的信息通过“Restbean”返回。
+
+#### （5）“找回密码”用例实现的设计方案
+
+​		“找回密码”功能的实现主要是通过用户将找回密码的请求传递给后端，后端检索数据库相关用户的密码数据并将密码返回，从而完成用户找回密码的整个过程。具体实现过程见下图 所描述的用例实现顺序图。
+
+![USD_FindPassword](.\img\USD_FindPassword.png)
+
+​		首先，用户通过浏览器HTTP请求发送到后端，拦截器“AuthenticationInterceptor”对象拦截请求，验证token，若token验证不通过，则直接返回失败信息；若验证通过，则调用“UserController”对象的“getPassword(getPasswordRequest, request)”方法将“getPasswordRequest”类的实例传递给“UserController”处理，“UserController”继续调用“UserService”的方法“getPassword(getPasswordRequest)”将请求分发给“UserService”处理，“UserService”解析“getPasswordRequest”实体类的内容，获取用户的“userId”，并调用“UserMapper”的“readPassword(userId)”方法查询对应“userId”条目的“password”字段，最后将密码打包成“RestBean”返回。
+
+#### （6）“查看帖子详情”用例实现的设计方案
+
+​		“查看帖子详情”功能的实现主要是通过用户点击相关按钮，事件绑定浏览器详情将HTTP请求传输给后端，后端查询帖子详细数据并将帖子内容返回，从而完成用户查看帖子详情的整个过程。具体实现过程见下图 所描述的用例实现顺序图。
+
+![USD_ViewPostDetails](.\img\USD_ViewPostDetails.png)
+
+​		首先，用户提交的请求被拦截器“AuthenticationInterceptor”对象拦截，调用“PostController”对象的“openPost(request)”方法将请求交给“PostController”处理，“PostController”先验证权限，通过调用“ExperienceService”对象的“getExperienceForPost(curUserId, postId)”方法来比对帖子权限和用户等级，“ExperienceService”通过调用“ExperienceMapper”对象的“getExperience(curUserId)”方法获取用户经验等级。若权限不通过，则直接返回，禁止用户访问；如权限通过，“PostController”对象继续调用“PostService”对象的“getPost(postId)”方法将获取帖子详细信息的请求交给“PostService”处理，“PostService”调用“PostMapper”对象的“readPost(postId)”方法查询数据库的相关信息，并把帖子详细信息返回。成功返回后，系统将界面重定向到帖子详细页面。
+
+#### （7）“发布帖子”用例实现的设计方案
+
+​		“发布帖子”功能的实现主要是用户通过浏览器HTTP请求将发布帖子请求传输给后端，后端将帖子详细数据增加到数据库内并将帖子内容返回，从而完成用户发布帖子的整个过程。具体实现过程见下图 所描述的用例实现顺序图。
+
+![USD_AddPost](.\img\USD_AddPost.jpg)
+
+​		首先，用户提交的请求被拦截器“AuthenticationInterceptor”对象拦截，并验证token，若若token验证不通过，则直接返回失败信息；若验证通过，则调用“PostController”对象的“uploadPost(addPostRequest, requeset)”方法将包装后的的帖子信息请求实体类addPostRequest交给“PostController”对象处理，“PostController”调用“PostService”对象的“addPost(addPostRequest)”方法将请求下发给“PostService”对象处理，“PostService”解析请求为“Post”实体类的实例“post”，并调用“PostMapper”对象的“createPost(post)”将“post”实例数据注入数据库。完成添加帖子后，“PostController”继续调用“ExperienceService”对象的“updateExperience(curUserId, changeNumber)”方法给相应用户增加经验，具体由“ExperienceService”调用“ExperienceMapper”对象的“updateExperience(curUserId, changeNumber)”方法将数值更新至数据库中。最后，“PostController”返回包含成功数据的“RestBean”。
+
+#### （8）“查看教育资源详情”用例实现的设计方案
+
+​		“查看教育资源详情”功能的实现主要是用户点击资源列表，通过绑定的浏览器HTTP请求传输给后端，后端将资源详细数据获取并返回显示，从而完成用户查看教育资源详情的整个过程。具体实现过程见下图 所描述的用例实现顺序图。
+
+![USD_ViewResourceDetail](.\img\USD_ViewResourceDetail.jpg)
+
+​		首先，用户提交的请求被拦截器“AuthenticationInterceptor”对象拦截，并验证token，若若token验证不通过，则直接返回失败信息；若验证通过，则调用“ResourceController”对象的“getResourceDetail(request)”方法将任务交给“ResourceController”处理，“ResourceController”通过调用“ResourceService”的“getResourceDetailed(resourceId)”方法将请求下发给“ResourceService”解析处理。“ResourceService”调用“ResourceMapper”的“readResource(resourceId)”方法，令“ResourceMapper”查询数据库获得帖子相关信息，将信息包装为“ResourceEntry”类实例。最后，返回包含相关信息的“RestBean”，系统将界面重定向到资源详细页面。
 
 ### 3.4 类设计
 
