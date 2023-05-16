@@ -10,7 +10,7 @@
 
 | 类型   | 变量名   | 说明       |
 | ------ | -------- | ---------- |
-| String | id       | 用户的id   |
+| int    | id       | 用户的id   |
 | String | email    | 用户的邮箱 |
 | String | password | 用户的密码 |
 
@@ -39,7 +39,7 @@
 
 | 类型          | 变量名       | 说明 |
 | ------------- | ------------ | ---- |
-| String        | id           | id   |
+| int           | id           | id   |
 | String        | name         | 昵称 |
 | String        | email        | 邮箱 |
 | String        | gender       | 性别 |
@@ -61,9 +61,9 @@
 
 ### DeleteAccountRequest 
 
-| 类型   | 变量名 | 说明     |
-| ------ | ------ | -------- |
-| String | id     | 用户的id |
+| 类型 | 变量名 | 说明     |
+| ---- | ------ | -------- |
+| int  | id     | 用户的id |
 
 ## Post
 
@@ -86,21 +86,21 @@
 
 ### DeletePostRequest
 
-| 类型   | 变量名 | 说明   |
-| ------ | ------ | ------ |
-| String | id     | 帖子id |
+| 类型 | 变量名 | 说明   |
+| ---- | ------ | ------ |
+| int  | id     | 帖子id |
 
 ### ListReplyRequest
 
-| 类型   | 变量名 | 说明   |
-| ------ | ------ | ------ |
-| String | id     | 评论id |
+| 类型 | 变量名 | 说明   |
+| ---- | ------ | ------ |
+| int  | id     | 评论id |
 
 ### CommentPostRequest 
 
 | 类型                | 变量名      | 说明     |
 | ------------------- | ----------- | -------- |
-| String              | postId      | 帖子id   |
+| int                 | postId      | 帖子id   |
 | Date                | publishTime | 评论时间 |
 | String              | content     | 正文     |
 | List<MultipartFile> | images      | 图片     |
@@ -109,22 +109,22 @@
 
 | 类型   | 变量名      | 说明     |
 | ------ | ----------- | -------- |
-| String | postId      | 帖子id   |
-| String | commentId   | 评论id   |
+| int    | postId      | 帖子id   |
+| int    | commentId   | 评论id   |
 | Date   | publishTime | 回复时间 |
 | String | content     | 正文     |
 
 ### DeletCommentRequest 
 
-| 类型   | 变量名 | 说明   |
-| ------ | ------ | ------ |
-| String | id     | 评论id |
+| 类型 | 变量名 | 说明   |
+| ---- | ------ | ------ |
+| int  | id     | 评论id |
 
 ### DeleteReplyRequest 
 
-| 类型   | 变量名 | 说明   |
-| ------ | ------ | ------ |
-| String | id     | 回复id |
+| 类型 | 变量名 | 说明   |
+| ---- | ------ | ------ |
+| int  | id     | 回复id |
 
 ## Resource
 
@@ -157,15 +157,15 @@
 
 ### DownloadResourceRequest
 
-| 类型   | 变量名 | 说明   |
-| ------ | ------ | ------ |
-| String | id     | 资源id |
+| 类型 | 变量名 | 说明   |
+| ---- | ------ | ------ |
+| int  | id     | 资源id |
 
 ### DeleteResourceRequest 
 
-| 类型   | 变量名 | 说明   |
-| ------ | ------ | ------ |
-| String | id     | 资源id |
+| 类型 | 变量名 | 说明   |
+| ---- | ------ | ------ |
+| int  | id     | 资源id |
 
 ### GetDownloadHistoryRequest 
 
@@ -176,9 +176,9 @@
 
 ### DeleteDownloadHistoryRequest 
 
-| 类型   | 变量名 | 说明   |
-| ------ | ------ | ------ |
-| String | id     | 资源id |
+| 类型 | 变量名 | 说明   |
+| ---- | ------ | ------ |
+| int  | id     | 资源id |
 
 ## Statistics
 
@@ -205,14 +205,14 @@
 
 | 类型   | 变量名 | 说明 |
 | ------ | ------ | ---- |
-| String | id     | id   |
+| int    | id     | id   |
 | String | name   | 昵称 |
 
 ### UserDisplay
 
 | 类型   | 变量名          | 说明        |
 | ------ | --------------- | ----------- |
-| String | id              | id          |
+| int    | id              | id          |
 | String | name            | 昵称        |
 | String | profilePhotoUrl | 头像        |
 | String | token           | 生成的token |
@@ -221,7 +221,7 @@
 
 | 类型   | 变量名          | 说明     |
 | ------ | --------------- | -------- |
-| String | id              | id       |
+| int    | id              | id       |
 | String | name            | 昵称     |
 | String | email           | 邮箱     |
 | String | gender          | 性别     |
@@ -234,7 +234,7 @@
 
 | 类型    | 变量名         | 说明                         |
 | ------- | -------------- | ---------------------------- |
-| String  | id             | id                           |
+| int     | id             | id                           |
 | String  | title          | 标题                         |
 | String  | summaryContent | 帖子部分内容                 |
 | boolean | canDelete      | 当前用户是否能够删除这个帖子 |
@@ -243,35 +243,36 @@
 
 | 类型               | 变量名      | 说明                         |
 | ------------------ | ----------- | ---------------------------- |
-| String             | id          | id                           |
+| int                | id          | id                           |
 | String             | title       | 标题                         |
 | String             | fullContent | 内容                         |
 | int                | likeCnt     | 点赞数                       |
 | int                | browseCnt   | 浏览量                       |
 | String             | userName    | 发帖人昵称                   |
-| Date               | uploadTime  | 发帖时间                     |
+| Date               | publishTime | 发帖时间                     |
 | List<CommentEntry> | comments    | 评论                         |
 | boolean            | canDelete   | 当前用户是否能够删除这个帖子 |
 
 ### CommentEntry
 
-| 类型             | 变量名     | 说明                     |
-| ---------------- | ---------- | ------------------------ |
-|                  | commentId  | id                       |
-| String           | userName   | 评论人昵称               |
-| String           | content    | 内容                     |
-| Date             | uploadTime | 评论时间                 |
-| boolean          | canDelete  | 当前用户是否能够删除评论 |
-| List<ReplyEntry> | replies    | 回复                     |
+| 类型             | 变量名      | 说明                     |
+| ---------------- | ----------- | ------------------------ |
+| int              | commentId   | id                       |
+| String           | userName    | 评论人昵称               |
+| String           | content     | 内容                     |
+| Date             | publishTime | 评论时间                 |
+| boolean          | canDelete   | 当前用户是否能够删除评论 |
+| List<ReplyEntry> | replies     | 回复                     |
 
 ### ReplyEntry
 
-| 类型    | 变量名    | 说明                     |
-| ------- | --------- | ------------------------ |
-| int     | replyId   | id                       |
-| String  | userName  | 回复人昵称               |
-| String  | content   | 内容                     |
-| boolean | canDelete | 当前用户是否能够删除回复 |
+| 类型    | 变量名      | 说明                     |
+| ------- | ----------- | ------------------------ |
+| int     | replyId     | id                       |
+| String  | userName    | 回复人昵称               |
+| String  | content     | 内容                     |
+| Date    | publishTime | 发布时间                 |
+| boolean | canDelete   | 当前用户是否能够删除回复 |
 
 ### ResourceSummary
 
@@ -279,14 +280,14 @@
 
 | 类型    | 变量名    | 说明                         |
 | ------- | --------- | ---------------------------- |
-| String  | id        | 资源id                       |
+| int     | id        | 资源id                       |
 | boolean | canDelete | 当前用户是否能够删除这个资源 |
 
 ### ResourceDetail
 
 | 类型          | 变量名      | 说明                         |
 | ------------- | ----------- | ---------------------------- |
-| String        | id          | 资源id                       |
+| int           | id          | 资源id                       |
 | String        | title       | 资源标题                     |
 | String        | subject     | 资源学科                     |
 | String        | category    | 资源类型                     |
@@ -299,24 +300,24 @@
 
 | 类型   | 变量名       | 说明       |
 | ------ | ------------ | ---------- |
-| String | id           | 下载记录id |
+| int    | id           | 下载记录id |
 | String | resourceId   | 资源id     |
 | String | title        | 资源标题   |
 | Date   | downloadTime | 下载时间   |
 
 ### LikeEntry
 
-| 类型   | 变量名   | 说明     |
-| ------ | -------- | -------- |
-| String | id       | 点赞id   |
-| String | postId   | 帖子id   |
-| String | userId   | 用户id   |
-| Date   | likeTime | 点赞时间 |
+| 类型 | 变量名   | 说明     |
+| ---- | -------- | -------- |
+| int  | id       | 点赞id   |
+| int  | postId   | 帖子id   |
+| int  | userId   | 用户id   |
+| Date | likeTime | 点赞时间 |
 
 ### LogEntry
 
-| 类型   | 变量名    | 说明     |
-| ------ | --------- | -------- |
-| String | id        | 日志id   |
-| String | userId    | 用户id   |
-| Date   | loginTime | 登陆时间 |
+| 类型 | 变量名    | 说明     |
+| ---- | --------- | -------- |
+| int  | id        | 日志id   |
+| int  | userId    | 用户id   |
+| Date | loginTime | 登陆时间 |
