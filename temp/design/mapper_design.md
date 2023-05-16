@@ -15,17 +15,19 @@
 
 ## UserMapper
 
-| 接口函数名                                             | 解释                       |
-| ------------------------------------------------------ | -------------------------- |
-| UserDisplay createUser(UserDetail user);               | 创建用户                   |
-| int deleteUser(int userId)                             | 删除用户（用户使用）       |
-| int deleteUser(List\<int> userIdList);                 | 批量删除用户（管理员使用） |
-| int updateUser(UserDetail user);                       | 修改用户信息               |
-| int updatePassword(int userId, String password)        | 修改用户密码               |
-| UserDetail readUser(int userId);                       | 查询用户（单条）           |
-| String readPassword(int userId);                       | 查询用户密码               |
-| UserDisplay identifyUser(int userId, String password); | 验证用户及密码             |
-| List\<UserSummary> readAllUser();                      | 查询所有用户（管理员使用） |
+| 接口函数名                                                   | 解释                       |
+| ------------------------------------------------------------ | -------------------------- |
+| String createUser(User user);                                | 创建用户                   |
+| int deleteUser(int userId)                                   | 删除用户（用户使用）       |
+| int deleteUser(List\<int> userIdList);                       | 批量删除用户（管理员使用） |
+| int updateUser(UserDetail user);                             | 修改用户信息               |
+| int updatePassword(int userId, String password)              | 修改用户密码               |
+| UserDetail readUserById(int userId);                         | 查询用户（单条）           |
+| UserDetail readUserByEmail(String email)                     | 查询用户（单条）           |
+| String readPassword(int userId);                             | 查询用户密码               |
+| UserDisplay identifyUserById(int userId, String password);   | 使用id验证用户及密码       |
+| UserDisplay identifyUserByEmail(String email, String password); | 使用email验证用户及密码    |
+| List\<UserSummary> readAllUser();                            | 查询所有用户（管理员使用） |
 
 ## AdminMapper
 
@@ -40,7 +42,7 @@
 
 | 接口函数名                                    | 解释                 |
 | --------------------------------------------- | -------------------- |
-| int createPost(PostDetail post);              | 创建帖子             |
+| int createPost(Post post);                    | 创建帖子             |
 | int deletePost(int postId)                    | 删除帖子             |
 | PostDetail readPost(int postId);              | 查询帖子（单条）     |
 | List\<PostSummary> readPostList(int PageNum); | 查询帖子列表（按页） |
