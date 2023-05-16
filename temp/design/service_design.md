@@ -8,19 +8,21 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 
 ## UserService
 
-| 方法签名                                                     | 描述                                        |
-| ------------------------------------------------------------ | ------------------------------------------- |
-| public UserDisplay authenticateUser(VerifyUserLoginRequest verifyUserLoginRequest) throws UserException; | 验证用户输入的用户名和密码，并生成token     |
-| public String authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token   |
-| public int getUserIdFromToken(String token) throws UserException; | 验证提供的token是否有效，并返回相应的UserId |
-| public UserDisplay addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                                |
-| public UserDetail getUser(String userId) throws UserException; | 获取用户信息                                |
-| public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                              |
-| public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                                |
-| public List<UserSummary> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                                |
-| public boolean updateUser(UpdateAccountInfoRequest updateAccountInfoRequest) throws UserException; | 更新用户信息                                |
-| public boolean deleteUser(DeleteAccountRequest deleteAccountRequest) throws UserException; | 删除用户                                    |
-| public List<UserSummary> getUserSummary() throws UserException; | 获取用户总体统计数据                        |
+| 方法签名                                                     | 描述                                      |
+| ------------------------------------------------------------ | ----------------------------------------- |
+| public UserDisplay authenticateUser(VerifyUserLoginRequest verifyUserLoginRequest) throws UserException; | 验证用户输入的用户名和密码，并生成token   |
+| public String authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token |
+| public int getUserIdFromToken(String token) throws UserException; | 从 token 中提取用户ID                     |
+| public String generateToken(String userId) throws UserException; | 生成token                                 |
+| public boolean validateToken(String token) throws UserException; | 验证token                                 |
+| public UserDisplay addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                              |
+| public UserDetail getUser(String userId) throws UserException; | 获取用户信息                              |
+| public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                            |
+| public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                              |
+| public List<UserSummary> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                              |
+| public boolean updateUser(UpdateAccountInfoRequest updateAccountInfoRequest) throws UserException; | 更新用户信息                              |
+| public boolean deleteUser(DeleteAccountRequest deleteAccountRequest) throws UserException; | 删除用户                                  |
+| public List<UserSummary> getUserSummary() throws UserException; | 获取用户总体统计数据                      |
 
 ## LogService
 
@@ -113,4 +115,5 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | ------------------------------------------------------------ | ---------------------------------- |
 | public boolean updateExperience(int curUserId, int changeNumber) throws ExperienceException; | 为相应用户增加/扣除积分            |
 | public int getExperience2Level(int curUserId) throws ExperienceException; | 获取相应用户的等级                 |
+| public int setPostPermission(int postId) throws ExperienceException; | 为帖子设置权限                     |
 | public boolean getExperienceForPost(int curUserId, int postId) throws ExperienceException; | 检查相应用户是否有权查看某帖子内容 |
