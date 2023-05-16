@@ -45,7 +45,7 @@
 | int createPost(Post post);                    | 创建帖子             |
 | int deletePost(int postId)                    | 删除帖子             |
 | PostDetail readPost(int postId);              | 查询帖子（单条）     |
-| List\<PostSummary> readPostList(int PageNum); | 查询帖子列表（按页） |
+| List\<PostSummary> readPostList(int pageNum); | 查询帖子列表（按页） |
 | List\<PostSummary> readAllPost();             | 查询所有帖子         |
 
 ## LikeMapper
@@ -88,9 +88,11 @@
 | ResourceDetail readResource(int resourceId);                 | 查询资源详情                               |
 | List\<ResourceSummary> readResourceListRecommended(Date date, int pageNum, ...); | 查询推荐资源列表                           |
 | List\<ResourceSummary> readResourceListByCategory(int category, int pageNum); | 查询分类资源列表                           |
+| List\<ResourceSummary> readResourceListBySubject(int subject, int pageNum); | 查询分学科资源列表                         |
 | String readResourceDownload(int resourceId);                 | 查询资源下载URL                            |
 | List\<ResourceSummary> readAllResource();                    | 查询资源总体统计数据                       |
-| List\<ResourceSummary> readAllResourceByCategory(int category); | 查询资源总体统计数据                       |
+| List\<ResourceSummary> readAllResourceByCategory(int category); | 查询资源分类统计数据                       |
+| List\<ResourceSummary> readAllResourceBySubject(int subject); | 查询资源分类统计数据                       |
 
 ## LogMapper
 
