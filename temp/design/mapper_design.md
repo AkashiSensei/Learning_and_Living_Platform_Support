@@ -17,7 +17,7 @@
 
 | 接口函数名                                                   | 解释                       |
 | ------------------------------------------------------------ | -------------------------- |
-| String createUser(User user);                                | 创建用户                   |
+| String createUser(UserDetail user);                          | 创建用户                   |
 | int deleteUser(int userId)                                   | 删除用户（用户使用）       |
 | int deleteUser(List\<int> userIdList);                       | 批量删除用户（管理员使用） |
 | int updateUser(UserDetail user);                             | 修改用户信息               |
