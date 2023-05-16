@@ -11,7 +11,7 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | 方法签名                                                     | 描述                                      |
 | ------------------------------------------------------------ | ----------------------------------------- |
 | public UserDisplay authenticateUser(VerifyUserLoginRequest verifyUserLoginRequest) throws UserException; | 验证用户输入的用户名和密码，并生成token   |
-| public String authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token |
+| public UserDisplay authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token |
 | public int getUserIdFromToken(String token) throws UserException; | 从 token 中提取用户ID                     |
 | public String generateToken(int userId) throws UserException; | 生成token                                 |
 | public boolean validateToken(String token) throws UserException; | 验证token                                 |
