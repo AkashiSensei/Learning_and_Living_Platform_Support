@@ -30,6 +30,7 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | ------------------------------------------------------------ | ------------------------ |
 | public boolean addLog(int curUserId) throws LogException;    | 添加一条新的登陆记录     |
 | public boolean deleteLog(Date date) throws LogException;     | 删除某个日期之前所有记录 |
+| public boolean deleteLog(int uesrId) throws LogException;    | 删除某个账号所有记录     |
 | public List<LogSummary> getLogSummary() throws LogException; | 获取登录总体统计数据     |
 
 ## PostService

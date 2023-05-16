@@ -94,11 +94,12 @@
 
 ## LogMapper
 
-| 接口函数名                          | 解释     |
-| ----------------------------------- | -------- |
-| int createLog(Log log);             | 创建日志 |
-| List\<LogEntry> readLog(Date date); | 查询日志 |
-| int deleteLog(Datetime datetime)    | 清空日志 |
+| 接口函数名                          | 解释             |
+| ----------------------------------- | ---------------- |
+| int createLog(Log log);             | 创建日志         |
+| List\<LogEntry> readLog(Date date); | 查询日志         |
+| int deleteLog(int userId)           | 清空用户日志     |
+| int deleteLog(Datetime datetime)    | 清空日期所有日志 |
 
 ## DownloadHistoryMapper
 
