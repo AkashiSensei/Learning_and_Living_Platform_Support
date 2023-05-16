@@ -13,10 +13,10 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | public UserDisplay authenticateUser(VerifyUserLoginRequest verifyUserLoginRequest) throws UserException; | 验证用户输入的用户名和密码，并生成token   |
 | public String authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token |
 | public int getUserIdFromToken(String token) throws UserException; | 从 token 中提取用户ID                     |
-| public String generateToken(String userId) throws UserException; | 生成token                                 |
+| public String generateToken(int userId) throws UserException; | 生成token                                 |
 | public boolean validateToken(String token) throws UserException; | 验证token                                 |
 | public String addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                              |
-| public UserDetail getUser(String userId) throws UserException; | 获取用户信息                              |
+| public UserDetail getUser(int userId) throws UserException;  | 获取用户信息                              |
 | public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                            |
 | public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                              |
 | public List<UserSummary> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                              |
@@ -26,12 +26,12 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 
 ## LogService
 
-| 方法签名                                                     | 描述                     |
-| ------------------------------------------------------------ | ------------------------ |
-| public boolean addLog(int curUserId) throws LogException;    | 添加一条新的登陆记录     |
-| public boolean deleteLog(Date date) throws LogException;     | 删除某个日期之前所有记录 |
-| public boolean deleteLog(int uesrId) throws LogException;    | 删除某个账号所有记录     |
-| public List<LogSummary> getLogSummary() throws LogException; | 获取登录总体统计数据     |
+| 方法签名                                                   | 描述                     |
+| ---------------------------------------------------------- | ------------------------ |
+| public boolean addLog(int curUserId) throws LogException;  | 添加一条新的登陆记录     |
+| public boolean deleteLog(Date date) throws LogException;   | 删除某个日期之前所有记录 |
+| public boolean deleteLog(int uesrId) throws LogException;  | 删除某个账号所有记录     |
+| public List<LogEntry> getLogSummary() throws LogException; | 获取登录总体统计数据     |
 
 ## PostService
 
@@ -40,15 +40,15 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | public List<PostSummary> getPostList(ListPostRequest listPostRequest) throws PostException; | 按页获取帖子列表     |
 | public boolean addPost(AddPostRequest addPostRequest) throws PostException; | 添加新帖子           |
 | public boolean deletePost(DeletePostRequest deletePostRequest) throws PostException; | 删除帖子             |
-| public PostDetail getPost(string postId) throws PostException; | 获取帖子详细信息     |
+| public PostDetail getPost(int postId) throws PostException;  | 获取帖子详细信息     |
 | public List<PostSummary> getPostSummary() throws PostException; | 获取帖子总体统计数据 |
 
 ## LikeService
 
 | 方法签名                                                     | 描述                                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| public boolean  addLike(String userId, String postId) throws LikeException; | 用户点赞时，添加新的点赞关系                                 |
-| public boolean  deleteLike(String userId, String postId) throws LikeException; | 用户取消点赞时，删除点赞关系                                 |
+| public boolean  addLike(int userId, int postId) throws LikeException; | 用户点赞时，添加新的点赞关系                                 |
+| public boolean  deleteLike(int userId, int postId) throws LikeException; | 用户取消点赞时，删除点赞关系                                 |
 | public int getLikeNum(int postId) throws LikeException;      | 获取对应帖子点赞数目                                         |
 | public boolean getLiked(int curUserId, int postId) throws LikeException; | 获取相应用户对相应帖子的是否点赞，用于帖子显示，扣除积分，点赞/取消时的检查 |
 | public List<LikeEntry> getLikeSummary() throws LikeException; | 获取点赞总体统计数据                                         |
@@ -60,7 +60,7 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | 方法签名                                                     | 描述                                   |
 | ------------------------------------------------------------ | -------------------------------------- |
 | public boolean addComment(CommentPostRequest commentPostRequest) throws CommentException; | 添加新的评论                           |
-| public boolean deleteComment(DeletCommentRequest deletCommentRequest, int curUserId) throws CommentException; | 删除某条评论，注意检查评论是否属于用户 |
+| public boolean deleteComment(DeleteCommentRequest deleteCommentRequest, int curUserId) throws CommentException; | 删除某条评论，注意检查评论是否属于用户 |
 | public List<CommentEntry> getCommentList(int postId) throws CommentException; | 获取对应帖子在相对位置的几条评论       |
 | public boolean deleteCommentAll(int postId) throws CommentException; | 删除对应帖子的全部评论，用于评论删除   |
 | public List<CommentEntry> getCommentSummary() throws CommentException; | 获取评论总体统计数据                   |
@@ -72,7 +72,7 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | 方法签名                                                     | 描述                                               |
 | ------------------------------------------------------------ | -------------------------------------------------- |
 | public boolean addReply(ReplyCommentRequest replyCommentRequest) throws ReplyException; | 添加新的回复                                       |
-| public boolean deleteReply(DeletCommentRequest deletCommentRequest) throws ReplyException; | 删除相应的回复                                     |
+| public boolean deleteReply(DeleteCommentRequest deleteCommentRequest) throws ReplyException; | 删除相应的回复                                     |
 | public List<ReplyEntry> getReplyList(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的前几条回复                   |
 | public List<ReplyEntry> getReplyAll(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的全部回复                     |
 | public boolean deleteReplyAll(int postId) throws ReplyException; | 删除对应帖子对应评论的全部回复，用于帖子删除       |
@@ -83,21 +83,21 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 
 | 方法签名                                                     | 描述                 |
 | ------------------------------------------------------------ | -------------------- |
-| public List<ResourceSummary> getResourceRecommended(ListRecommendResoueceRequest listRecommendResoueceRequest) throws ResourceException; | 获取推荐资源列表     |
+| public List<ResourceSummary> getResourceRecommended(ListRecommendResourceRequest listRecommendResourceRequest) throws ResourceException; | 获取推荐资源列表     |
 | public List<ResourceSummary> getResourceByCategory(ListResourceByCategoryRequest listResourceByCategoryRequest) throws ResourceException; | 按类搜索资源         |
 | public boolean addResource(UploadResourceRequest uploadResourceRequest) throws ResourceException; | 添加新资源           |
 | public boolean deleteResource(DeleteResourceRequest deleteResourceRequest) throws ResourceException; | 删除资源             |
 | public String getResourceUrl(DownloadResourceRequest downloadResourceRequest) throws ResourceException; | 下载资源             |
-| public ResourceDetail getResourceDetailed(String resourceId) throws ResourceException; | 获取资源详情         |
+| public ResourceDetail getResourceDetailed(int resourceId) throws ResourceException; | 获取资源详情         |
 | public List<ResourceSummary> getResourceSummary() throws ResourceException; | 获取资源总体统计数据 |
-| public List<ResourceSummary> getResourceSummaryByCategory() throws ResourceException; | 获取资源按类统计数据 |
+| public List<ResourceSummary> getResourceSummaryByCategory(ListResourceByCategoryRequest listResourceByCategoryRequest ) throws ResourceException; | 获取资源按类统计数据 |
 
 ## DownloadHistoryService
 
 | 方法签名                                                     | 描述                     |
 | ------------------------------------------------------------ | ------------------------ |
 | public List<DownloadHistoryEntry> getDownloadHistoryEntryByPage(GetDownloadRecordRequest getDownloadHistoryRequest) throws DownloadHistoryException; | 按页获取下载历史         |
-| public boolean deleteDownloadHistory(String resourceId) throws DownloadHistoryException; | 清空某资源下载历史       |
+| public boolean deleteDownloadHistory(int resourceId) throws DownloadHistoryException; | 清空某资源下载历史       |
 | public List<DownloadHistoryEntry> getDownloadHistoryEntry() throws DownloadHistoryException; | 获取下载历史相关统计数据 |
 
 ## StatisticService
