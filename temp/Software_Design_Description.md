@@ -73,17 +73,43 @@
 
 ### 3.1 软件体系结构设计
 
-通过**包图**和**组件图**结合的形式对系统进行拆分和组件化。
+#### 3.1.1 总体设计
 
-![image-20230511144807023](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/image-20230511144807023.png)
+​	该软件按照架构层次划分可以分为前端实现的“用户界面层”，后端实现的“控制器层”，“服务层”和“模型映射层”。用户界面层负责与用户交互，根据用户的需求向后端发起请求获取数据，并将结果展示给用户。控制器层主要负责接受前端发起的请求，并调用服务层提供的接口实现对应的业务逻辑。服务层主要的作用是调用模型映射层提供的对数据库进行增删改查的封装方法组合成一个完整的业务逻辑，并向控制层提供接口。“模型映射层”实现了对数据库的映射，封装了数据库的增删改查操作，并将获取到的结果封装为特定的实体类进行传递。在此过程中，服务层提供服务的过程中可能出现异常，此时抛出异常包中的特定异常实现异常处理。
 
-![image-20230511144901713](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/image-20230511144901713.png)
+![Package Diagram](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/Package%20Diagram.png)
 
-![image-20230511144933140](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/image-20230511144933140.png)
+#### 3.1.2 子系统设计
+
+​	按照功能模块划分，我们的系统又可以划分为用户管理子系统，帖子管理子系统，资源管理子系统和统计数据子系统。
+
+​	下面每个子系统分别举一个例子，借助组件顺序图来说明每个子系统的运行顺序和原理。
+
+##### 用户登录
+
+![CSD_Login](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/CSD_Login.jpg)
+
+用户先在前端发起登录请求，此时因为是登录请求，不需要权限验证，拦截器自动放行，请求直接发送至Controller组件，接着Controller组件将请求分发至Service组件，Service组件调用Mapper组件提供的方法对数据库进行查询，并返回结果。如果用户存在，那么返回登陆成功信息；如果用户不存在或者发生异常，那么需要抛出Exception组件对应的异常，最终返回登陆失败信息。
+
+##### 用户发帖
+
+![CSD_addPost](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/CSD_addPost.jpg)
+
+用户先在前端发起发帖请求，此时需要拦截器校验该请求是否来源于合法的用户身份，拦截器会调用Service组件进行校验。若通过，请求发送至Controller组件，接着Controller组件将请求分发至Service组件，Service组件调用Mapper组件提供的方法对数据库进行添加，并返回结果。如果发帖成功，那么返回发帖成功信息；如果发生异常，那么需要抛出Exception组件对应的异常，最终返回发帖失败的信息。
+
+##### 用户上传资源
+
+![CSD_addResourcre](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/CSD_addResourcre.jpg)
+
+用户先在前端发起上传资源请求，此时需要拦截器校验该请求是否来源于合法的用户身份，拦截器会调用Service组件进行校验。若通过，请求发送至Controller组件，接着Controller组件将请求分发至Service组件，Service组件调用Mapper组件提供的方法对数据库进行添加，并返回结果。如果上传资源成功，那么返回上传资源成功信息；如果发生异常，那么需要抛出Exception组件对应的异常，最终返回上传资源失败的信息。
+
+##### 获取系统总体信息
+
+![CSD_getOverallInfo](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/CSD_getOverallInfo.jpg)
+
+用户先在前端发起查看统计数据请求，此时需要拦截器校验该请求是否来源于合法的管理员身份，拦截器会调用Service组件进行校验。若通过，请求发送至Controller组件，接着Controller组件将请求分发至Service组件，Service组件调用Mapper组件提供的方法对数据库进行查询，并返回结果。如果查询成功，那么返回查看统计数据成功信息；如果发生异常，那么需要抛出Exception组件对应的异常，最终返回查看统计数据失败的信息。
 
 ### 3.2 用户界面设计
-
-> 列举有哪些界面，每个界面的作用和界面之间的导航关系。给出每个页面的原型图，跳转的顺序图。
 
 根据平台的用例描述以及每个用例的设计可以发现该软件系统需要有以下页面以支持用户和管理员的操作：
 
@@ -194,9 +220,19 @@
 
 ### 3.4 类设计
 
-![image-20230511145504063](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/image-20230511145504063.png)
+#### 功能类
 
-给出设计类图，并精化设计类。
+![DCD_Logic](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/DCD_Logic.png)
+
+
+
+#### 实体类
+
+![DCD_Entities](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/DCD_Entities.png)
+
+#### 异常类
+
+![DCD_Exception](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/DCD_Exception.png)
 
 ### 3.5 数据设计
 
