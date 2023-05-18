@@ -1,17 +1,17 @@
 # MapperDesign
 
-| Mapper接口           | 解释                   |
-| -------------------- | ---------------------- |
-| UserMapper           | User表映射器           |
-| AdminMapper          | Admin表映射器          |
-| PostMapper           | Post表映射器           |
-| LikeMapper           | Like表映射器           |
-| CommentMapper        | Comment表映射器        |
-| ReplyMapper          | Reply表映射器          |
-| ImageMapper          | Image表映射器          |
-| ResourceMapper       | Resource表映射器       |
-| LogMapper            | Log表映射器            |
-| DownloadRecordMapper | DownloadRecord表映射器 |
+| Mapper接口            | 解释                    |
+| --------------------- | ----------------------- |
+| UserMapper            | User表映射器            |
+| AdminMapper           | Admin表映射器           |
+| PostMapper            | Post表映射器            |
+| LikeMapper            | Like表映射器            |
+| CommentMapper         | Comment表映射器         |
+| ReplyMapper           | Reply表映射器           |
+| ResourceMapper        | Resource表映射器        |
+| LogMapper             | Log表映射器             |
+| DownloadHistoryMapper | DownloadHistory表映射器 |
+| ExperienceMapper      | Experience表映射器      |
 
 ## UserMapper
 
