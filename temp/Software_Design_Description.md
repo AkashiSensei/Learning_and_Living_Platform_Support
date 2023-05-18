@@ -233,6 +233,8 @@
 
 ##### 拦截器层设计示例
 
+拦截器依赖 UserService，通过调用 userService 的 getUserIdFromToken 方法，验证 token 并从中获取相应的请求发起者信息。
+
 ```java
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     // 方案A：放行某些地址
@@ -249,11 +251,20 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     // 方案B，token无效并不立即拒绝请求
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String curUserId;
+        try {
+            curUserId = userService.getUserIdFromToken(token);
+        } catch(UserException e) {
+            if() {
+                // ...
+            }
+        }
+        return true;
     }
 }
 ```
 
-依赖 UserService
+而对于登录、注册、帖子查询等等不需要登陆就能够使用的功能，我们计划同时使用绕过某些地址，和拦截器预处理过程不直接拒绝没有 token 的访问的方式实现。例如对于教育资源查询，如果访问来自于访客（未登录），拦截器此时将 curUserId 标记为 0 并放行请求，交由后续相关 Controller 和 Service 进行处理。
 
 ```java
 @Configuration
@@ -268,9 +279,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 }
 ```
 
-注册拦截器
+上述代码展示了通过 WebConfig 类注册拦截器。
 
 ##### 控制器层设计示例
+
+我们的控制器充当 Service 协调器的工作，拆解请求，协调诸多 Service 来共同完成对请求的处理，同时对 Service 返回的信息进行包装，以自定义类 RestBean 的形式返回。该类将在后续的实体类设计中叙述。
 
 ```java
 @RequestMapping(value = "/post/upload", method = RequestMethod.POST)
