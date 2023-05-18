@@ -224,15 +224,452 @@
 
 ![DCD_Logic](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/DCD_Logic.png)
 
+​		功能类主要分为“拦截器层”、“控制器层”，“服务层”和“模型映射层”。
 
+- 拦截器层主要检查前端传来数据的token是否合法，若合法，则将请求放过；若不合法，则直接返回相应信息。对于大部分用户请求，都要经过拦截器层的处理才能进一步分发给控制器，这样保证了系统的安全性。仅有注册、登录功能可以不验证token而绕过拦截器直接处理。
+- 控制器层主要负责根据具体的请求类型，调用不同的service组合，Controller作为协调器，完成多样的需求，并把相应二点结果打包返回给用户界面。
+- 服务层主要负责具体解析控制器层分发的请求，选择具体所需的参数并将其传输到具体的Mapper方法中。服务层与模型映射层基本一一对应，根据具体的请求主体划分成不同的接口，并建立对应接口的具体实现类。服务层将处理结果返回给控制器层，若出现异常，则抛出对应异常并完成处理。
+- 模型映射层主要负责对数据库存在表的对应映射，每一个Mapper映射一张表，并建立对应的实体类模型实现对于数据库的操作。完成操作后，模型映射层将对应数据和返回码交给服务层，由服务层判断是否出现错误。
+
+##### 拦截器层设计示例
+
+```java
+public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
+    // 方案A：放行某些地址
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/login", "/publicPath1", "/publicPath2").permitAll() // Ignore "/login", "/publicPath1", and "/publicPath2"
+            .anyRequest().authenticated()
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    // 方案B，token无效并不立即拒绝请求
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    }
+}
+```
+
+依赖 UserService
+
+```java
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+    @Autowired
+    private AuthenticationInterceptor authenticationInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authenticationInterceptor);
+    }
+}
+```
+
+注册拦截器
+
+##### 控制器层设计示例
+
+```java
+@RequestMapping(value = "/post/upload", method = RequestMethod.POST)
+// request 是拦截器处理过的request，拦截器将 token 处理成当前用户的 id 并保存在 curUserId 字段
+public RestBean<> uploadPost(@RequestBody UploadPostRequest uploadPostRequest, HttpServletRequest request) {
+    String curUserId = (String) request.getAttribute("curUserId");
+    int ret = postService.uploadPost(uploadPostRequest, curUserId);
+    
+    // 相应的 service 仅仅返回事务逻辑的返回结果，包装成 RestBean 的任务交给 Controller
+    if(ret == 0) {
+        return RestBean.success(201);
+    }else if(ret == -E_PERM) {
+        return RestBean.failure(403, "No permission to upload posts");
+    }else {
+        return RestBean.failure(500);
+    }
+}
+```
+
+###### 具体设计
+
+- UserController 负责处理和用户有关的请求，包括用户和管理员增删改查的需求。
+- PostController 负责处理和帖子有关的请求，包括帖子、评论和回复增删改查的需求。
+- ResourceController 负责处理和资源有关的请求，包括资源的增删改查、下载等功能的需求。
+- StatisticController 负责处理和统计数据有关的请求，包括处理有关日志、资源下载量等数据的需求。
+
+###### UserController
+
+| 方法签名                                                     | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| RestBean\<UserDisplay> verifyUserLogin(@RequestBody VerifyUserLoginRequest verifyUserLoginRequest, HttpServletRequest request) | 检查用户登入信息，调用verifyUserLoginService, addLog, changeExp(成功登入加积分) |
+| RestBean\<UserDisplay> verifyAdminLogin(@RequestBody VerifyAdminLoginRequest verifyAdminLoginRequest, HttpServletRequest request) | 检查管理员登入信息，调用verifyAdminLoginService              |
+| RestBean\<UserSummary> verifyUserRegister(@RequestBody VerifyUserRegisterRequest verifyUserRegisterRequest, HttpServletRequest request) | 检查用户注册信息，调用verifyUserRegisterService              |
+| RestBean\<UserDetail> getAccountInfo(HttpServletRequest request) | 获取账号信息，调用getAccountInfoService, getExp              |
+| RestBean\<List\<UserSummary>> getAccountInfoList(@RequestBody GetAccountInfoListRequest getAccountInfoListRequest, HttpServletRequest request) | 获取账号列表，调用getAccountInfoList                         |
+| RestBean\<String>  updateAccountInfo(@RequestBody UpdateAccountInfoRequest updateAccountInfoRequest, HttpServletRequest request) | 更新账号信息，调用updateAccountInfo                          |
+| RestBean\<String> getPassword(@RequestBody GetPasswordRequest getPasswordRequest, HttpServletRequest request) | 忘记密码，调用getPassword                                    |
+| RestBean\<String> updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest, HttpServletRequest request) | 更新密码，调用updatePassword                                 |
+| RestBean\<String> deleteAccount(@RequestBody DeleteAccountRequest deleteAccountRequest, HttpServletRequest request) | 删除账号，调用deleteAccount, deleteLog                       |
+
+###### PostController
+
+| 方法签名                                                     | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| RestBean\<List\<PostSummary>> listPost(@RequestBody ListPostRequest listPostRequest, HttpServletRequest request) | 获取帖子列表，调用listPosts                                  |
+| RestBean\<PostDetail> openPost(HttpServletRequest request)   | 获取帖子详细信息，调用getPostDetail                          |
+| RestBean\<List\<PostSummary>> uploadPost(@RequestBody AddPostRequest addPostRequest, HttpServletRequest request) | 发布帖子，调用addPost, changeExp, listPosts(这里表示发布完要重新刷新) |
+| RestBean\<List\<PostSummary>> deletePost(@RequestBody DeletePostRequest deletePostRequest, HttpServletRequest request) | 删除帖子，调用deletePost,listPosts, changeExp                |
+| RestBean\<PostDetail> likePost(HttpServletRequest request)   | 点赞帖子，调用likePost, changeExp, getPostDetail             |
+| RestBean\<PostDetail> undoLikePost(HttpServletRequest request) | 取消点赞帖子                                                 |
+| RestBean\<PostDetail> commentPost(@RequestBody CommentPostRequest commentPostRequest, HttpServletRequest request) | 评论帖子，调用commentPost, changeExp, getPostDetail          |
+| RestBean\<List\<CommentEntry>> listComment(HttpServletRequest request) | 获取评论列表                                                 |
+| RestBean\<List\<ReplyEntry>> listReply(@RequestBody ListReplyRequest listReplyRequest, HttpServletRequest request) | 获取评论的回复列表                                           |
+| RestBean\<PostDetail> replyComment(@RequestBody ReplyCommentRequest replyCommentRequest, HttpServletRequest request) | 回复评论，调用replyComment, getPostDetail                    |
+| RestBean\<PostDetail> deleteComment(@RequestBody DeletCommentRequest deleteCommentRequest, HttpServletRequest request) | 删除评论，调用deletComment, getPostDetail, changeExp         |
+| RestBean\<PostDetail> deleteReply(@RequestBody DeleteReplyRequest deleteReplyRequest, HttpServletRequest request) | 删除评论回复，调用deleteReply, getPostDetail                 |
+
+###### ResourceController
+
+| 方法签名                                                     | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| RestBean\<List\<ResourceSummary>> listResourceByCategory(@RequestBody ListResourceByCategoryRequest listResourceByCategoryRequest, HttpServletRequest request) | 分类获取资源列表，调用listResourceByCategory                 |
+| RestBean\<List\<ResourceSummary>> listRecommendResource(@RequestBody ListRecommendResoueceRequest listRecommendResoueceRequest, HttpServletRequest request) | 获取推荐资源列表，调用listRecommendResouece                  |
+| RestBean\<String> uploadResource(@RequestBody UploadResourceRequest uploadResourceRequest, HttpServletRequest request) | 上传资源，调用uploadResource, changeExp                      |
+| RestBean\<String> downloadResource(@RequestBody DownloadResourceRequest downloadResourceRequest, HttpServletRequest request) | 下载资源，调用downloadResource, changeExp                    |
+| RestBean\<ResourceDetail> getResourceDetail(HttpServletRequest request) | 获取资源详情页，调用getResourceDetail                        |
+| RestBean\<List\<ResourceSummary>> deleteResource(@RequestBody DeleteResourceRequest deleteResourceRequest, HttpServletRequest request) | 删除资源，调用deleteResource,changeExp,listResourceByCategory |
+| RestBean\<List\<DownloadHistoryEntry>> getDownloadHistory(@RequestBody GetDownloadHistoryRequest getDownloadHistoryRequest, HttpServletRequest request) | 获取下载历史,调用getDownloadHistory                          |
+| RestBean\<String> deleteDownloadHistory(@RequestBody DeleteDownloadHistoryRequest deleteDownloadHistoryRequest,HttpServletRequest request) | 清空某资源的下载历史,调用deleteDownloadHistory               |
+
+###### StatisticController
+
+| 方法签名                                                     | 描述                             |
+| ------------------------------------------------------------ | -------------------------------- |
+| RestBean\<int>getNumOfCurrentOnline(HttpServletRequest request) | 获取当前在线人数                 |
+| RestBean\<OverallFigure> getOverallInfo(HttpServletRequest request) | 获取总体信息                     |
+| RestBean\<List\<PostSummary>> listPostOrderedByView(@RequestBody TimeRange timeRange, HttpServletRequest request) | 根据浏览量对帖子排序并获取       |
+| RestBean\<List\<PostSummary>> listPostOrderedByPopularity(@RequestBody TimeRange timeRange, HttpServletRequest request) | 根据热度对帖子排序并获取         |
+| RestBean\<List\<ResourceSummary>> listResourceByDownload(@RequestBody TimeRange timeRange, HttpServletRequest request) | 根据下载量对资源排序并获取       |
+| RestBean\<List\<UserSummary>> listUserByCntOfResourceUpload(@RequestBody TimeRange timeRange, HttpServletRequest request) | 根据上传资源数量对用户排序并获取 |
+
+##### 服务层设计示例
+
+###### 具体设计
+
+- UserService 负责具体解析和处理与用户有关的请求，包括用户和管理员增删改查的需求。
+- LogService 负责处理添加、删除和查询日志的需求。
+- PostService 负责具体解析和处理与帖子有关的请求，包括帖子的发布、删除、查询的需求。
+- LikeService 负责处理用户点赞功能的需求。
+- CommentService 负责具体解析和处理与评论有关的请求，包括评论的发布、删除、查询的需求。
+- ReplyService 负责具体解析和处理与回复有关的请求，包括回复的发布、删除、查询的需求。
+- RecourseService 负责具体解析和处理与资源有关的请求，包括资源的发布、删除、查询的需求。
+- DownloadHistoryService 负责处理用户下载资源功能的需求。
+- StatisticService 负责具体解析和处理和统计数据有关的请求，包括查询有关日志、资源下载量等数据的需求。
+- ExperienceService 负责处理用户经验等级的增加、减少、查询功能的需求。
+
+​		服务层完成具体的请求，并负责有关信息的级联删除功能。
+
+###### UserService
+
+| 方法签名                                                     | 描述                                      |
+| ------------------------------------------------------------ | ----------------------------------------- |
+| public UserDisplay authenticateUser(VerifyUserLoginRequest verifyUserLoginRequest) throws UserException; | 验证用户输入的用户名和密码，并生成token   |
+| public UserDisplay authenticateAdmin(VerifyAdminLoginRequest verifyAdminLoginRequest) throws UserException; | 验证管理员输入的用户名和密码，并生成token |
+| public int getUserIdFromToken(String token) throws UserException; | 从 token 中提取用户ID                     |
+| public String generateToken(int userId) throws UserException; | 生成token                                 |
+| public boolean validateToken(String token) throws UserException; | 验证token                                 |
+| public String addUser(VerifyUserRegisterRequest verifyUserRegisterRequest) throws UserException; | 创建新的用户                              |
+| public UserDetail getUser(int userId) throws UserException;  | 获取用户信息                              |
+| public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                            |
+| public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                              |
+| public List<UserSummary> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                              |
+| public boolean updateUser(UpdateAccountInfoRequest updateAccountInfoRequest) throws UserException; | 更新用户信息                              |
+| public boolean deleteUser(DeleteAccountRequest deleteAccountRequest) throws UserException; | 删除用户                                  |
+| public List<UserSummary> getUserSummary() throws UserException; | 获取用户总体统计数据                      |
+
+###### LogService
+
+| 方法签名                                                   | 描述                     |
+| ---------------------------------------------------------- | ------------------------ |
+| public boolean addLog(int curUserId) throws LogException;  | 添加一条新的登陆记录     |
+| public boolean deleteLog(Date date) throws LogException;   | 删除某个日期之前所有记录 |
+| public boolean deleteLog(int uesrId) throws LogException;  | 删除某个账号所有记录     |
+| public List<LogEntry> getLogSummary() throws LogException; | 获取登录总体统计数据     |
+
+###### PostService
+
+| 方法签名                                                     | 描述                 |
+| ------------------------------------------------------------ | -------------------- |
+| public List<PostSummary> getPostList(ListPostRequest listPostRequest) throws PostException; | 按页获取帖子列表     |
+| public boolean addPost(AddPostRequest addPostRequest) throws PostException; | 添加新帖子           |
+| public boolean deletePost(DeletePostRequest deletePostRequest) throws PostException; | 删除帖子             |
+| public PostDetail getPost(int postId) throws PostException;  | 获取帖子详细信息     |
+| public List<PostSummary> getPostSummary() throws PostException; | 获取帖子总体统计数据 |
+
+###### LikeService
+
+| 方法签名                                                     | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| public boolean  addLike(int userId, int postId) throws LikeException; | 用户点赞时，添加新的点赞关系                                 |
+| public boolean  deleteLike(int userId, int postId) throws LikeException; | 用户取消点赞时，删除点赞关系                                 |
+| public int getLikeNum(int postId) throws LikeException;      | 获取对应帖子点赞数目                                         |
+| public boolean getLiked(int curUserId, int postId) throws LikeException; | 获取相应用户对相应帖子的是否点赞，用于帖子显示，扣除积分，点赞/取消时的检查 |
+| public List<LikeEntry> getLikeSummary() throws LikeException; | 获取点赞总体统计数据                                         |
+
+###### CommentService
+
+| 方法签名                                                     | 描述                                   |
+| ------------------------------------------------------------ | -------------------------------------- |
+| public boolean addComment(CommentPostRequest commentPostRequest) throws CommentException; | 添加新的评论                           |
+| public boolean deleteComment(DeleteCommentRequest deleteCommentRequest, int curUserId) throws CommentException; | 删除某条评论，注意检查评论是否属于用户 |
+| public List<CommentEntry> getCommentList(int postId) throws CommentException; | 获取对应帖子在相对位置的几条评论       |
+| public boolean deleteCommentAll(int postId) throws CommentException; | 删除对应帖子的全部评论，用于评论删除   |
+| public List<CommentEntry> getCommentSummary() throws CommentException; | 获取评论总体统计数据                   |
+
+###### ReplyService
+
+| 方法签名                                                     | 描述                                               |
+| ------------------------------------------------------------ | -------------------------------------------------- |
+| public boolean addReply(ReplyCommentRequest replyCommentRequest) throws ReplyException; | 添加新的回复                                       |
+| public boolean deleteReply(DeleteCommentRequest deleteCommentRequest) throws ReplyException; | 删除相应的回复                                     |
+| public List<ReplyEntry> getReplyList(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的前几条回复                   |
+| public List<ReplyEntry> getReplyAll(int postId, int commentId) throws ReplyException; | 获取对应帖子对应评论的全部回复                     |
+| public boolean deleteReplyAll(int postId) throws ReplyException; | 删除对应帖子对应评论的全部回复，用于帖子删除       |
+| public boolean deleteReplyAll(int postId, int commentId) throws ReplyException; | @重载 删除对应帖子对应评论的全部回复，用于评论删除 |
+| public List<ReplyEntry> getReplySummary() throws ReplyException; | 获取回复总体统计数据                               |
+
+###### RecourseService
+
+| 方法签名                                                     | 描述                 |
+| ------------------------------------------------------------ | -------------------- |
+| public List<ResourceSummary> getResourceRecommended(ListRecommendResourceRequest listRecommendResourceRequest) throws ResourceException; | 获取推荐资源列表     |
+| public List<ResourceSummary> getResourceByCategory(ListResourceByCategoryRequest listResourceByCategoryRequest) throws ResourceException; | 按类搜索资源         |
+| public boolean addResource(UploadResourceRequest uploadResourceRequest) throws ResourceException; | 添加新资源           |
+| public boolean deleteResource(DeleteResourceRequest deleteResourceRequest) throws ResourceException; | 删除资源             |
+| public String getResourceUrl(DownloadResourceRequest downloadResourceRequest) throws ResourceException; | 下载资源             |
+| public ResourceDetail getResourceDetailed(int resourceId) throws ResourceException; | 获取资源详情         |
+| public List<ResourceSummary> getResourceSummary() throws ResourceException; | 获取资源总体统计数据 |
+| public List<ResourceSummary> getResourceSummaryByCategory(ListResourceByCategoryRequest listResourceByCategoryRequest ) throws ResourceException; | 获取资源按类统计数据 |
+
+###### DownloadHistoryService
+
+| 方法签名                                                     | 描述                     |
+| ------------------------------------------------------------ | ------------------------ |
+| public List<DownloadHistoryEntry> getDownloadHistoryEntryByPage(GetDownloadRecordRequest getDownloadHistoryRequest) throws DownloadHistoryException; | 按页获取下载历史         |
+| public boolean deleteDownloadHistory(int resourceId) throws DownloadHistoryException; | 清空某资源下载历史       |
+| public List<DownloadHistoryEntry> getDownloadHistoryEntry() throws DownloadHistoryException; | 获取下载历史相关统计数据 |
+
+###### StatisticService
+
+| 方法签名                                                     | 描述                             |
+| ------------------------------------------------------------ | -------------------------------- |
+| public OverallFigure getOverallInfo(HttpServletRequest request) throws StatisticsException; | 获取总体信息                     |
+| public int getNumOfCurrentOnline(HttpServletRequest request) throws StatisticsException; | 获取当前在线                     |
+| public List<PostSummary> getPostListOrderedByPopularity(TimeRange timeRange, HttpServletRequest request) throws StatisticsException; | 根据热度对帖子排序并获取         |
+| public List<ResourceSummary> getResourceListByDownload(TimeRange timeRange, HttpServletRequest request) throws StatisticsException; | 根据下载量对资源排序并获取       |
+| public List<UserSummary> getUserListByCntOfResourceUpload(TimeRange timeRange, HttpServletRequest request) throws StatisticsException; | 根据上传资源数量对用户排序并获取 |
+
+###### ExperienceService
+
+| 方法签名                                                     | 描述                               |
+| ------------------------------------------------------------ | ---------------------------------- |
+| public boolean updateExperience(int curUserId, int changeNumber) throws ExperienceException; | 为相应用户增加/扣除积分            |
+| public int getExperience2Level(int curUserId) throws ExperienceException; | 获取相应用户的等级                 |
+| public int setPostPermission(int postId) throws ExperienceException; | 为帖子设置权限                     |
+| public boolean getExperienceForPost(int curUserId, int postId) throws ExperienceException; | 检查相应用户是否有权查看某帖子内容 |
+
+##### 模型映射层设计示例
+
+###### 具体设计
+
+- UserMapper 负责映射User表，实现User表的增删改查功能。
+- AdminMapper 负责映射Admin表，实现Admin表的增删查功能。
+- PostMapper 负责映射Post表，实现Post表的增删查功能。
+- LikeMapper 负责映射Like表，实现Like表的增删查功能。
+- CommentMapper 负责映射Comment表，实现Comment表的增删查功能。
+- ReplyMapper 负责映射Reply表，实现Reply表的增删查功能。
+- ResourceMapper 负责映射Resource表，实现Resource表的增删查功能。
+- LogMapper 负责映射Log表，实现Log表的增删查功能。
+- DownloadHistoryMapper 负责映射DownloadHistory表，实现DownloadHistory表的增删查功能。
+- ExperienceMapper 负责映射Experience表，实现Experience表的增删查功能。
+
+###### UserMapper
+
+| 接口函数名                                                   | 解释                       |
+| ------------------------------------------------------------ | -------------------------- |
+| String createUser(UserDetail user);                          | 创建用户                   |
+| int deleteUser(int userId)                                   | 删除用户（用户使用）       |
+| int deleteUser(List\<int> userIdList);                       | 批量删除用户（管理员使用） |
+| int updateUser(UserDetail user);                             | 修改用户信息               |
+| int updatePassword(int userId, String password)              | 修改用户密码               |
+| UserDetail readUserById(int userId);                         | 查询用户（单条）           |
+| UserDetail readUserByEmail(String email)                     | 查询用户（单条）           |
+| String readPassword(int userId);                             | 查询用户密码               |
+| UserDisplay identifyUserById(int userId, String password);   | 使用id验证用户及密码       |
+| UserDisplay identifyUserByEmail(String email, String password); | 使用email验证用户及密码    |
+| List\<UserSummary> readAllUser();                            | 查询所有用户（管理员使用） |
+
+###### AdminMapper
+
+| 接口函数名                                       | 解释               |
+| ------------------------------------------------ | ------------------ |
+| int createAdmin(Admin admin);                    | 创建管理员         |
+| int updateAdmin(Admin admin);                    | 修改管理员信息     |
+| Admin readAdmin(int adminId);                    | 查询管理员（单条） |
+| int identifyAdmin(int adminId, String password); | 验证管理员及密码   |
+
+###### PostMapper
+
+| 接口函数名                                    | 解释                 |
+| --------------------------------------------- | -------------------- |
+| int createPost(Post post);                    | 创建帖子             |
+| int deletePost(int postId)                    | 删除帖子             |
+| PostDetail readPost(int postId);              | 查询帖子（单条）     |
+| List\<PostSummary> readPostList(int pageNum); | 查询帖子列表（按页） |
+| List\<PostSummary> readAllPost();             | 查询所有帖子         |
+
+###### LikeMapper
+
+| 接口函数名                      | 解释                                                  |
+| ------------------------------- | ----------------------------------------------------- |
+| int createLike(Like like);      | 创建（即增加，在此为符合数据库CURD命名）点赞记录      |
+| int deleteLike(int likeId);     | 删除（即取消，同上，like仅有uid-pid两个属性）点赞记录 |
+| int readLike(int postId);       | 查询点赞数量                                          |
+| List\<LikeEntry> getAllLike()； | 查询点赞总体统计数据                                  |
+
+###### CommentMapper
+
+| 接口函数名                                       | 解释                                       |
+| ------------------------------------------------ | ------------------------------------------ |
+| int createComment(CommentEntry comment);         | 创建评论                                   |
+| int deleteComment(int commentId);                | 删除评论（注意数据库设计中的级联删除问题） |
+| int deletePostComment(int postId);               | 删除帖子所有评论                           |
+| List\<CommentEntry> readPostComment(int postId); | 查询帖子评论                               |
+| List\<CommentEntry> readAllComment();            | 查询评论总体统计数据                       |
+
+###### ReplyMapper
+
+| 接口函数名                                         | 解释                                       |
+| -------------------------------------------------- | ------------------------------------------ |
+| int createReply(ReplyEntry reply);                 | 创建回复                                   |
+| int deleteReply(int replyId);                      | 删除回复（注意数据库设计中的级联删除问题） |
+| int deletePostReply(int postId);                   | 删除帖子所有回复                           |
+| int deleteCommentReply(int commentId);             | 删除某条评论回复                           |
+| List\<ReplyEntry> readPostReply(int postId);       | 查询帖子评论前几条回复                     |
+| List\<ReplyEntry> readCommendReply(int commentId); | 查询某条评论全部回复                       |
+| List\<ReplyEntry> readAllReply();                  | 查询回复总体统计数据                       |
+
+###### ResourceMapper
+
+| 接口函数名                                                   | 解释                                       |
+| ------------------------------------------------------------ | ------------------------------------------ |
+| int createResource(ResourceDetail resource);                 | 创建资源                                   |
+| int deleteResource(int resourceId);                          | 删除资源（注意数据库设计中的级联删除问题） |
+| ResourceDetail readResource(int resourceId);                 | 查询资源详情                               |
+| List\<ResourceSummary> readResourceListRecommended(Date date, int pageNum, ...); | 查询推荐资源列表                           |
+| List\<ResourceSummary> readResourceListByCategory(int category, int pageNum); | 查询分类资源列表                           |
+| List\<ResourceSummary> readResourceListBySubject(int subject, int pageNum); | 查询分学科资源列表                         |
+| String readResourceDownload(int resourceId);                 | 查询资源下载URL                            |
+| List\<ResourceSummary> readAllResource();                    | 查询资源总体统计数据                       |
+| List\<ResourceSummary> readAllResourceByCategory(int category); | 查询资源分类统计数据                       |
+| List\<ResourceSummary> readAllResourceBySubject(int subject); | 查询资源分类统计数据                       |
+
+###### LogMapper
+
+| 接口函数名                          | 解释             |
+| ----------------------------------- | ---------------- |
+| int createLog(Log log);             | 创建日志         |
+| List\<LogEntry> readLog(Date date); | 查询日志         |
+| int deleteLog(int userId)           | 清空用户日志     |
+| int deleteLog(Datetime datetime)    | 清空日期所有日志 |
+
+###### DownloadHistoryMapper
+
+| 接口函数名                                                   | 解释                     |
+| ------------------------------------------------------------ | ------------------------ |
+| int createDownloadHistory(DownloadHistoryEntry downloadHistory); | 创建下载记录             |
+| List\<DownloadHistoryEntry> readDownloadHistoryByPage(int pageNum); | 查询下载记录             |
+| int deleteDownloadHistory(int resourceId);                   | 清空下载记录             |
+| List\<DownloadHistoryEntry> readAllDownloadHistory();        | 查询下载历史总体统计数据 |
+
+###### ExperienceMapper
+
+| 接口函数名                                                | 解释         |
+| --------------------------------------------------------- | ------------ |
+| Boolean updateExperience(int curUserId, int changeNumber) | 更改用户经验 |
+| Boolean getExperience(int curUserId)                      | 获取用户经验 |
 
 #### 实体类
 
 ![DCD_Entities](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/DCD_Entities.png)
 
+实体类主要根据具体的需求，分为以下三种：
+
+- 返回值类。即返回给用户界面的RestBean类。
+- 请求实体类。即包含用户具体请求的Request类，包括各种Request、TimeRange类。
+- 模型实体类。即根据具体的用户需求对从数据库获取的数据进行打包的Entry类，包括各种OverallFigure、Summary、Detail、Display、Entry类。
+
+###### RestBean类
+
+​		该类为泛型工具类。
+
+- 该类由msg和code两个属性构成，分别代表响应信息和状态码。
+- 该类私有了构造，无法通过new创建对象。
+- 该类提供了多个获取实例的方法，可以通过这些方法用于快速创建对象。
+- 可以通过@RestController或者@RequestBody以json的形式传递给前端页面。
+
+###### 请求实体类
+
+| 类名                          | 含义                   |
+| ----------------------------- | ---------------------- |
+| VerifyUserLoginRequest        | 验证用户登录请求       |
+| VerifyAdminLoginRequest       | 验证管理员登录请求     |
+| VerifyUserRegisterRequest     | 验证用户注册请求       |
+| GetAccountInfoListRequest     | 获取用户列表请求       |
+| UpdateAccountInfoRequest      | 更新用户数据请求       |
+| GetPasswordRequest            | 找回密码请求           |
+| UpdatePasswordRequest         | 更改密码请求           |
+| DeleteAccountRequest          | 删除用户账户请求       |
+| ListPostRequest               | 获取帖子列表请求       |
+| AddPostRequest                | 发布帖子请求           |
+| DeletePostRequest             | 删除帖子请求           |
+| ListReplyRequest              | 显示回复请求           |
+| CommentPostRequest            | 评论帖子请求           |
+| ReplyCommentRequest           | 回复评论请求           |
+| DeletCommentRequest           | 删除评论请求           |
+| DeleteReplyRequest            | 删除回复请求           |
+| ListResourceByCategoryRequest | 按学科获取资源列表请求 |
+| ListRecommendResoueceRequest  | 按推荐获取资源列表请求 |
+| UploadResourceRequest         | 上传资源请求           |
+| DownloadResourceRequest       | 下载资源请求           |
+| DeleteResourceRequest         | 删除资源请求           |
+| GetDownloadHistoryRequest     | 获取下载历史请求       |
+| DeleteDownloadHistoryRequest  | 清空下载历史请求       |
+| TimeRange                     | 设置时间范围           |
+
+###### 模型实体类
+
+| 类名                 | 含义               |
+| -------------------- | ------------------ |
+| OverallFigure        | 总体数据包装类     |
+| UserSummary          | 用户列表包装类     |
+| UserDisplay          | 显示用户信息包装类 |
+| UserDetail           | 用户详细信息包装类 |
+| PostSummary          | 帖子列表包装类     |
+| PostDetail           | 帖子详细信息包装类 |
+| CommentEntry         | 评论实体类         |
+| ReplyEntry           | 回复实体类         |
+| ResourceSummary      | 资源列表包装类     |
+| ResourceDetail       | 资源详细信息包装类 |
+| DownloadHistoryEntry | 下载历史实体类     |
+| LikeEntry            | 点赞实体类         |
+| LogEntry             | 日志实体类         |
+
 #### 异常类
 
 ![DCD_Exception](https://zzq-typora-picgo.oss-cn-beijing.aliyuncs.com/DCD_Exception.png)
+
+​		根据发生异常的请求和处理方法的主体不同，划分为不同的异常类，并抛出相应的异常返回值。在服务层实现抛出异常和相应处理。根据错误码选择将报错返回用户界面和实施回滚等机制。
 
 ### 3.5 数据设计
 
