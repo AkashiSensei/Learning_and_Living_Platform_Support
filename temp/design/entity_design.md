@@ -76,13 +76,13 @@
 
 ### AddPostRequest 
 
-| 类型                | 属性名    | 说明     |
-| ------------------- | --------- | -------- |
-| String              | title     | 帖子标题 |
-| String              | content   | 帖子正文 |
-| Date                | postTime  | 发帖时间 |
-| int                 | authority | 帖子权限 |
-| List<MultipartFile> | images    | 帖子图片 |
+| 类型                 | 属性名    | 说明     |
+| -------------------- | --------- | -------- |
+| String               | title     | 帖子标题 |
+| String               | content   | 帖子正文 |
+| Date                 | postTime  | 发帖时间 |
+| int                  | authority | 帖子权限 |
+| List\<MultipartFile> | images    | 帖子图片 |
 
 ### DeletePostRequest
 
@@ -98,12 +98,13 @@
 
 ### CommentPostRequest 
 
-| 类型                | 属性名      | 说明     |
-| ------------------- | ----------- | -------- |
-| int                 | postId      | 帖子id   |
-| Date                | publishTime | 评论时间 |
-| String              | content     | 正文     |
-| List<MultipartFile> | images      | 图片     |
+| 类型                 | 属性名      | 说明     |
+| -------------------- | ----------- | -------- |
+| int                  | postId      | 帖子id   |
+| int                  | userId      | 评论者id |
+| Date                 | publishTime | 评论时间 |
+| String               | content     | 正文     |
+| List\<MultipartFile> | images      | 图片     |
 
 ### ReplyCommentRequest
 
@@ -122,9 +123,9 @@
 
 ### DeleteReplyRequest 
 
-| 类型 | 属性名 | 说明   |
-| ---- | ------ | ------ |
-| int  | id     | 回复id |
+| 类型 | 属性名  | 说明   |
+| ---- | ------- | ------ |
+| int  | replyId | 回复id |
 
 ## Resource
 
@@ -228,7 +229,7 @@
 | Date   | birthday        | 生日     |
 | Date   | registerTime    | 注册时间 |
 | String | profilePhotoUrl | 头像     |
-| Int    | loginNum        | 登陆天数 |
+| Int    | loginCnt        | 登陆天数 |
 
 ### PostSummary
 
@@ -250,7 +251,7 @@
 | int                | browseCnt   | 浏览量                       |
 | String             | userName    | 发帖人昵称                   |
 | Date               | publishTime | 发帖时间                     |
-| List<CommentEntry> | comments    | 评论                         |
+| List<CommentEntry> | commentList | 评论                         |
 | boolean            | canDelete   | 当前用户是否能够删除这个帖子 |
 
 ### CommentEntry
@@ -262,7 +263,7 @@
 | String           | content     | 内容                     |
 | Date             | publishTime | 评论时间                 |
 | boolean          | canDelete   | 当前用户是否能够删除评论 |
-| List<ReplyEntry> | replies     | 回复                     |
+| List<ReplyEntry> | replyList   | 回复                     |
 
 ### ReplyEntry
 
@@ -301,7 +302,7 @@
 | 类型   | 属性名       | 说明       |
 | ------ | ------------ | ---------- |
 | int    | id           | 下载记录id |
-| String | resourceId   | 资源id     |
+| int    | resourceId   | 资源id     |
 | String | title        | 资源标题   |
 | Date   | downloadTime | 下载时间   |
 
