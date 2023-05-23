@@ -92,9 +92,9 @@
 
 ### ListReplyRequest
 
-| 类型 | 属性名 | 说明   |
-| ---- | ------ | ------ |
-| int  | id     | 评论id |
+| 类型 | 属性名    | 说明   |
+| ---- | --------- | ------ |
+| int  | commentId | 评论id |
 
 ### CommentPostRequest 
 
@@ -191,6 +191,21 @@
 | Date | endDate   | 结束时间 |
 
 # Others
+
+### Page\<E>
+
+| 类型     | 属性名      | 说明             |
+| -------- | ----------- | ---------------- |
+| int      | currPage    | 当前页码         |
+| int      | prePage     | 上一页页码       |
+| int      | nextPage    | 下一页页码       |
+| int      | count       | 查询的数据总条数 |
+| List\<E> | list        | 当前页的数据内容 |
+| int      | pageSize    | 每页的数据条数   |
+| int      | pageCount   | 总页数           |
+| int      | filterCount | 过滤条数         |
+
+
 
 ### OverallFigure
 
