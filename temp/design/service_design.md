@@ -19,10 +19,10 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | public UserDetail getUser(int userId) throws UserException;  | 获取用户信息                              |
 | public string getPassword(GetPasswordRequest getPasswordRequest) throws UserException; | 获取用户的密码                            |
 | public boolean updatePassword(UpdatePasswordRequest updatePasswordRequest) throws UserException; | 修改用户密码                              |
-| public List<UserSummary> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                              |
+| public List\<UserSummary> getUserList(GetAccountInfoListRequest getAccountInfoListRequest) throws UserException; | 获取用户列表                              |
 | public boolean updateUser(UpdateAccountInfoRequest updateAccountInfoRequest) throws UserException; | 更新用户信息                              |
 | public boolean deleteUser(DeleteAccountRequest deleteAccountRequest) throws UserException; | 删除用户                                  |
-| public List<UserSummary> getUserSummary() throws UserException; | 获取用户总体统计数据                      |
+| public List\<UserSummary> getUserSummary() throws UserException; | 获取用户总体统计数据                      |
 
 ## LogService
 
@@ -79,7 +79,7 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 | public boolean deleteReplyAll(int postId, int commentId) throws ReplyException; | @重载 删除对应帖子对应评论的全部回复，用于评论删除 |
 | public List<ReplyEntry> getReplySummary() throws ReplyException; | 获取回复总体统计数据                               |
 
-## RecourseService
+## ResourceService
 
 | 方法签名                                                     | 描述                 |
 | ------------------------------------------------------------ | -------------------- |
@@ -96,7 +96,7 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 
 | 方法签名                                                     | 描述                     |
 | ------------------------------------------------------------ | ------------------------ |
-| public List<DownloadHistoryEntry> getDownloadHistoryEntryByPage(GetDownloadRecordRequest getDownloadHistoryRequest) throws DownloadHistoryException; | 按页获取下载历史         |
+| public List\<DownloadHistoryEntry> getDownloadHistoryEntryByPage(GetDownloadRecordRequest getDownloadHistoryRequest) throws DownloadHistoryException; | 按页获取下载历史         |
 | public boolean deleteDownloadHistory(int resourceId) throws DownloadHistoryException; | 清空某资源下载历史       |
 | public List<DownloadHistoryEntry> getDownloadHistoryEntry() throws DownloadHistoryException; | 获取下载历史相关统计数据 |
 
