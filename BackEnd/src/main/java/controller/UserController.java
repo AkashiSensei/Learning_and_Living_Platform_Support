@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public RestBean<UserDetail> verifyUserLogin(@RequestBody VerifyUserLoginRequest verifyUserLoginRequest, HttpServletRequest request){
         UserDetail userDetail = new UserDetail();
         return RestBean.generate(userDetail);

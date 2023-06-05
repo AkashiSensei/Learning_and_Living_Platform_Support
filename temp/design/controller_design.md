@@ -8,7 +8,7 @@
 
 如无特殊说明，方法共有，变量私有。
 
-## 返回值模板类
+## 返回值body模板类
 
 ```java
 public class RestBean<T> {
@@ -21,38 +21,23 @@ public class RestBean<T> {
         this.success = success;
         this.message = message;
     }
-
 ```
 
-在使用了拦截器后，一个Controller方法应该像这样，注意这仅仅是一个示例。
-
-```java
-@RequestMapping(value = "/post/upload", method = RequestMethod.POST)
-// request 是拦截器处理过的request，拦截器将 token 处理成当前用户的 id 并保存在 curUserId 字段
-public RestBean<> uploadPost(@RequestBody UploadPostRequest uploadPostRequest, HttpServletRequest request) {
-    String curUserId = (String) request.getAttribute("curUserId");
-    int ret = postService.uploadPost(uploadPostRequest, curUserId);
-    
-    // 相应的 service 仅仅返回事务逻辑的返回结果，包装成 RestBean 的任务交给 Controller
-    if(ret == 0) {
-        return RestBean.success(201);
-    }else if(ret == -E_PERM) {
-        return RestBean.failure(403, "No permission to upload posts");
-    }else {
-        return RestBean.failure(500);
-    }
-}
-```
+最终的返回值实际上是ResponseEntity\<RestBean>
 
 
 
 ## UserController
 
-| 方法签名                                                     | 描述 |
+| 方法签名                                               | 描述 |
 | ---- | ------------------------------------------------------------ |
-| RestBean\<UserDisplay> verifyUserLogin(@RequestBody VerifyUserLoginRequest verifyUserLoginRequest, HttpServletRequest request) | 检查用户登入信息，调用verifyUserLoginService, addLog, changeExp(成功登入加积分) |
-| RestBean\<UserDisplay> verifyAdminLogin(@RequestBody VerifyAdminLoginRequest verifyAdminLoginRequest, HttpServletRequest request) | 检查管理员登入信息，调用verifyAdminLoginService |
+| ResponseEntity\<RestBean> verifyToken(HttpServletRequest request) | 检查token，并判断是用户还是管理员 |
+| ResponseEntity\<RestBean&gt; getSalt(@RequestBody GetSaltRequest getSaltRequest, HttpServletRequest request){ | 根据id获取其盐值 |
+| ResponseEntity\<RestBean> getLevel( HttpServletRequest request) | 根据token获取用户等级 |
+| ResponseEntity\<RestBean> verifyUserLogin(@RequestBody VerifyUserLoginRequest verifyUserLoginRequest,                                                HttpServletRequest request) | 检查用户登入信息 |
+| ResponseEntity\<RestBean> verifyAdminLogin(@RequestBody VerifyAdminLoginRequest verifyAdminLoginRequest, HttpServletRequest request) | 检查管理员登入信息 |
 | RestBean\<UserSummary> verifyUserRegister(@RequestBody VerifyUserRegisterRequest verifyUserRegisterRequest, HttpServletRequest request) | 检查用户注册信息，调用verifyUserRegisterService |
+| ResponseEntity\<RestBean> logout(HttpServletRequest request) | 用户/管理员登出 |
 | RestBean\<UserDetail> getAccountInfo(HttpServletRequest request) | 获取账号信息，调用getAccountInfoService, getExp |
 | RestBean\<List\<UserSummary>> getAccountInfoList(@RequestBody GetAccountInfoListRequest getAccountInfoListRequest, HttpServletRequest request) | 获取账号列表，调用getAccountInfoList |
 | RestBean\<String>  updateAccountInfo(@RequestBody UpdateAccountInfoRequest updateAccountInfoRequest, HttpServletRequest request) | 更新账号信息，调用updateAccountInfo |
