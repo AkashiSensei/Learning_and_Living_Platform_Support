@@ -137,11 +137,10 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 
 ## Base64Util
 
-| 方法签名 | 描述 |
-| -------- | ---- |
-|          |      |
-|          |      |
-|          |      |
+| 方法签名                                    | 描述                       |
+| ------------------------------------------- | -------------------------- |
+| public Base64Util() {}                      | 构建方法                   |
+| public static String encode(byte[] from) {} | 对图片进行base64格式的编码 |
 
 
 
@@ -160,19 +159,19 @@ Service接口设计模板如下，具体设计思路应更新在《设计文档�
 
 ## GsonUtils
 
-| 方法签名 | 描述 |
-| -------- | ---- |
-|          |      |
-|          |      |
-|          |      |
+| 方法签名                                                     | 描述                                                       |
+| ------------------------------------------------------------ | ---------------------------------------------------------- |
+| public static <T> T fromJson(String json, Class<T> classOfT) throws JsonParseException | 将 JSON 字符串转换为指定类型的对象（具体的类）             |
+| public static <T> T fromJson(String json, Type typeOfT) throws JsonParseException | 将 JSON 字符串转换为指定类型的对象（参数化类型或泛型类型） |
 
 ## HttpUtil
 
-| 方法签名 | 描述 |
-| -------- | ---- |
-|          |      |
-|          |      |
-|          |      |
+| 方法签名                                                     | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| public static String post(String requestUrl, String accessToken, String params) throws Exception | 向指定的 URL 发送 POST 请求                                  |
+| public static String post(String requestUrl, String accessToken, String contentType, String params) throws Exception | 向指定的 URL 发送 POST 请求（编码为某种数据类型）            |
+| public static String post(String requestUrl, String accessToken, String contentType, String params, String encoding) throws Exception | 向指定的 URL 发送 POST 请求（指定编码类型）                  |
+| public static String postGeneralUrl(String generalUrl, String contentType, String params, String encoding) throws Exception | 向指定的 URL 发送 POST 请求（自定义的 URL、请求的数据类型、请求参数和编码方式） |
 
 ## JwtUtil
 
