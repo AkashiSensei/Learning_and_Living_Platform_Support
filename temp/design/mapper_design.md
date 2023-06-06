@@ -15,106 +15,141 @@
 
 ## UserMapper
 
-| 接口函数名                                                   | 解释                       |
-| ------------------------------------------------------------ | -------------------------- |
-| String createUser(UserDetail user);                          | 创建用户                   |
-| int deleteUser(int userId)                                   | 删除用户（用户使用）       |
-| int deleteUser(List\<int> userIdList);                       | 批量删除用户（管理员使用） |
-| int updateUser(UserDetail user);                             | 修改用户信息               |
-| int updatePassword(int userId, String password)              | 修改用户密码               |
-| UserDetail readUserById(int userId);                         | 查询用户（单条）           |
-| UserDetail readUserByEmail(String email)                     | 查询用户（单条）           |
-| String readPassword(int userId);                             | 查询用户密码               |
-| UserDisplay identifyUserById(int userId, String password);   | 使用id验证用户及密码       |
-| UserDisplay identifyUserByEmail(String email, String password); | 使用email验证用户及密码    |
-| List\<UserSummary> readAllUser();                            | 查询所有用户（管理员使用） |
+| 接口函数名                                                   | 解释                     |
+| ------------------------------------------------------------ | ------------------------ |
+| User getUserByEmail(String email);                           | 通过email获取用户        |
+| UserDetail getUserById(String id);                           | 通过id获取用户           |
+| User getUserByIdOrEmail(String idOrEmail,String password);   | 通过email或id获取用户    |
+| UserSummary getUserSummaryByEmail(String email);             | 获取UserSummary          |
+| int addUser(User user);                                      | 添加用户                 |
+| boolean setUserInitName(String email);                       | 设置初始用户名           |
+| boolean updateUser(UpdateAccountInfoRequest updateAccountInfoRequest) | 更新用户信息             |
+| int getUserCount();                                          | 获取用户数量             |
+| List\<UserDetail> getAllUserDetail(int filter, int cntInPage); | 获取用户列表             |
+| boolean updatePasswordById(String password, String id);      | 修改密码                 |
+| boolean deleteUserById(String id);                           | 删除用户                 |
+| String getNameById(int userId);                              | 获取用户名               |
+| String getProfilePhotoUrl(int userId);                       | 获取用户头像             |
+| String getUserSaltByIdOrEmail(String idOrEmail);             | 获取用户盐值             |
+| int addUserOnline(User user);                                | 添加在线用户             |
+| int setUserOnlineToken(int id,String token);                 | 设置在线用户token        |
+| List\<UserOnline> getAllUserOnline();                        | 获取在线用户列表         |
+| void removeUserOnlineById(String id);                        | 用户下线                 |
+| void setLoginNum(String userId, int logInNum);               | 设置用户登陆天数         |
+| int getUserCountByTime(LocalDateTime startTime, LocalDateTime endTime); | 查询某时间段内注册用户数 |
+| int getMaxUserId();                                          | 获取最大id               |
+| int getAllUserOnlineCount();                                 | 获取在线用户数           |
 
 ## AdminMapper
 
-| 接口函数名                                       | 解释               |
-| ------------------------------------------------ | ------------------ |
-| int createAdmin(Admin admin);                    | 创建管理员         |
-| int updateAdmin(Admin admin);                    | 修改管理员信息     |
-| Admin readAdmin(int adminId);                    | 查询管理员（单条） |
-| int identifyAdmin(int adminId, String password); | 验证管理员及密码   |
+| 接口函数名                                                   | 解释           |
+| ------------------------------------------------------------ | -------------- |
+| String getAdminSaltByIdOrEmail(String idOrEmail);            | 获取管理员盐值 |
+| User verifyAdminByIdOrEmail(String idOrEmail, String password); | 验证管理员密码 |
+| Admin getAdminByEmail(String email);                         | 查询管理员     |
+| boolean addAdmin(Admin admin);                               | 添加管理员     |
+| boolean updateAdmin(Admin admin);                            | 修改管理员密码 |
 
 ## PostMapper
 
-| 接口函数名                                    | 解释                 |
-| --------------------------------------------- | -------------------- |
-| int createPost(Post post);                    | 创建帖子             |
-| int deletePost(int postId)                    | 删除帖子             |
-| PostDetail readPost(int postId);              | 查询帖子（单条）     |
-| List\<PostSummary> readPostList(int pageNum); | 查询帖子列表（按页） |
-| List\<PostSummary> readAllPost();             | 查询所有帖子         |
+| 接口函数名                                                   | 解释                           |
+| ------------------------------------------------------------ | ------------------------------ |
+| boolean createPost(PostDetail post);                         | 创建帖子                       |
+| boolean deletePost(int postId, int userId);                  | 删除帖子                       |
+| PostDetail readPost(int postId);                             | 查询帖子（单条）               |
+| List\<PostSummary> readPostList(int userId, int filter, int cntInPage); | 查询帖子列表(按id)             |
+| List\<PostSummary> readPostListByChange(int userId, int filter, int cntInPage); | 查询所有帖子（按最近修改时间） |
+| List\<PostSummary> readPostListByMe(int userId, int filter, int cntInPage); | 查询我发布的所有帖子           |
+| List\<PostSummary> readPostListByOther(int userId, int filter, int cntInPage); | 查询其他用户发布的帖子列表     |
+| int sumOfUserPosts(int userId);                              | 查询某用户发布的所有帖子数     |
+| int getPostCount();                                          | 查询所有帖子数                 |
+| boolean updateLike(int postId, int plus);                    | 修改帖子点赞量                 |
+| int getFloor(int postId);                                    | 查询帖子楼层数                 |
+| boolean updateFloor(int postId, int plus);                   | 增加帖子楼层数                 |
+| void addBrowse(int postId);                                  | 增加帖子浏览量                 |
+| List\<PostSummary> readPostListByHot(int userId);            | 查询热帖                       |
+| boolean updateUpdateTime(int postId, Date time);             | 更新最近更新时间               |
+| int getPostCountByTime(LocalDateTime startTime, LocalDateTime endTime); | 查询某事件段内发布的贴子数     |
+| List<Post> getPostByTime(LocalDateTime startTime, LocalDateTime endTime); | 查询某事件段内发布的贴子       |
 
 ## LikeMapper
 
-| 接口函数名                      | 解释                                                  |
-| ------------------------------- | ----------------------------------------------------- |
-| int createLike(Like like);      | 创建（即增加，在此为符合数据库CURD命名）点赞记录      |
-| int deleteLike(int likeId);     | 删除（即取消，同上，like仅有uid-pid两个属性）点赞记录 |
-| int readLike(int postId);       | 查询点赞数量                                          |
-| List\<LikeEntry> getAllLike()； | 查询点赞总体统计数据                                  |
+| 接口函数名                                                | 解释               |
+| --------------------------------------------------------- | ------------------ |
+| boolean createLike(int postId, int userId, Date likeTime) | 创建点赞记录       |
+| boolean deleteLike(int postId, int userId);               | 删除点赞记录       |
+| boolean isLike(int postId, int userId);                   | 查询某用户是否点赞 |
 
 ## CommentMapper
 
-| 接口函数名                                       | 解释                                       |
-| ------------------------------------------------ | ------------------------------------------ |
-| int createComment(CommentEntry comment);         | 创建评论                                   |
-| int deleteComment(int commentId);                | 删除评论（注意数据库设计中的级联删除问题） |
-| int deletePostComment(int postId);               | 删除帖子所有评论                           |
-| List\<CommentEntry> readPostComment(int postId); | 查询帖子评论                               |
-| List\<CommentEntry> readAllComment();            | 查询评论总体统计数据                       |
+| 接口函数名                                                   | 解释             |
+| ------------------------------------------------------------ | ---------------- |
+| boolean createComment(CommentEntry comment);                 | 创建评论         |
+| boolean deleteComment(int commentId, int userId);            | 删除评论         |
+| List\<CommentEntry> readPostComment(int postId, int userId, int filter, int cntInPage); | 获取帖子评论     |
+| CommentEntry getCommentById(int commentId);                  | 查询帖子评论     |
+| int getCommentCount(int postId);                             | 查询某帖子评论数 |
 
 ## ReplyMapper
 
-| 接口函数名                                         | 解释                                       |
-| -------------------------------------------------- | ------------------------------------------ |
-| int createReply(ReplyEntry reply);                 | 创建回复                                   |
-| int deleteReply(int replyId);                      | 删除回复（注意数据库设计中的级联删除问题） |
-| int deletePostReply(int postId);                   | 删除帖子所有回复                           |
-| int deleteCommentReply(int commentId);             | 删除某条评论回复                           |
-| List\<ReplyEntry> readPostReply(int postId);       | 查询帖子评论前几条回复                     |
-| List\<ReplyEntry> readCommendReply(int commentId); | 查询某条评论全部回复                       |
-| List\<ReplyEntry> readAllReply();                  | 查询回复总体统计数据                       |
+| 接口函数名                                                   | 解释                 |
+| ------------------------------------------------------------ | -------------------- |
+| boolean createReply(ReplyEntry reply);                       | 创建回复             |
+| boolean deleteReply(int replyId, int userId);                | 删除回复             |
+| List\<ReplyEntry> readCommendReply(int commentId, int userId, int cntInPage); | 查询某条评论全部回复 |
+| List\<ReplyEntry> readAllReply();                            | 查询回复总体统计数据 |
 
 ## ResourceMapper
 
-| 接口函数名                                                   | 解释                                       |
-| ------------------------------------------------------------ | ------------------------------------------ |
-| int createResource(ResourceDetail resource);                 | 创建资源                                   |
-| int deleteResource(int resourceId);                          | 删除资源（注意数据库设计中的级联删除问题） |
-| ResourceDetail readResource(int resourceId);                 | 查询资源详情                               |
-| List\<ResourceSummary> readResourceListRecommended(Date date, int pageNum, ...); | 查询推荐资源列表                           |
-| List\<ResourceSummary> readResourceListByCategory(int category, int pageNum); | 查询分类资源列表                           |
-| List\<ResourceSummary> readResourceListBySubject(int subject, int pageNum); | 查询分学科资源列表                         |
-| String readResourceDownload(int resourceId);                 | 查询资源下载URL                            |
-| List\<ResourceSummary> readAllResource();                    | 查询资源总体统计数据                       |
-| List\<ResourceSummary> readAllResourceByCategory(int category); | 查询资源分类统计数据                       |
-| List\<ResourceSummary> readAllResourceBySubject(int subject); | 查询资源分类统计数据                       |
+| 接口函数名                                                   | 解释                                         |
+| ------------------------------------------------------------ | -------------------------------------------- |
+| int getResourceBySubjectsAndCategoriesCount(int[] subjects,int[] categories); | 查询某些学科某些类型的资源数                 |
+| int createResource(Resource resource);                       | 创建资源                                     |
+| int createResourceCategories(int resourceId, int category);  | 创建资源类型                                 |
+| int deleteResource(String resourceId);                       | 删除资源                                     |
+| void deleteResourceCategories(int resourceId);               | 删除资源类型                                 |
+| ResourceDetail readResource(String resourceId);              | 查询资源详情                                 |
+| List\<ResourceCategoryEntry> getResourceCategoriesById(int id); | 查询资源类型                                 |
+| int[] readResourceCategories(String resourceId);             | 查询资源类型                                 |
+| void updateResource(ResourceDetail resourceDetail);          | 修改资源                                     |
+| List\<ResourceSummary> getResourcesBySubjectAndCategoriesByPage (@Param("subjects") int[] subjects,  @Param("categories") int[] categories,@Param("filter") int filter, @Param("cntInPage") int cntInPage); | 查询某些学科某些类型的资源                   |
+| int getResourceNumByCategoryAndSubject(int category, int subject); | 按学科按类型查询资源                         |
+| int getResourceCountByTime(LocalDateTime startTime, LocalDateTime endTime); | 查询某时间段内发布资源数                     |
+| int getResourceCountBySubject(int subject);                  | 查询某学科资源数                             |
+| List\<ResourceSummary> searchResourcesBySubjectAndCategoriesByPage( @Param("keywords")String keywords,@Param("subjects") int[] subjects,@Param("categories") int[] categories,  @Param("filter") int filter,@Param("cntInPage") int cntInPage); | 查询符合某关键词的某些学科某些类型的资源     |
+| int searchResourceBySubjectsAndCategoriesCount(String keywords, int[] subjects, int[] categories); | 查询符合某关键词的某些学科某些类型的资源数量 |
+| ResourceSummary getResourceSummary(int resourceId);          | 查询某用户发布的所有资源                     |
+| int getResourceCountByUserId(int userId);                    | 查询某用户发布的所有资源数                   |
+| List\<ResourceSummary> getResourceSummaryListRandom(int size, List\<Integer> resourceIDs); | 随机获取除某些id外的资源                     |
+| int getAllResourceCount();                                   | 获取全部资源数                               |
+| List\<ResourceSummary> getResourceSummaryByUserId(int userId, int filterCount, int pageSize); | 按页查询某用户发布的所有资源                 |
 
 ## LogMapper
 
-| 接口函数名                          | 解释             |
-| ----------------------------------- | ---------------- |
-| int createLog(Log log);             | 创建日志         |
-| List\<LogEntry> readLog(Date date); | 查询日志         |
-| int deleteLog(int userId)           | 清空用户日志     |
-| int deleteLog(Datetime datetime)    | 清空日期所有日志 |
+| 接口函数名                                              | 解释                   |
+| ------------------------------------------------------- | ---------------------- |
+| boolean addLog(String curUserId);                       | 创建日志               |
+| void addLogoutTime(int userId);                         | 添加登出               |
+| void deleteLogByUserId(String id);                      | 清空某用户登录日志     |
+| Log getLastLogByUserId(@Param("userId") String userId); | 查询某用户最新登录日志 |
 
 ## DownloadHistoryMapper
 
 | 接口函数名                                                   | 解释                     |
 | ------------------------------------------------------------ | ------------------------ |
-| int createDownloadHistory(DownloadHistoryEntry downloadHistory); | 创建下载记录             |
-| List\<DownloadHistoryEntry> readDownloadHistoryByPage(int pageNum); | 查询下载记录             |
-| int deleteDownloadHistory(int resourceId);                   | 清空下载记录             |
-| List\<DownloadHistoryEntry> readAllDownloadHistory();        | 查询下载历史总体统计数据 |
+| boolean createDownloadHistory(DownloadHistoryEntry downloadHistory); | 创建下载记录             |
+| List\<DownloadHistoryEntry> readDownloadHistoryByUserId(int userId); | 获取某用户下载记录       |
+| List\<Integer> readAllResourceId();                          | 获取下载过资源的用户id   |
+| List\<Integer> readDownloadHistoryByResourceId(Integer resourceId); | 获取下载过某资源的用户id |
+| List\<UserResourceMap> getUserResourceMap();                 | 获取用户和资源的下载关系 |
+| int getDownloadsByTime(LocalDateTime startTime, LocalDateTime endTime); | 获取某段时间内的下载量   |
 
 ## ExperienceMapper
 
-| 接口函数名                                                | 解释         |
-| --------------------------------------------------------- | ------------ |
-| Boolean updateExperience(int curUserId, int changeNumber) | 更改用户经验 |
-| Boolean getExperience(int curUserId)                      | 获取用户经验 |
+| 接口函数名                                                   | 解释               |
+| ------------------------------------------------------------ | ------------------ |
+| boolean updateExperience(String curUserId, int changeNumber); | 更改用户经验       |
+| boolean getExperience(int curUserId);                        | 获取用户经验项数   |
+| int readExperience(int userId);                              | 获取用户经验       |
+| void resetDailyExp();                                        | 重置每日经验上限   |
+| int getDailyExp(int userId);                                 | 获取当日已获得经验 |
